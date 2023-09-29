@@ -30,8 +30,9 @@ const Projects: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const octokit = new Octokit({
-    auth: "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",
+    auth: import.meta.env.VITE_GITHUB_TOKEN,
   });
+  console.log(import.meta.env.VITE_GITHUB_TOKEN);
 
   const getRepos = async () => {
     await octokit
