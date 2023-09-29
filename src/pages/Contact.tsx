@@ -2,20 +2,15 @@ import {
   IonButton,
   IonCard,
   IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonContent,
   IonInput,
   IonItem,
-  IonPage,
   IonText,
   IonTextarea,
   useIonToast,
 } from "@ionic/react";
+
 import { FormEvent, RefObject, useRef, useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Social from "../components/Social";
+import Page from "../components/Page";
 
 const Contact = () => {
   // create Contact component
@@ -133,71 +128,66 @@ const Contact = () => {
   };
 
   return (
-    <IonPage>
-      <Header />
-      <IonContent fullscreen>
-        <Social />
-        <h1 className="about-title" style={{ textAlign: "center" }}>
-          Contact
-        </h1>
-        <IonCard>
-          <IonCardContent>
-            <form onSubmit={sendEmail}>
-              <IonItem>
-                <IonInput
-                  ref={nameRef}
-                  onIonBlur={() => checkIfRequired(nameRef)}
-                  label="Name"
-                  name="name"
-                  required
-                ></IonInput>
-              </IonItem>
-              <IonText
-                className={requiredElements["ion-input-0"] ? "" : "ion-hide"}
-                style={{ marginLeft: "2rem", transittion: "0.3" }}
-                color="danger"
-              >
-                Name input must not be empty
-              </IonText>
-              <IonItem>
-                <IonInput
-                  ref={emailRef}
-                  onIonBlur={() => checkIfRequired(emailRef)}
-                  label="Email"
-                  required
-                ></IonInput>
-              </IonItem>
-              <IonText
-                className={requiredElements["ion-input-1"] ? "" : "ion-hide"}
-                style={{ marginLeft: "2rem" }}
-                color="danger"
-              >
-                Email input must not be empty
-              </IonText>
-              <IonItem>
-                <IonTextarea
-                  ref={messageRef}
-                  onIonBlur={() => checkIfRequired(messageRef)}
-                  label="Message"
-                  required
-                ></IonTextarea>
-              </IonItem>
-              <IonText
-                className={requiredElements["ion-textarea-0"] ? "" : "ion-hide"}
-                style={{ marginLeft: "2rem" }}
-                color="danger"
-              >
-                Message input must not be empty
-                <br />
-              </IonText>
-              <IonButton type="submit">Contact Me</IonButton>
-            </form>
-          </IonCardContent>
-        </IonCard>
-        <Footer />
-      </IonContent>
-    </IonPage>
+    <Page>
+      <h1 className="about-title" style={{ textAlign: "center" }}>
+        Contact
+      </h1>
+      <IonCard>
+        <IonCardContent>
+          <form onSubmit={sendEmail}>
+            <IonItem>
+              <IonInput
+                ref={nameRef}
+                onIonBlur={() => checkIfRequired(nameRef)}
+                label="Name"
+                name="name"
+                required
+              ></IonInput>
+            </IonItem>
+            <IonText
+              className={requiredElements["ion-input-0"] ? "" : "ion-hide"}
+              style={{ marginLeft: "2rem", transittion: "0.3" }}
+              color="danger"
+            >
+              Name input must not be empty
+            </IonText>
+            <IonItem>
+              <IonInput
+                ref={emailRef}
+                onIonBlur={() => checkIfRequired(emailRef)}
+                label="Email"
+                required
+              ></IonInput>
+            </IonItem>
+            <IonText
+              className={requiredElements["ion-input-1"] ? "" : "ion-hide"}
+              style={{ marginLeft: "2rem" }}
+              color="danger"
+            >
+              Email input must not be empty
+            </IonText>
+            <IonItem>
+              <IonTextarea
+                ref={messageRef}
+                onIonBlur={() => checkIfRequired(messageRef)}
+                label="Message"
+                required
+              ></IonTextarea>
+            </IonItem>
+            <IonText
+              className={requiredElements["ion-textarea-0"] ? "" : "ion-hide"}
+              style={{ marginLeft: "2rem" }}
+              color="danger"
+            >
+              Message input must not be empty
+              <br />
+            </IonText>
+            <IonButton type="submit">Contact Me</IonButton>
+          </form>
+        </IonCardContent>
+      </IonCard>
+    </Page>
   );
 };
 
-export default Contact; // export Contact component
+export default Contact;
