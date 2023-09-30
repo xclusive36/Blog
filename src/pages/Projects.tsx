@@ -6,7 +6,6 @@ import {
   IonLoading,
   IonText,
 } from "@ionic/react";
-import { Octokit } from "octokit";
 
 import Page from "../components/Page";
 
@@ -16,24 +15,14 @@ const Projects: React.FC = () => {
   const [repos, setRepos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const octokit = new Octokit({
-    auth: import.meta.env.VITE_GITHUB_TOKEN,
-  });
-  console.log(import.meta.env.VITE_GITHUB_TOKEN);
-
   const getRepos = async () => {
-    await octokit
-      .request("GET /users/xclusive36/repos", {
-        username: "xclusive36",
-        sort: "pushed",
-        // owner: "github",
-        // per_page: 2,
-      })
-      .then((response) => {
-        console.log(response.data);
-        setIsLoading(false);
-        setRepos(response.data);
-      });
+    await fetch(
+      "https://api.github.com/users/xclusive36/repos?sort=updated"
+    ).then(async (response) => {
+      setIsLoading(false);
+      const data = await response.json();
+      setRepos(data);
+    });
   };
 
   useEffect(() => {
