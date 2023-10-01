@@ -1,6 +1,7 @@
 import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
+import { BlogProvider } from "./context/blogContext";
 import Home from "./pages/Home";
 
 /* Core CSS required for Ionic components to work properly */
@@ -33,32 +34,34 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/about">
-          <About />
-        </Route>
-        <Route exact path="/projects">
-          <Projects />
-        </Route>
-        <Route exact path="/contact">
-          <Contact />
-        </Route>
-        <Route exact path="/resume">
-          <Resume />
-        </Route>
-        <Route exact path="/litestep-ios-app-privacy-policy">
-          <AppPrivacy />
-        </Route>
-        <Route exact path="/litestep-ios-app-terms-of-use">
-          <AppTOS />
-        </Route>
-      </IonRouterOutlet>
+      <BlogProvider>
+        <IonRouterOutlet>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route exact path="/projects">
+            <Projects />
+          </Route>
+          <Route exact path="/contact">
+            <Contact />
+          </Route>
+          <Route exact path="/resume">
+            <Resume />
+          </Route>
+          <Route exact path="/litestep-ios-app-privacy-policy">
+            <AppPrivacy />
+          </Route>
+          <Route exact path="/litestep-ios-app-terms-of-use">
+            <AppTOS />
+          </Route>
+        </IonRouterOutlet>
+      </BlogProvider>
     </IonReactRouter>
   </IonApp>
 );
