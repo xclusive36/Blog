@@ -1,3 +1,4 @@
+import Markdown from "react-markdown";
 import {
   IonButton,
   IonCard,
@@ -6,6 +7,8 @@ import {
   IonCardSubtitle,
   IonCardTitle,
 } from "@ionic/react";
+
+import "./BlogItem.css";
 
 interface BlogItemProps {
   blog: {
@@ -54,12 +57,14 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
         }}
       >
         {date && <p>{convertDate(date)}</p>}
-        {introduction}
+        <Markdown>{introduction}</Markdown>
         {showContent ? (
-          <>{content}</>
+          <Markdown>{content}</Markdown>
         ) : (
           <>
-            {content.length > 0 && <IonButton expand="block">Read More</IonButton>}
+            {content.length > 0 && (
+              <IonButton expand="block">Read More</IonButton>
+            )}
           </>
         )}
       </IonCardContent>
