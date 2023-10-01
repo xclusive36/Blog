@@ -11,6 +11,16 @@ import Page from "../components/Page";
 
 import "./Projects.css";
 
+interface Repo {
+  id: number;
+  name: string;
+  description: string;
+  html_url: string;
+  full_name: string;
+  created_at: string;
+  pushed_at: string;
+}
+
 const Projects: React.FC = () => {
   const [repos, setRepos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,16 +43,6 @@ const Projects: React.FC = () => {
     const newDate = new Date(date);
     return newDate.toDateString();
   };
-
-  interface Repo {
-    id: number;
-    name: string;
-    description: string;
-    html_url: string;
-    full_name: string;
-    created_at: string;
-    pushed_at: string;
-  }
 
   return (
     <Page>

@@ -1,5 +1,5 @@
 import Page from "../components/Page";
-import Blog from "../components/Blog";
+import BlogSection from "../components/BlogSection";
 
 import "./Home.css";
 
@@ -18,17 +18,7 @@ const Home: React.FC = () => {
           </p>
         </div>
         <h2 className="ion-text-center">Lets MacGyver something..</h2>
-        <Blog />
-        {/* <IonGrid>
-            <IonRow>
-              <IonCol size="8">
-                <Blog />
-              </IonCol>
-              <IonCol size="4">
-                <Side />
-              </IonCol>
-            </IonRow>
-          </IonGrid> */}
+        <BlogSection />
       </div>
     </Page>
   );
