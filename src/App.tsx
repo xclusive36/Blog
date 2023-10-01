@@ -28,6 +28,7 @@ import Contact from "./pages/Contact";
 import Resume from "./pages/Resume";
 import AppTOS from "./pages/AppTOS";
 import AppPrivacy from "./pages/AppPrivacy";
+import Blog from "./pages/Blog";
 
 setupIonicReact();
 
@@ -59,6 +60,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/litestep-ios-app-terms-of-use">
             <AppTOS />
+          </Route>
+          <Route path="/blog/:blogId" exact={true}>
+            <Blog />
           </Route>
         </IonRouterOutlet>
       </BlogProvider>

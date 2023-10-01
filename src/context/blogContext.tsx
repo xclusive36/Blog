@@ -19,7 +19,7 @@ const blogArray: BlogInterface[] = [
     subtitle: "Card Subtitle",
     imageURL: "https://ionicframework.com/docs/img/demos/card-media.png",
     imageAlt: "Silhouette of mountains",
-    date: "2021-09-22",
+    date: "2023-09-22",
     slug: "card-title",
     introduction: `Here's a small text description for the card content. Nothing more, nothing less.`,
     content: ``,
@@ -31,7 +31,7 @@ const blogArray: BlogInterface[] = [
     imageURL:
       "https://misfitgirl.com/wp-content/uploads/2023/09/pexels-photo-577585-1024x768.jpeg",
     imageAlt: "Silhouette of mountains",
-    date: "2021-09-22",
+    date: "2023-09-22",
     slug: "building-a-new-portfolio-website-with-ionic-framework-using-react",
     introduction: `Understandably, I'll need to break this up into multiple blog posts. I'm going to start with the front end utilizing [Ionic Framework](https://ionicframework.com/) with [React](https://react.dev/).
     I'm using [Ionic Framework](https://ionicframework.com/) because I'm familiar with it and I like the way it looks and functions. It's a beautifully constructed framework for building single page [Node.js](https://nodejs.org/) style cross platform web applications. It supports building applications such as [Android apps](https://play.google.com/), [iOS apps](https://www.apple.com/app-store/), [PWA apps](https://web.dev/progressive-web-apps/), and [Electron apps](https://www.electronjs.org/). I'm going to use it to build a
@@ -53,7 +53,7 @@ The source code to this project will be available on [Github.com](https://github
     imageURL:
       "https://misfitgirl.com/wp-content/uploads/2023/09/pexels-photo-261579-1024x768.jpeg",
     imageAlt: "Silhouette of mountains",
-    date: "2021-09-22",
+    date: "2023-09-22",
     slug: "welcome-to-my-fresh-new-tech-blog-and-portfolio",
     introduction: `As the title says, this is my fresh new tech blog and portfolio. It's meant to be a portfolio for my projects and a blog for my thoughts and ideas. I hope to give you a chance to pick up a few tricks.
 
