@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "start": "vite --host 0.0.0.0 --port $PORT",
+    "start": "serve dist",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -28,7 +28,8 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.0",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "serve": "^14.2.1"
   },
   "devDependencies": {
     "@capacitor/cli": "5.3.0",
