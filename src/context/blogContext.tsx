@@ -13,17 +13,17 @@ interface BlogInterface {
 }
 
 const blogArray: BlogInterface[] = [
-  {
-    id: "1",
-    title: "Card Title",
-    subtitle: "Card Subtitle",
-    imageURL: "https://ionicframework.com/docs/img/demos/card-media.png",
-    imageAlt: "Silhouette of mountains",
-    date: "2023-09-22",
-    slug: "card-title",
-    introduction: `Here's a small text description for the card content. Nothing more, nothing less.`,
-    content: ``,
-  },
+  // {
+  //   id: "1",
+  //   title: "Card Title",
+  //   subtitle: "Card Subtitle",
+  //   imageURL: "https://ionicframework.com/docs/img/demos/card-media.png",
+  //   imageAlt: "Silhouette of mountains",
+  //   date: "2023-09-22",
+  //   slug: "card-title",
+  //   introduction: `Here's a small text description for the card content. Nothing more, nothing less.`,
+  //   content: ``,
+  // },
   {
     id: "2",
     title: "Building a new Portfolio Website with Ionic Framework using React",
