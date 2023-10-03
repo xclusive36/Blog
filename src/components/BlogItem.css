@@ -5,3 +5,11 @@ p {
 .card-title {
   font-size: 1.2rem !important;
 }
+
+img {
+  transition: .5s ease;
+}
+
+.blog-image:hover {
+  transform: scale3d(1.1, 1.1, 1);
+}

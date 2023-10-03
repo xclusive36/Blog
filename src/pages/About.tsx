@@ -15,7 +15,7 @@ const About: React.FC = () => {
           </h2>
 
           <div>
-            <img className="about-image" src={Cartoonify} alt="Joshua Cavell" />
+            <img className="about-image blog-image" src={Cartoonify} alt="Joshua Cavell" />
           </div>
           <p className="about-paragraph">
             Passionate Full-Stack Developer with a strong foundation in sales
