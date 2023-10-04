@@ -55,7 +55,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
 
       <IonCardContent
         style={{
-          displaiy: "flex",
+          display: "flex",
           flexDirection: "column",
         }}
       >
@@ -66,7 +66,9 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
         ) : (
           <>
             {content.length > 0 && (
-              <IonButton className="ion-float-right ion-margin-bottom">Read More</IonButton>
+              <IonButton className="ion-margin-bottom">
+                Read More
+              </IonButton>
             )}
           </>
         )}

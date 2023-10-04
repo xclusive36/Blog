@@ -3,6 +3,8 @@ import {
   IonButton,
   IonCard,
   IonCardContent,
+  IonItem,
+  IonList,
   IonLoading,
   IonText,
 } from "@ionic/react";
@@ -19,6 +21,10 @@ interface Repo {
   full_name: string;
   created_at: string;
   pushed_at: string;
+  language: string;
+  license: {
+    name: string;
+  };
 }
 
 const Projects: React.FC = () => {
@@ -47,8 +53,34 @@ const Projects: React.FC = () => {
     [repos];
 
   const convertDate = (date: string) => {
+    // this function converts the date to a more readable format
+    const today = new Date();
     const newDate = new Date(date);
-    return newDate.toDateString();
+    const diff = today.getTime() - newDate.getTime();
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+    if (diffDays < 1) {
+      return `${Math.ceil(diff / (1000 * 3600))} hours ago`;
+    } else if (diffDays < 2) {
+      return `Yesterday`;
+    } else if (diffDays < 7) {
+      return `${diffDays} days ago`;
+    } else {
+      return newDate.toDateString();
+    }
+  };
+
+  const bulletColor = (language: string) => {
+    const colors: { [key: string]: string } = {
+      TypeScript: "#3178c6",
+      JavaScript: "#f1e05a",
+      HTML: "#e34c26",
+      CSS: "#563d7c",
+      Python: "#3572a5",
+      Java: "#b07219",
+      PHP: "#4f5d95",
+    };
+
+    return colors[language] || "#000";
   };
 
   return (
@@ -56,29 +88,57 @@ const Projects: React.FC = () => {
       <h1 className="about-title" style={{ textAlign: "center" }}>
         Github Repos
       </h1>
-      <div className="portfolio-repos">
-        {isLoading && <IonLoading isOpen={isLoading} message={"Loading..."} />}
+      <IonList>
+        {isLoading && (
+          <IonLoading
+            duration={5000}
+            isOpen={isLoading}
+            message={"Loading..."}
+          />
+        )}
         {repos.map((repo: Repo) => (
-          <IonCard key={repo.id} href={repo.html_url} target="_blank">
-            <IonCardContent>
-              <IonText color="dark ion-text-center">
-                <h2 style={{ fontWeight: 500, fontSize: "1.2rem" }}>
-                  {repo.name}
-                </h2>
-                {repo.description && <p>{repo.description}</p>}
-                <p style={{ fontSize: "0.8rem" }}>
-                  Created at: {convertDate(repo.created_at)}
-                  <br />
-                  Last Pushed: {convertDate(repo.pushed_at)}
-                </p>
-                <IonButton fill="clear" expand="block">
-                  View Repo
-                </IonButton>
-              </IonText>
-            </IonCardContent>
-          </IonCard>
+          <IonItem
+            key={repo.id}
+            href={repo.html_url}
+            target="_blank"
+            className="repo-item"
+          >
+            <IonText color="dark">
+              <h2 style={{ fontWeight: 500, fontSize: "1.2rem" }}>
+                {repo.name}
+              </h2>
+              {repo.description && <p>{repo.description}</p>}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  fontSize: "0.8rem",
+                }}
+              >
+                {repo.language && (
+                  <div className="ion-margin-bottom">
+                    <span
+                      className="bullet"
+                      style={{
+                        backgroundColor: `${bulletColor(repo.language)}`,
+                      }}
+                    />
+                    <span style={{ marginRight: "2rem" }}>{repo.language}</span>
+                  </div>
+                )}
+                {repo.license && (
+                  <span style={{ marginRight: "2rem" }}>
+                    License: {repo.license.name}
+                  </span>
+                )}
+                <span style={{ marginRight: "2rem" }}>
+                  Updated: {convertDate(repo.pushed_at)}
+                </span>
+              </div>
+            </IonText>
+          </IonItem>
         ))}
-      </div>
+      </IonList>
     </Page>
   );
 };
