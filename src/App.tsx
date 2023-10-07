@@ -61,7 +61,7 @@ const App: React.FC = () => (
           <Route exact path="/litestep-ios-app-terms-of-use">
             <AppTOS />
           </Route>
-          <Route path="/blog/:blogId" exact={true}>
+          <Route path="/blog/:blogSlug" exact={true}>
             <Blog />
           </Route>
         </IonRouterOutlet>

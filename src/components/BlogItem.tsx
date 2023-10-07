@@ -45,7 +45,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
   return (
     <IonCard
       style={{ maxWidth: "786px", margin: "auto" }}
-      href={`/blog/${blog.id}`}
+      {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
     >
       <img className="blog-image" alt={imageAlt} src={imageURL} />
       <IonCardHeader>
@@ -66,9 +66,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
         ) : (
           <>
             {content.length > 0 && (
-              <IonButton className="ion-margin-bottom">
-                Read More
-              </IonButton>
+              <IonButton className="ion-margin-bottom">Read More</IonButton>
             )}
           </>
         )}

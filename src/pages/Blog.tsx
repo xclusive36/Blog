@@ -6,9 +6,9 @@ import { useContext } from "react";
 
 const Blog: React.FC = () => {
   const { BlogArray } = useContext(BlogContext);
-  const { blogId } = useParams<{ blogId: string }>();
+  const { blogSlug } = useParams<{ blogSlug: string }>();
 
-  const blog = BlogArray.find((blog) => blog.id === blogId);
+  const blog = BlogArray.find((blog) => blog.slug === blogSlug);
 
   if (!blog) {
     return (
