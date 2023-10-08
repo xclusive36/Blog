@@ -4,6 +4,7 @@ import {
   IonCardContent,
   IonCardSubtitle,
 } from "@ionic/react";
+import Resume from "../assets/JoshuaCavellResume.pdf";
 
 const More = () => {
   return (
@@ -11,7 +12,7 @@ const More = () => {
       <IonCardContent>
         <IonButton
           expand="block"
-          href="https://docs.google.com/document/d/1FK4ZEE4y5uncnMBkkQiMXauSAyuyL8Ss1nR0I6m6I9Y/edit?usp=sharing"
+          href={Resume}
         >
           Download My Resume
         </IonButton>
