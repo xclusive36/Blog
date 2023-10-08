@@ -9,7 +9,7 @@ const Social: React.FC = () => {
         fill="clear"
         color="dark"
         className="social-button"
-        routerLink="https://www.linkedin.com/in/joshua-cavell/"
+        href="https://www.linkedin.com/in/joshua-cavell/"
       >
         <IonIcon slot="icon-only" icon={logoLinkedin} />
       </IonButton>
@@ -17,7 +17,7 @@ const Social: React.FC = () => {
         fill="clear"
         color="dark"
         className="social-button"
-        routerLink="https://github.com/xclusive36/"
+        href="https://github.com/xclusive36/"
       >
         <IonIcon slot="icon-only" icon={logoGithub} />
       </IonButton>
@@ -25,7 +25,7 @@ const Social: React.FC = () => {
         fill="clear"
         color="dark"
         className="social-button"
-        routerLink="https://twitter.com/xclusive36/"
+        href="https://twitter.com/xclusive36/"
       >
         <IonIcon slot="icon-only" icon={logoTwitter} />
       </IonButton>
