@@ -19,6 +19,12 @@ const Education = () => {
             Michigan State University, East Lansing, MI: July 2023
           </IonLabel>
         </IonItem>
+        <IonItem>
+          <IonIcon slot="start" icon={schoolOutline} />
+          <IonLabel className="ion-text-wrap">
+            Seneca Valley High, Germantown, MD: June 1996
+          </IonLabel>
+        </IonItem>
       </IonCardContent>
     </IonCard>
   );

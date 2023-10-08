@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import MisfitGirl from "../assets/MisfitGirl.png";
 
 interface BlogInterface {
   id: string;
@@ -24,6 +25,38 @@ const blogArray: BlogInterface[] = [
   //   introduction: `Here's a small text description for the card content. Nothing more, nothing less.`,
   //   content: ``,
   // },
+  {
+    id: "4",
+    title: "Calling all wax melt lovers, delicious scents you will love",
+    subtitle: "Soy wax melts are a great way to add fragrance to your home",
+    imageURL:
+      "https://misfitgirl.com/wp-content/uploads/2023/10/Screen-Shot-2023-06-18-at-3.51.57-PM.png",
+    imageAlt: "Screenshot of misfitgirl.com",
+    date: "2023-10-08",
+    slug: "calling-all-wax-melt-lovers-delicious-scents-you-will-love",
+    introduction: `Handcrafted Soy wax melts are a great way to add fragrance to your home. If you're looking for a unique and special way to scent your home, then handcrafted wax melts from [Misfitgirl.com](https://misfitgirl.com/) are the perfect choice for you.
+
+**What Are Handcrafted Wax Melts?**
+
+Handcrafted wax melts are made by melting wax with essential oils. The mixture is then poured into molds and allowed to harden. Once the melts are hard, they can be broken into pieces and placed in a wax warmer. When the wax melts, the fragrance is released into the air.`,
+    content: `**Why Choose Handcrafted Wax Melts from [Misfitgirl.com](https://misfitgirl.com/)?**
+
+There are many reasons to choose handcrafted wax melts from Misfitgirl. Here are a few:
+
+- They are made with high-quality ingredients. [Misfitgirl.com](https://misfitgirl.com/) uses only the finest essential oils and waxes to make her melts. This ensures that her melts are safe and effective.
+
+- They are available in a wide variety of fragrances. Misfitgirl offers a wide variety of scents, so you can find the perfect one to match your taste.
+
+- They are affordable. [Misfitgirl.com's](https://misfitgirl.com/) melts are priced competitively, so you can enjoy the benefits of handcrafted wax melts without breaking the bank.
+
+- They are easy to use. Misfitgirl's melts are easy to use. Simply place them in a wax warmer and let the fragrance fill the air.
+
+**How to Use Handcrafted Wax Melts**
+
+Using handcrafted wax melts is easy. Simply place a few melts in a wax warmer and turn on the warmer. The wax will melt and the fragrance will be released into the air. You can use as many or as few melts as you like to create the desired level of fragrance.
+
+Handcrafted wax melts are a great way to add fragrance to your home. They are also a fun and easy way to express your creativity. If you're looking for a unique and special way to scent your home, then handcrafted wax melts from [Misfitgirl.com](https://misfitgirl.com/) are the perfect choice for you.`,
+  },
   {
     id: "3",
     title: "LiteStep was awesome back in the day",
