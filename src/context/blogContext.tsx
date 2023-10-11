@@ -15,16 +15,105 @@ interface BlogInterface {
 
 const blogArray: BlogInterface[] = [
   // {
-  //   id: "1",
-  //   title: "Card Title",
-  //   subtitle: "Card Subtitle",
-  //   imageURL: "https://ionicframework.com/docs/img/demos/card-media.png",
-  //   imageAlt: "Silhouette of mountains",
+  //   id: "",
+  //   title: "",
+  //   subtitle: "",
+  //   imageURL: "",
+  //   imageAlt: "",
   //   date: "2023-09-22",
-  //   slug: "card-title",
-  //   introduction: `Here's a small text description for the card content. Nothing more, nothing less.`,
+  //   slug: "",
+  //   introduction: ``,
   //   content: ``,
   // },
+  {
+    id: "5",
+    title: "Starting out with a new project, a new blog, and a new portfolio",
+    subtitle: "Getting started with a new project",
+    imageURL: "https://misfitgirl.com/wp-content/uploads/2023/10/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMTA1NzYtaW1hZ2Uta3d2eTRhdnIta3d2eW54OGQuanBn.jpg",
+    imageAlt: "Computer screen with code",
+    date: "2023-10-08",
+    slug: "starting-out-with-a-new-project-a-new-blog-and-a-new-portfolio",
+    introduction: `**Beginning Tutorial on how to create a new Ionic Framework React application with Typescript using Node.js**
+
+Before getting involved with the creation of the backend of this website, I want to describe the creation of the front end. Steps I took so you can build your own website.
+    
+In its current state, the front end is incomplete. Not only is it waiting for a backend, more features will be added. We'll get into that in a future post. I am going to assume you have an understanding on how to use a command line interface or terminal interface.`,
+    content: `On your computer, if you have not installed Node.js, Please do so now. The LTS version is the version I am using. Once installed, verify that it is working and can be used in a terminal application of your choice. For reference, I am on a Macintosh computer and use Warp as my terminal app.
+
+Node, or Node.js, is an open-source, cross-platform runtime environment for executing JavaScript code. It allows developers to create server-side tools and applications in JavaScript. Node is used extensively for server-side programming.
+    
+On your computer, pick a location, any location you want to create your web application. I on a Mac create my applications in my /home/user folder. If I was on windows, I would use my c:\ drive folder.
+    
+In your terminal application, navigate to that folder. Since I'm using Ionic Framework, lets get it installed.
+    
+Run the command line:
+    
+\`npm install -g @ionic/cli\`
+    
+If you are on a Mac like me, you'll need to add sudo to the beginning:
+    
+\`sudo npm install -g @ionic/cli\`
+    
+The "-g" is a flag that that tells your computer to run globally.
+    
+Once the install is complete run the command
+    
+\`ionic start\`
+    
+The Ionic Framework new application install will ask you a few questions. The first being "Use the app creation wizard?" I always say no to this as its confusing and a waste of time to me. You may have a different experience.
+    
+The second question asks what Framework you would like to use? Angular, React, or Vue. This project is a React project.
+    
+The third question asks for a name of your new application. You can name it what ever you want. I just call mine "Blog"
+    
+The last question it asks you the type of starter project. Blank, List, My-First-App, SideMenu, And Tabs. Each option will setup an application with a preset of code. For this project I choose "Blank".
+    
+Once the application has been created, navigate into the folder of the newly created application. Since I called my application Blog, I will navigate into the Blog folder.
+    
+\`cd Blog\`
+    
+On your computer If you do not have Visual Studio Code installed or a similar code editor application like Sublime installed, please install one now. You will need it for the next steps. For reference, I am using VSCode.
+    
+Once VSCode or a similar application has been installed, open it. Once open, open up the command pallet by pressing these combination of keys. (These will only work for VSCode.)
+    
+**Windows:** Control-Shift-P
+    
+**Mac:** Command-Shift-P
+    
+Type 'command' and then select the first option "install 'code' command in PATH.
+    
+If for some reason you type something else and it disappears, exit the search and then rerun the combo of keys and then type 'command' again.
+    
+Once the code command has been installed into the PATH, you can from your terminal open any applications from their folder.
+    
+In the terminal, in your application folder, mine being Blog. Run the following command to open your app project in VSCode.
+    
+\`code .\`
+    
+the dot at the end of 'code .' tells VSCode that you want to open the current folder as a project.
+    
+Once open, on the left you will see a few files and folders. The source code for our project will be built in the 'src' folder.
+    
+Thats enough for VSCode for now. We'll get started with it for real in the next blog post.
+    
+Lets run our application.
+    
+In the terminal, run the following command.
+    
+\`ionic serve\`
+    
+Your web browser should open and load your brand new project. It's not much but it's a start.
+    
+to close the server in the terminal, press the key combination
+    
+**Windows:** Control-C
+    
+**Mac:** Command-C
+    
+Thanks for following along. I'll see you in the next blog.
+    
+[Source code](https://github.com/xclusive36/Blog/)`,
+  },
   {
     id: "4",
     title: "Calling all wax melt lovers, delicious scents you will love",

@@ -59,7 +59,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
           flexDirection: "column",
         }}
       >
-        {date && <p>{convertDate(date)}</p>}
+        {date && <p>Published by Joshua on {convertDate(date)}</p>}
         <Markdown>{introduction}</Markdown>
         {showContent ? (
           <Markdown>{content}</Markdown>
