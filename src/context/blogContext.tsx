@@ -164,7 +164,7 @@ LiteStep was inspired by [AfterStep](https://en.wikipedia.org/wiki/AfterStep), w
 
 Over time, and due to the rise of popularity in freeform [skinning](https://en.wikipedia.org/wiki/Skin_(computing)), LiteStep desktop designs have tended to drift away from the [AfterStep](https://en.wikipedia.org/wiki/AfterStep) layouts seen under pre-0.24 versions, and LiteStep theming has become an art form in itself, being referred to as an "OS equivalent of an expandable Leatherman multi-tool".
 
-Please read up on the history of LiteStep through your favorite search engine and Wikipedia. I'm sad I stepped away back in 2004 for personal reasons. Being at the helm of Litestep.com around the turn of the century at the height of LiteSteps popularity was an amazing experience. I had No contributions the the LiteStep application programmatically. I just ran Litestep.com with branches of LSSkins.com and LSHelp.com`,
+Please read up on the history of LiteStep through your favorite search engine and Wikipedia. I'm sad I stepped away back in 2004 for personal reasons. Being at the helm of Litestep.com around the turn of the century at the height of LiteSteps popularity was an amazing experience. I want to state that I had No contributions to the LiteStep application programmatically. I just ran Litestep.com, LSSkins.com and LSHelp.com`,
   },
   {
     id: "2",
