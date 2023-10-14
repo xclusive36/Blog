@@ -22,10 +22,15 @@ interface BlogItemProps {
     introduction: string;
     content: string;
   };
+  showIntro?: boolean;
   showContent: boolean;
 }
 
-const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
+const BlogItem: React.FC<BlogItemProps> = ({
+  blog,
+  showIntro = true,
+  showContent = false,
+}) => {
   const {
     title,
     subtitle,
@@ -55,8 +60,12 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
         <img className="blog-image" alt={imageAlt} src={imageURL} />
       </div>
       <IonCardHeader>
-        <IonCardTitle className="card-title">{title}</IonCardTitle>
-        <IonCardSubtitle>{subtitle}</IonCardSubtitle>
+        <IonCardTitle
+          className={showContent ? "card-title" : "card-title underline"}
+        >
+          {title}
+        </IonCardTitle>
+        {showContent && <IonCardSubtitle>{subtitle}</IonCardSubtitle>}
       </IonCardHeader>
 
       <IonCardContent
@@ -65,15 +74,11 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
           flexDirection: "column",
         }}
       >
-        {date && <p>Published by Joshua on {convertDate(date)}</p>}
-        <Markdown>{introduction}</Markdown>
-        {showContent ? (
-          <Markdown>{content}</Markdown>
-        ) : (
+        {showIntro && <Markdown>{introduction}</Markdown>}
+        {showContent && (
           <>
-            {content.length > 0 && (
-              <IonButton className="ion-margin-bottom">Read More</IonButton>
-            )}
+            <Markdown>{content}</Markdown>
+            {date && <p>Published by Joshua on {convertDate(date)}</p>}
           </>
         )}
       </IonCardContent>

@@ -28,14 +28,12 @@ const blogArray: BlogInterface[] = [
   {
     id: "5",
     title: "Starting out with a new project, a new blog, and a new portfolio",
-    subtitle: "Getting started with a new project",
+    subtitle: "Beginning Tutorial on how to create a new Ionic Framework React application with Typescript using Node.js",
     imageURL: "https://misfitgirl.com/wp-content/uploads/2023/10/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMTA1NzYtaW1hZ2Uta3d2eTRhdnIta3d2eW54OGQuanBn.jpg",
     imageAlt: "Computer screen with code",
     date: "2023-10-08",
     slug: "starting-out-with-a-new-project-a-new-blog-and-a-new-portfolio",
-    introduction: `**Beginning Tutorial on how to create a new Ionic Framework React application with Typescript using Node.js**
-
-Before getting involved with the creation of the backend of this website, I want to describe the creation of the front end. Steps I took so you can build your own website.
+    introduction: `Before getting involved with the creation of the backend of this website, I want to describe the creation of the front end. Steps I took so you can build your own website.
     
 In its current state, the front end is incomplete. Not only is it waiting for a backend, more features will be added. We'll get into that in a future post. I am going to assume you have an understanding on how to use a command line interface or terminal interface.`,
     content: `On your computer, if you have not installed Node.js, Please do so now. The LTS version is the version I am using. Once installed, verify that it is working and can be used in a terminal application of your choice. For reference, I am on a Macintosh computer and use Warp as my terminal app.
@@ -148,8 +146,8 @@ Handcrafted wax melts are a great way to add fragrance to your home. They are al
   },
   {
     id: "3",
-    title: "LiteStep was awesome back in the day",
-    subtitle: "Day dreaming of 20+ years in the past",
+    title: "The past history of the LiteStep application and its community of users and developers",
+    subtitle: "LiteStep was and still is to some extent a full desktop replacement for Windows",
     imageURL:
       "https://misfitgirl.com/wp-content/uploads/2023/10/1981.459.6-scaled.jpg",
     imageAlt: "Moon in space with no stars",

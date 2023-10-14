@@ -11,7 +11,7 @@ const BlogSection = () => {
       <IonRow>
         {BlogArray.map((blog) => (
           <IonCol sizeLg="4" sizeMd="6" sizeSm="12" sizeXs="12" key={blog.id}>
-            <BlogItem blog={blog} showContent={false} />
+            <BlogItem blog={blog} showIntro={false} showContent={false} />
           </IonCol>
         ))}
       </IonRow>
