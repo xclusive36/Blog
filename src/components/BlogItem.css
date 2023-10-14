@@ -13,3 +13,8 @@ img {
 .blog-image:hover {
   transform: scale3d(1.1, 1.1, 1);
 }
+
+.thumbnail {
+  height: 200px;
+  overflow: hidden;
+}

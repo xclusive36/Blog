@@ -51,7 +51,9 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
       }}
       {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
     >
-      <img className="blog-image" alt={imageAlt} src={imageURL} />
+      <div className={showContent ? "" : "thumbnail"}>
+        <img className="blog-image" alt={imageAlt} src={imageURL} />
+      </div>
       <IonCardHeader>
         <IonCardTitle className="card-title">{title}</IonCardTitle>
         <IonCardSubtitle>{subtitle}</IonCardSubtitle>
