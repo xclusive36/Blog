@@ -44,7 +44,11 @@ const BlogItem: React.FC<BlogItemProps> = ({ blog, showContent = false }) => {
 
   return (
     <IonCard
-      style={{ maxWidth: "786px", margin: "auto" }}
+      style={{
+        maxWidth: "786px",
+        margin: "auto",
+        boxShadow: "0 0 40px rgba(0, 0, 0, 0.05)",
+      }}
       {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
     >
       <img className="blog-image" alt={imageAlt} src={imageURL} />
