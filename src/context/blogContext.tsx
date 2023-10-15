@@ -26,10 +26,29 @@ const blogArray: BlogInterface[] = [
   //   content: ``,
   // },
   {
+    id: "6",
+    title: "Breaking down the application folder structure a wee bit",
+    subtitle:
+      "The folder structure of a new Vite application is very simple and easy to understand",
+    imageURL:
+      "https://misfitgirl.com/wp-content/uploads/2023/10/pexels-photo-943096.jpeg",
+    imageAlt: "Computer screen with code",
+    date: "2023-10-14",
+    slug: "breaking-down-the-application-folder-structure-a-wee-bit",
+    introduction: `When you open a new Vite React application with Typescript in VSCode by running the command in the terminal:
+    
+\`code .\`
+
+On the left, you initially see a set of files and folders. These are the files and folders that make up the source code of your new application. Vite has preconfigured and set this folder structure this way to optimize its compilation during a build.`,
+    content: ``,
+  },
+  {
     id: "5",
     title: "Starting out with a new project, a new blog, and a new portfolio",
-    subtitle: "Beginning Tutorial on how to create a new Ionic Framework React application with Typescript using Node.js",
-    imageURL: "https://misfitgirl.com/wp-content/uploads/2023/10/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMTA1NzYtaW1hZ2Uta3d2eTRhdnIta3d2eW54OGQuanBn.jpg",
+    subtitle:
+      "Beginning Tutorial on how to create a new Ionic Framework React application with Typescript using Node.js",
+    imageURL:
+      "https://misfitgirl.com/wp-content/uploads/2023/10/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMTA1NzYtaW1hZ2Uta3d2eTRhdnIta3d2eW54OGQuanBn.jpg",
     imageAlt: "Computer screen with code",
     date: "2023-10-08",
     slug: "starting-out-with-a-new-project-a-new-blog-and-a-new-portfolio",
@@ -69,6 +88,10 @@ The last question it asks you the type of starter project. Blank, List, My-First
 Once the application has been created, navigate into the folder of the newly created application. Since I called my application Blog, I will navigate into the Blog folder.
     
 \`cd Blog\`
+
+Then run the command
+
+\`npm install\`
     
 On your computer If you do not have Visual Studio Code installed or a similar code editor application like Sublime installed, please install one now. You will need it for the next steps. For reference, I am using VSCode.
     
@@ -146,8 +169,10 @@ Handcrafted wax melts are a great way to add fragrance to your home. They are al
   },
   {
     id: "3",
-    title: "The past history of the LiteStep application and its community of users and developers",
-    subtitle: "LiteStep was and still is to some extent a full desktop replacement for Windows",
+    title:
+      "The past history of the LiteStep application and its community of users and developers",
+    subtitle:
+      "LiteStep was and still is to some extent a full desktop replacement for Windows",
     imageURL:
       "https://misfitgirl.com/wp-content/uploads/2023/10/1981.459.6-scaled.jpg",
     imageAlt: "Moon in space with no stars",
