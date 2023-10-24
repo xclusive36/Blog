@@ -5,3 +5,21 @@
   align-items: center;
   margin: 1rem 0 3rem 0;
 }
+
+.footer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  /* border-bottom: 1px dashed var(--ion-color-medium); */
+  padding: 1rem;
+}
+
+.footer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
