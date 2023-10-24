@@ -28,7 +28,8 @@ ion-card-subtitle {
 }
 
 code {
-  background-color: var(--ion-color-light);
+  background-color: var(--ion-color-dark);
+  color: var(--ion-color-light);
   padding: 1rem;
   border-radius: 0.2rem;
 }
