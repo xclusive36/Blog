@@ -26,6 +26,46 @@ const blogArray: BlogInterface[] = [
   //   content: ``,
   // },
   {
+    id: "7",
+    title: "Focus on the simplistic structure of a component",
+    subtitle: "What is a src folder?",
+    imageURL: "https://misfitgirl.com/wp-content/uploads/2023/10/pexels-photo-11035471.jpeg",
+    imageAlt: "Blurred background with the React logo displayed in the foreground",
+    date: "2023-10-25",
+    slug: "focus-on-the-simplistic-structure-of-a-component",
+    introduction: `Src is short hand for source, it is the primary development folder. Our front end web application will be constructed inside of this folder. Lets break down our starter application src folder.`,
+    content: `Before we dive into the src folder, In the root of our application open up the index.html file. When our application starts to run, the first file that loads is the index.html file. Through this web page file our web app is given life.
+
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
+
+As you can see above, inside the div with the id of root will be injected with our application, this will be done automatically. The script on the next line loads the Main.tsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
+
+**Open the src/Main.tsx file.**
+
+Looking at the contents of the src/Main.tsx file we see a [Javascript](https://www.javascript.com/) file that loads and sets our application to use React. It renders our application into the index.html div with the id of root. What it renders is the App component from the App.tsx file.
+
+**Open the src/App.tsx file.**
+
+This is our first [React component](https://www.w3schools.com/react/react_components.asp) file. All a [React application](https://react.dev/learn/start-a-new-react-project) is, is a series of components. A component is a piece of an application. This component sets what new component should to be displayed based on the route. i.e. [litestep.com/](https://litestep.com/), [litestep.com/home/](https://litestep.com/home/), [litestep.com/about/](https://litestep.com/about/), etc..
+
+This file currently redirects the user to to the [litestep.com/home](https://litestep.com/home/) url if the root url is used. i.e. [litestep.com/](https://litestep.com/) Once redirected to the /home url, display the Home component to the user. We will modify this file in a future blog to add new url folders such as /about, /projects, etc..
+
+**Open src/pages/Home.tsx**
+
+This is our Home component. Inside the Home component [Javascript](https://www.javascript.com/) function we see it returns a structure that resembles the body of an Html file. This is the structure of a [react component](https://react.dev/learn/your-first-component). It is not [HTML](https://www.w3schools.com/html/html_examples.asp), but a bunch of [React components](https://react.dev/reference/react/Component). In this case, [Ionic Framework components](https://ionicframework.com/docs/components). It is designed to resemble [HTML](https://www.freecodecamp.org/news/what-is-html-definition-and-meaning/).
+
+Each [Ionic Framework component](https://ionicframework.com/docs/components has been pre-configured. See the [Ionic Framework](https://ionicframework.com/) website to see the documentation on each of their components and how to use them. The [IonPage](https://github.com/ionic-team/ionic-framework/blob/main/packages/react/src/components/IonPage.tsx) component contains an [IonHeader](https://ionicframework.com/docs/api/header) component, and [IonContent](https://ionicframework.com/docs/api/content) component, and each of those components contain more components inside such as a [IonToolbar](https://ionicframework.com/docs/api/toolbar) component with an [IonTitle](https://ionicframework.com/docs/api/title) component inside the IonHeader component.
+
+Each component can contain components inside or be wrapped inside another component. [React](https://react.dev/) is just one big giant mess of components. Each part of a webpage can be broken down into smaller components. For example, a [Form component](https://www.freecodecamp.org/news/how-to-build-forms-in-react/) can have section components, each with It's own description component and input component or button component. The cool thing is, each component can be reused. A button component can also be reused elsewhere. Not being limited to a form component.
+
+Ultimately, React applications are built by building [smaller components for reuse](https://www.sitepoint.com/creating-reusable-react-components/).
+
+In the next blog, we will create some components!`,
+  },
+  {
     id: "6",
     title: "Breaking down the application file structure a wee bit",
     subtitle:
