@@ -4,14 +4,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd ./client && serve -s dist",
+    "start": "cd ./client && npm start",
     "build": "cd ./client && npm run build",
     "dev": "cd ./client && npm run dev"
   },
   "author": "Joshua Cavell",
   "license": "ISC",
-  "description": "A personal portfolio project",
-  "dependencies": {
-    "serve": "^14.2.1"
-  }
+  "description": "A personal portfolio project"
 }

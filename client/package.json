@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite --host 0.0.0.0 --port $PORT",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
@@ -34,7 +34,6 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-legacy": "^4.0.2",
-    "typescript": "^5.1.6",
     "@vitejs/plugin-react": "^4.0.1"
   },
   "devDependencies": {
@@ -46,6 +45,7 @@
     "eslint": "^8.35.0",
     "eslint-plugin-react": "^7.32.2",
     "jsdom": "^22.1.0",
+    "typescript": "^5.1.6",
     "vitest": "^0.32.2"
   },
   "description": "An Ionic project"
