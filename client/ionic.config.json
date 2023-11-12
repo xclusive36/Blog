@@ -1,7 +1,0 @@
-{
-  "name": "Resume",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
-}
