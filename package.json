@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Personal portfolio and blog",
   "scripts": {
-    "start": "cd client && npm run start",
+    "start": "cd client && serve -s dist",
     "install": "cd client && npm i",
     "dev": "cd client && npm run dev",
     "build": "cd client && npm run build",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/xclusive36/Blog/issues"
   },
-  "homepage": "https://github.com/xclusive36/Blog#readme"
+  "homepage": "https://github.com/xclusive36/Blog#readme",
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
 }
