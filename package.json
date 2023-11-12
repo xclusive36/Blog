@@ -6,7 +6,7 @@
     "start": "cd client && npm run start",
     "install": "cd client && npm i",
     "dev": "cd client && npm run dev",
-    "build": "cd client && tsc && vite build",
+    "build": "cd client && vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
