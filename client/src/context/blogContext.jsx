@@ -104,16 +104,6 @@ Node, or Node.js, is an open-source, cross-platform runtime environment for exec
 On your computer, pick a location, any location you want to create your web application. I on a Mac create my applications in my /home/user folder. If I was on windows, I would use my c:\\ drive folder.
     
 In your terminal application, navigate to that folder. Since I'm using Ionic Framework, lets get it installed.
-    
-Run the command line:
-    
-\`npm install -g @ionic/cli\`
-    
-If you are on a Mac like me, you'll need to add sudo to the beginning:
-    
-\`sudo npm install -g @ionic/cli\`
-    
-The "-g" is a flag that that tells your computer to run globally.
 
 We are going to deviate from a typical Ionic Framework project. Under normal circumstances we would run the command “ionic start” command to begin the creation of an Ionic project. We’re not going to do this here. We will manually create a new project with Vite and then include Ionic to the new Vite project.
     
