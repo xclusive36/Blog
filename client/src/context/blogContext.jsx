@@ -114,18 +114,18 @@ If you are on a Mac like me, you'll need to add sudo to the beginning:
 \`sudo npm install -g @ionic/cli\`
     
 The "-g" is a flag that that tells your computer to run globally.
+
+We are going to deviate from a typical Ionic Framework project. Under normal circumstances we would run the command “ionic start” command to begin the creation of an Ionic project. We’re not going to do this here. We will manually create a new project with Vite and then include Ionic to the new Vite project.
     
-Once the install is complete run the command
+Run the command to create a new Vite project:
+
+\`npm create vite@latest\`
     
-\`ionic start\`
+The new Vite application install will ask you a few questions. The first being "Project Name?" I just typed in "Blog".
     
-The Ionic Framework new application install will ask you a few questions. The first being "Use the app creation wizard?" I always say no to this as its confusing and a waste of time to me. You may have a different experience.
+The second question asks what Framework you would like to use? Vanilla, React, or Vue, etc. This project is a React project.
     
-The second question asks what Framework you would like to use? Angular, React, or Vue. This project is a React project.
-    
-The third question asks for a name of your new application. You can name it what ever you want. I just call mine "Blog"
-    
-The last question it asks you the type of starter project. Blank, List, My-First-App, SideMenu, And Tabs. Each option will setup an application with a preset of code. For this project I choose "Blank".
+The third question asks for a variant of React. TypeScript, TypeScript + SWC, JavaScript, or JavaScript + SWC. I chose plain old JavaScript for this project.
     
 Once the application has been created, navigate into the folder of the newly created application. Since I called my application Blog, I will navigate into the Blog folder.
     
@@ -158,12 +158,24 @@ the dot at the end of 'code .' tells VSCode that you want to open the current fo
 Once open, on the left you will see a few files and folders. The source code for our project will be built in the 'src' folder.
     
 Thats enough for VSCode for now. We'll get started with it for real in the next blog post.
+
+As of writing this project, the npm package @ionic/react-router is version 7.0.0. The npm package react-router-dom needs to be version 5.2.0 or higher. The current version is 6.0.2. The two packages are not compatible. We will need to install the correct version of react-router-dom. In the terminal, run the following command.
+
+\`npm install react-router-dom@5.3.4\`
+
+and then run the following command to install @ionic/react-router.
+
+\`npm install @ionic/react-router@7.0.0\`
+
+Then we'll finish up by installing the npm package @ionic/react
+
+\`npm install @ionic/react\`
     
 Lets run our application.
     
 In the terminal, run the following command.
     
-\`ionic serve\`
+\`npm run dev\`
     
 Your web browser should open and load your brand new project. It's not much but it's a start.
     
