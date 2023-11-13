@@ -33,21 +33,27 @@ const blogArray = [
 
 As you can see above, inside the div with the id of root will be injected with our application, this will be done automatically. The script on the next line loads the Main.tsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
 
-**Open the src/Main.tsx file.**
+**Open the src/Main.jsx file.**
 
 Looking at the contents of the src/Main.tsx file we see a [Javascript](https://www.javascript.com/) file that loads and sets our application to use React. It renders our application into the index.html div with the id of root. What it renders is the App component from the App.tsx file.
 
-**Open the src/App.tsx file.**
+**Open the src/App.jsx file.**
 
 This is our first [React component](https://www.w3schools.com/react/react_components.asp) file. All a [React application](https://react.dev/learn/start-a-new-react-project) is, is a series of components. A component is a piece of an application. This component sets what new component should to be displayed based on the route. i.e. [litestep.com/](https://litestep.com/), [litestep.com/home/](https://litestep.com/home/), [litestep.com/about/](https://litestep.com/about/), etc..
 
-This file currently redirects the user to to the [litestep.com/home](https://litestep.com/home/) url if the root url is used. i.e. [litestep.com/](https://litestep.com/) Once redirected to the /home url, display the Home component to the user. We will modify this file in a future blog to add new url folders such as /about, /projects, etc..
+We'll get to set up new pages and routing in future blog post. For now, we'll focus on the App.jsx.
 
-**Open src/pages/Home.tsx**
+This is our First component. Inside the App component [Javascript](https://www.javascript.com/) function we see it returns a structure that resembles the body of an Html file. This is the structure of a [react component](https://react.dev/learn/your-first-component). It is not [HTML](https://www.w3schools.com/html/html_examples.asp), but a bunch of [React components](https://react.dev/reference/react/Component). It is designed to resemble [HTML](https://www.freecodecamp.org/news/what-is-html-definition-and-meaning/).
 
-This is our Home component. Inside the Home component [Javascript](https://www.javascript.com/) function we see it returns a structure that resembles the body of an Html file. This is the structure of a [react component](https://react.dev/learn/your-first-component). It is not [HTML](https://www.w3schools.com/html/html_examples.asp), but a bunch of [React components](https://react.dev/reference/react/Component). In this case, [Ionic Framework components](https://ionicframework.com/docs/components). It is designed to resemble [HTML](https://www.freecodecamp.org/news/what-is-html-definition-and-meaning/).
+At the top, we import a few things, the useState Hook from React, a couple of svg images and a css file called App.css. After, we see a new JavaScript function called App.
 
-Each [Ionic Framework component](https://ionicframework.com/docs/components has been pre-configured. See the [Ionic Framework](https://ionicframework.com/) website to see the documentation on each of their components and how to use them. The [IonPage](https://github.com/ionic-team/ionic-framework/blob/main/packages/react/src/components/IonPage.tsx) component contains an [IonHeader](https://ionicframework.com/docs/api/header) component, and [IonContent](https://ionicframework.com/docs/api/content) component, and each of those components contain more components inside such as a [IonToolbar](https://ionicframework.com/docs/api/toolbar) component with an [IonTitle](https://ionicframework.com/docs/api/title) component inside the IonHeader component.
+Inside the App function, we see a line that sets up the useState React hook. This line creates 2 variables. "count", and "setCount".
+
+After that, we see a return call. Inside this return we see our JSX sudo HTML. This sudo HTML is the content that will be displayed to the browser.
+
+At the very bottom of the file, we see the export default App. This is the line that exports the App component to be used in other files. This is the line that allows us to import the App component into the Main.tsx file.
+
+For reference, each [Ionic Framework component](https://ionicframework.com/docs/components has been pre-configured. See the [Ionic Framework](https://ionicframework.com/) website to see the documentation on each of their components and how to use them. We will be using them in future blog posts.
 
 Each component can contain components inside or be wrapped inside another component. [React](https://react.dev/) is just one big giant mess of components. Each part of a webpage can be broken down into smaller components. For example, a [Form component](https://www.freecodecamp.org/news/how-to-build-forms-in-react/) can have section components, each with It's own description component and input component or button component. The cool thing is, each component can be reused. A button component can also be reused elsewhere. Not being limited to a form component.
 
