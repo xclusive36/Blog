@@ -12,7 +12,7 @@ const Hero = () => {
           display: "flex",
           flexDirection: "column",
           margin: "auto auto",
-          width: "35rem",
+          maxWidth: "35rem",
           padding: "1rem",
           borderRadius: "15px",
           textAlign: "center",
