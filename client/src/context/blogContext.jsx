@@ -28,14 +28,14 @@ const blogArray = [
 
     <body>
         <div id="root"></div>
-        <script type="module" src="/src/main.tsx"></script>
+        <script type="module" src="/src/main.jsx"></script>
     </body>
 
-As you can see above, inside the div with the id of root will be injected with our application, this will be done automatically. The script on the next line loads the Main.tsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
+As you can see above, inside the div with the id of root will be injected with our application, this will be done automatically. The script on the next line loads the Main.jsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
 
 **Open the src/Main.jsx file.**
 
-Looking at the contents of the src/Main.tsx file we see a [Javascript](https://www.javascript.com/) file that loads and sets our application to use React. It renders our application into the index.html div with the id of root. What it renders is the App component from the App.tsx file.
+Looking at the contents of the src/Main.jsx file we see a [Javascript](https://www.javascript.com/) file that loads and sets our application to use React. It renders our application into the index.html div with the id of root. What it renders is the App component from the App.jsx file.
 
 **Open the src/App.jsx file.**
 
@@ -51,7 +51,7 @@ Inside the App function, we see a line that sets up the useState React hook. Thi
 
 After that, we see a return call. Inside this return we see our JSX sudo HTML. This sudo HTML is the content that will be displayed to the browser.
 
-At the very bottom of the file, we see the export default App. This is the line that exports the App component to be used in other files. This is the line that allows us to import the App component into the Main.tsx file.
+At the very bottom of the file, we see the export default App. This is the line that exports the App component to be used in other files. This is the line that allows us to import the App component into the Main.jsx file.
 
 For reference, each [Ionic Framework component](https://ionicframework.com/docs/components has been pre-configured. See the [Ionic Framework](https://ionicframework.com/) website to see the documentation on each of their components and how to use them. We will be using them in future blog posts.
 
