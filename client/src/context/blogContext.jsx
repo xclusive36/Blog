@@ -31,7 +31,7 @@ const blogArray = [
         <script type="module" src="/src/main.jsx"></script>
     </body>
 
-As you can see above, inside the div with the id of root will be injected with our application, this will be done automatically. The script on the next line loads the Main.jsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
+As you can see above, the HTML is limited. Inside the div with the id of root will be injected with our application, this will be done automatically. The script on the next line loads the Main.jsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
 
 **Open the src/Main.jsx file.**
 
