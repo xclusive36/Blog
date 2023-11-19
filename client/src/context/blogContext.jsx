@@ -27,17 +27,64 @@ const blogArray = [
     content: `Before we dive into the src folder, In the root of our application open up the index.html file. When our application starts to run, the first file that loads is the index.html file. Through this web page file our web app is given life.
 
     <body>
-        <div id="root"></div>
-        <script type="module" src="/src/main.jsx"></script>
+      <div id="root"></div>
+      <script type="module" src="/src/main.jsx"></script>
     </body>
 
-As you can see above, the HTML is limited. Inside the div with the id of root will be injected with our application, this will be done automatically with the magic and awesome power of Javascript! The script on the next line loads the Main.jsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
+As you can see above, the HTML is limited. Inside the div with the id of root will be injected with our application, this will be done automatically with the magic and awesome power of [Javascript](https://www.javascript.com/)! The script on the next line loads the Main.jsx source file to run our application. We shoudn't need to modify this file. You may modify it if you need to add fonts or extra css or extra javascript as needed.
 
 **Open the src/Main.jsx file.**
 
-Looking at the contents of the src/Main.jsx file we see a [Javascript](https://www.javascript.com/) file that loads and sets our application to use React. It renders our application into the index.html div with the id of root. What it renders is the App component from the App.jsx file.
+    import React from 'react'
+    import ReactDOM from 'react-dom/client'
+    import App from './App.jsx'
+    import './index.css'
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+    )
+
+Looking at the contents of the src/Main.jsx file we see a [Javascript](https://www.javascript.com/) file that loads and sets our application to use React. It renders our application into the index.html div with the id of root. What it renders is the App component from the App.jsx file. It also loads the index.css file.
 
 **Open the src/App.jsx file.**
+
+    import { useState } from 'react'
+    import reactLogo from './assets/react.svg'
+    import viteLogo from '/vite.svg'
+    import './App.css'
+
+    function App() {
+      const [count, setCount] = useState(0)
+
+      return (
+        <>
+          <div>
+            <a href="https://vitejs.dev" target="_blank">
+              <img src={viteLogo} className="logo" alt="Vite logo" />
+            </a>
+            <a href="https://react.dev" target="_blank">
+              <img src={reactLogo} className="logo react" alt="React logo" />
+            </a>
+          </div>
+          <h1>Vite + React</h1>
+          <div className="card">
+            <button onClick={() => setCount((count) => count + 1)}>
+              count is {count}
+            </button>
+            <p>
+              Edit <code>src/App.jsx</code> and save to test HMR
+            </p>
+          </div>
+          <p className="read-the-docs">
+            Click on the Vite and React logos to learn more
+          </p>
+        </>
+      )
+    }
+
+    export default App
 
 This is our first [React component](https://www.w3schools.com/react/react_components.asp) file. All a [React application](https://react.dev/learn/start-a-new-react-project) is, is a series of components. A component is a piece of an application. This component sets what new component should to be displayed based on the route. i.e. [litestep.com/](https://litestep.com/), [litestep.com/home/](https://litestep.com/home/), [litestep.com/about/](https://litestep.com/about/), etc..
 
@@ -45,11 +92,49 @@ We'll get to set up new pages and routing in future blog post. For now, we'll fo
 
 This is our First component. Inside the App component [Javascript](https://www.javascript.com/) function we see it returns a structure that resembles the body of an Html file. This is the structure of a [react component](https://react.dev/learn/your-first-component). It is not [HTML](https://www.w3schools.com/html/html_examples.asp), but a bunch of [React components](https://react.dev/reference/react/Component). It is designed to resemble [HTML](https://www.freecodecamp.org/news/what-is-html-definition-and-meaning/).
 
+    import { useState } from 'react'
+    import reactLogo from './assets/react.svg'
+    import viteLogo from '/vite.svg'
+    import './App.css'
+
+    function App() {
+
 At the top, we import a few things, the useState Hook from React, a couple of svg images and a css file called App.css. After, we see a new JavaScript function called App.
 
-Inside the App function, we see a line that sets up the useState React hook. This line creates 2 variables. "count", and "setCount".
+    const [count, setCount] = useState(0)
 
-After that, we see a return call. Inside this return we see our JSX sudo HTML. This sudo HTML is the content that will be displayed to the browser.
+Inside the App function, we see a line that sets up the useState React hook. This line creates 2 variables. "count", and "setCount". "count" being the variable used in our application, "setCount" being the function that sets the value of "count" to the [state](https://www.w3schools.com/react/react_state.asp).
+
+      return (
+        <>
+          <div>
+            <a href="https://vitejs.dev" target="_blank">
+              <img src={viteLogo} className="logo" alt="Vite logo" />
+            </a>
+            <a href="https://react.dev" target="_blank">
+              <img src={reactLogo} className="logo react" alt="React logo" />
+            </a>
+          </div>
+          <h1>Vite + React</h1>
+          <div className="card">
+            <button onClick={() => setCount((count) => count + 1)}>
+              count is {count}
+            </button>
+            <p>
+              Edit <code>src/App.jsx</code> and save to test HMR
+            </p>
+          </div>
+          <p className="read-the-docs">
+            Click on the Vite and React logos to learn more
+          </p>
+        </>
+      )
+
+After that, we see a return call. Inside this return we see our JSX sudo HTML. This "sudo HTML" (HTML tags in JSX form) is the content that will be displayed to the browser.
+
+    }
+
+    export default App
 
 At the very bottom of the file, we see the export default App. This is the line that exports the App component to be used in other files. This is the line that allows us to import the App component into the Main.jsx file.
 
