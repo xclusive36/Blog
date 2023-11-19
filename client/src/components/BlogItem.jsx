@@ -38,7 +38,7 @@ const BlogItem = ({ blog, showIntro = true, showContent = false }) => {
       {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
     >
       <div className={showContent ? "" : "thumbnail"}>
-        <img className="blog-image" alt={imageAlt} src={imageURL} />
+        <img className={!showContent && "blog-image"} alt={imageAlt} src={imageURL} />
       </div>
       <IonCardHeader>
         <IonCardTitle
