@@ -2,16 +2,14 @@ import { IonContent, IonPage } from "@ionic/react";
 import Header from "./Header";
 import Social from "./Social";
 import Footer from "./Footer";
-import Hero from "./Hero";
 
 import PropTypes from "prop-types";
 
-const Page = ({ showHero = false, children }) => {
+const Page = ({ children }) => {
   return (
     <IonPage>
       <Header />
-      <IonContent fullscreen>
-        {showHero && <Hero />}
+      <IonContent>
         <Social />
         {children}
         <Footer />

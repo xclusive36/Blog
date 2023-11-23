@@ -14,6 +14,135 @@ const blogArray = [
   //   content: ``,
   // },
   {
+    id: "8",
+    title: "Create a few new basic React components and use them!",
+    subtitle: "Let's start by creating a component folder, a new component jsx file and an accompanying css file",
+    imageURL:
+      "https://misfitgirl.com/wp-content/uploads/2023/11/pexels-photo-1181271.jpeg",
+    imageAlt:
+      "Sun glare on a laptop screen with code displayed in the foreground",
+    date: "2023-10-25",
+    slug: "create-a-few-new-basic-react-components-and-use-them",
+    introduction: `Lets start by changing the ./src/App.jsx to the following:
+
+    import "./App.css";
+
+    function App() {
+      return (
+        <div className="home-container">
+          <h1>Hello World</h1>
+        </div>
+      );
+    }
+
+    export default App;`,
+    content: `Yes, just wipe out the entire contents of the App.jsx file and replace it with the above.
+    
+Now let's start by creating a component folder, a new component jsx file and an accompanying css file.
+
+Now create a new 'components' folder inside the src folder.
+
+    mkdir ./src/components
+
+Inside the newly created components folder, create 2 files. The first will be the React file of our new component, the second the css file for this component.
+
+    touch ./src/components/Header.component.jsx
+    touch ./src/components/Header.styles.css
+
+Open the ./src/components/Header.component.jsx file and add the following:
+
+    import "./Header.styles.css";
+
+    function HeaderComponent() {
+      return (
+        <div className="header-container">
+          <h1>Hello World</h1>
+        </div>
+      );
+    }
+
+    export default HeaderComponent;
+
+At the top we import our css file, We declare our component as a function, inside that function we return a div container that says "Hello World!" thats wrapped in a H1. At the bottom We export the component so it can be used in another file.
+
+The code we just added is a default template for any new component. Feel free to use it for any new component you wish to add. Modify it for your needs. I'm not going to get into a discussion between class based and function based components. React supports both, we are defaulting to functional components.
+
+Now that we have created a new header component, lets add it to our App.jsx file. Open the ./src/App.jsx file. At the very top of the file, add the following:
+
+    import HeaderComponent from "./components/Header.component";
+
+This line tells App.jsx to import the HeaderComponent file from the components folder. Once it's been imported, Lets use it inside App.jsx. Just above the H1 add <HeaderComponent /> so it looks like this:
+
+    import HeaderComponent from "./components/Header.component";
+
+    import "./App.css";
+
+    function App() {
+      return (
+        <div className="home-container">
+          <HeaderComponent />
+          <h1>Hello World</h1>
+        </div>
+      );
+    }
+
+    export default App;
+
+That's all there is to adding a new component! Lets do it again for a Footer component. :)
+
+Inside the components folder, create 2 new files.
+
+    touch ./src/components/Footer.component.jsx
+    touch ./src/components/Footer.styles.css
+
+Open the ./src/components/Footer.component.jsx file and add the following:
+
+    import "./Footer.styles.css";
+
+    function FooterComponent() {
+      return (
+        <div className="footer-container">
+          <h1>Hello World</h1>
+        </div>
+      );
+    }
+
+    export default FooterComponent;
+
+Now that we have created a new footer component, lets add it also to our App.jsx file. Open the ./src/App.jsx file. At the very top of the file, Just under the import for the HeaderComponent add the following:
+
+    import FooterComponent from "./components/Footer.component";
+
+Once it's been imported, Lets use it inside App.jsx. Just below the H1 add <FooterComponent /> so it looks like this:
+
+    import HeaderComponent from "./components/Header.component";
+    import FooterComponent from "./components/Footer.component";
+
+    import "./App.css";
+
+    function App() {
+      return (
+        <div className="home-container">
+          <HeaderComponent />
+          <h1>Hello World</h1>
+          <FooterComponent />
+        </div>
+      );
+    }
+
+    export default App;
+
+You should be able to view the new additions in your app. If your app isn't running, start it now by running:
+
+    npm run dev
+
+It's not a big addition in terms of looks but that'll be changed in a new post. Think about all of the cool little (and big) things you can add in.
+
+Why would you create new components instead of just adding to the main file? Multiple reasons. The first and biggest is reusability. Once you create a component, you can import it into any other file. Not only that, it can be reused many times over. Lets say you create a button component. You can reuse that button 2, 3, 1000 times or more throughout your Application. Even on the same page. Another reason would be compartmentalization. Once the component has been created and imported throughout your application. Lets say you want to make a change to that component, all you will need to do is edit that component file directly. Once saved, any changes will immediately be reflected throughout your application where ever the component has been used.
+
+We'll add a bit more detail in those components in the next post.`,
+  },
+  {
     id: "7",
     title: "Focus on the simplistic structure of a component",
     subtitle: "What is a src folder?",
