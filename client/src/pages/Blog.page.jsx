@@ -1,10 +1,10 @@
 import { useParams } from "react-router";
-import BlogItem from "../components/BlogItem";
-import Page from "../components/Page";
+import BlogItemComponent from "../components/BlogItem.component";
+import PageComponent from "../components/Page.component";
 import { BlogContext } from "../context/blogContext";
 import { useContext } from "react";
 
-const Blog = () => {
+const BlogPage = () => {
   const { BlogArray } = useContext(BlogContext);
   const { blogSlug } = useParams();
 
@@ -12,19 +12,19 @@ const Blog = () => {
 
   if (!blog) {
     return (
-      <Page>
+      <PageComponent>
         <h1>Blog not found</h1>
-      </Page>
+      </PageComponent>
     );
   }
 
   return (
-    <Page>
+    <PageComponent>
       <div className="home-container">
-        <BlogItem blog={blog} showContent={true} />
+        <BlogItemComponent blog={blog} showContent={true} />
       </div>
-    </Page>
+    </PageComponent>
   );
 };
 
-export default Blog;
+export default BlogPage;

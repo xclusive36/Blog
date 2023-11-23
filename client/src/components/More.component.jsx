@@ -1,7 +1,7 @@
 import { IonButton, IonCard, IonCardContent } from "@ionic/react";
 import Resume from "../assets/JoshuaCavellResume.pdf";
 
-const More = () => {
+const MoreComponent = () => {
   return (
     <IonCard>
       <IonCardContent>
@@ -13,4 +13,4 @@ const More = () => {
   );
 };
 
-export default More;
+export default MoreComponent;

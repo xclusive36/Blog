@@ -6,7 +6,7 @@ import {
   IonCardTitle,
 } from "@ionic/react";
 
-const Side = () => {
+const SideComponent = () => {
   return (
     <>
       <IonCard>
@@ -53,4 +53,4 @@ const Side = () => {
   );
 };
 
-export default Side;
+export default SideComponent;

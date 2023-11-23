@@ -1,11 +1,11 @@
-import Page from "../components/Page";
+import PageComponent from "../components/Page.component";
 import Cartoonify from "../assets/images/Cartoonify.svg";
 
-import "./About.css";
+import "./About.styles.css";
 
-const About = () => {
+const AboutPage = () => {
   return (
-    <Page>
+    <PageComponent>
       <div className="about-container">
         <div className="about-text">
           <h1 className="about-title">Full-Stack Developer, UX Designer</h1>
@@ -30,8 +30,8 @@ const About = () => {
           </p>
         </div>
       </div>
-    </Page>
+    </PageComponent>
   );
 };
 
-export default About;
+export default AboutPage;

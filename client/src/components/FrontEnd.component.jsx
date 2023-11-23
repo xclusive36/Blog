@@ -18,7 +18,7 @@ import {
 import typescript from "../assets/images/typescript.svg";
 import vite from "../assets/images/vite.svg";
 
-const FrontEnd = () => {
+const FrontEndComponent = () => {
   return (
     <IonCard>
       <IonCardContent>
@@ -163,4 +163,4 @@ const FrontEnd = () => {
   );
 };
 
-export default FrontEnd;
+export default FrontEndComponent;

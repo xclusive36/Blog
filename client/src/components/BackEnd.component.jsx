@@ -13,7 +13,7 @@ import mongoosejs from "../assets/images/mongoosejs.svg";
 import mysql from "../assets/images/mysql.svg";
 import graphql from "../assets/images/graphql.svg";
 
-const BackEnd = () => {
+const BackEndComponent = () => {
   return (
     <IonCard>
       <IonCardContent>
@@ -124,4 +124,4 @@ const BackEnd = () => {
   );
 };
 
-export default BackEnd;
+export default BackEndComponent;

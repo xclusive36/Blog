@@ -1,8 +1,8 @@
 import { IonButton, IonButtons, IonToolbar } from "@ionic/react";
 
-import "./Footer.css";
+import "./Footer.styles.css";
 
-const Footer = () => {
+const FooterComponent = () => {
   return (
     <>
       <IonToolbar color="dark">
@@ -45,4 +45,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default FooterComponent;

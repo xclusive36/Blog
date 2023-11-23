@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { IonItem, IonList, IonLoading, IonText } from "@ionic/react";
 
-import Page from "../components/Page";
+import PageComponent from "../components/Page.component";
 
-import "./Projects.css";
+import "./Projects.styles.css";
 
-const Projects = () => {
+const ProjectsPage = () => {
   const [repos, setRepos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,7 +61,7 @@ const Projects = () => {
   };
 
   return (
-    <Page>
+    <PageComponent>
       <h1 className="about-title" style={{ textAlign: "center" }}>
         Github Repos
       </h1>
@@ -116,8 +116,8 @@ const Projects = () => {
           </IonItem>
         ))}
       </IonList>
-    </Page>
+    </PageComponent>
   );
 };
 
-export default Projects;
+export default ProjectsPage;

@@ -6,7 +6,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 
-const Summary = () => {
+const SummaryComponent = () => {
   return (
     <IonCard>
       <IonCardContent>
@@ -32,4 +32,4 @@ const Summary = () => {
   );
 };
 
-export default Summary;
+export default SummaryComponent;

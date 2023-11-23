@@ -1,9 +1,9 @@
 import { IonCol, IonGrid, IonRow } from "@ionic/react";
-import BlogItem from "./BlogItem";
+import BlogItemComponent from "./BlogItem.component";
 import { BlogContext } from "../context/blogContext";
 import { useContext } from "react";
 
-const BlogSection = () => {
+const BlogSectionComponent = () => {
   const { BlogArray } = useContext(BlogContext);
 
   return (
@@ -11,7 +11,7 @@ const BlogSection = () => {
       <IonRow>
         {BlogArray.map((blog) => (
           <IonCol sizeLg="4" sizeMd="6" sizeSm="12" sizeXs="12" key={blog.id}>
-            <BlogItem blog={blog} showIntro={false} showContent={false} />
+            <BlogItemComponent blog={blog} showIntro={false} showContent={false} />
           </IonCol>
         ))}
       </IonRow>
@@ -19,4 +19,4 @@ const BlogSection = () => {
   );
 };
 
-export default BlogSection;
+export default BlogSectionComponent;

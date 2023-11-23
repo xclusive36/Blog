@@ -1,9 +1,9 @@
 import { IonCard, IonCardContent } from "@ionic/react";
-import Page from "../components/Page";
+import PageComponent from "../components/Page.component";
 
-const AppPrivacy = () => {
+const AppPrivacyPage = () => {
   return (
-    <Page>
+    <PageComponent>
       <h1 className="about-title" style={{ textAlign: "center" }}>
         Privacy Policy
       </h1>
@@ -91,8 +91,8 @@ const AppPrivacy = () => {
           </p>
         </IonCardContent>
       </IonCard>
-    </Page>
+    </PageComponent>
   );
 };
 
-export default AppPrivacy;
+export default AppPrivacyPage;

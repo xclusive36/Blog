@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import { schoolOutline } from "ionicons/icons";
 
-const Education = () => {
+const EducationComponent = () => {
   return (
     <IonCard>
       <IonCardContent>
@@ -30,4 +30,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default EducationComponent;

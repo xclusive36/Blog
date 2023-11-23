@@ -2,7 +2,6 @@ import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { BlogProvider } from "./context/blogContext";
-import Home from "./pages/Home";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -24,13 +23,14 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 /* Pages */
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import Contact from "./pages/Contact";
-import Resume from "./pages/Resume";
-import AppTOS from "./pages/AppTOS";
-import AppPrivacy from "./pages/AppPrivacy";
-import Blog from "./pages/Blog";
+import HomePage from "./pages/Home.page";
+import AboutPage from "./pages/About.page";
+import ProjectsPage from "./pages/Projects.page";
+import ContactPage from "./pages/Contact.page";
+import ResumePage from "./pages/Resume.page";
+import AppTOSPage from "./pages/AppTOS.page";
+import AppPrivacyPage from "./pages/AppPrivacy.page";
+import BlogPage from "./pages/Blog.page";
 
 setupIonicReact();
 
@@ -48,35 +48,35 @@ const App = () => (
           </Route>
           {/* Route /home loads the Home component */}
           <Route exact path="/home">
-            <Home />
+            <HomePage />
           </Route>
           {/* Route /about loads the About component */}
           <Route exact path="/about">
-            <About />
+            <AboutPage />
           </Route>
           {/* Route /projects loads the Projects component */}
           <Route exact path="/projects">
-            <Projects />
+            <ProjectsPage />
           </Route>
           {/* Route /contact loads the Contact component */}
           <Route exact path="/contact">
-            <Contact />
+            <ContactPage />
           </Route>
           {/* Route /resume loads the Resume component */}
           <Route exact path="/resume">
-            <Resume />
+            <ResumePage />
           </Route>
           {/* Route //litestep-ios-app-privacy-policy loads the AppPrivacy component */}
           <Route exact path="/litestep-ios-app-privacy-policy">
-            <AppPrivacy />
+            <AppPrivacyPage />
           </Route>
           {/* Route //litestep-ios-app-terms-of-use loads the AppTOS component */}
           <Route exact path="/litestep-ios-app-terms-of-use">
-            <AppTOS />
+            <AppTOSPage />
           </Route>
           {/* Route /blog/:blogSlug loads the blog component with the variable as blogSlug */}
           <Route path="/blog/:blogSlug" exact={true}>
-            <Blog />
+            <BlogPage />
           </Route>
           {/* wildcard, any non matching route gets redirected to /home */}
           <Route>

@@ -1,7 +1,7 @@
 import { IonButton, IonButtons, IonHeader, IonToolbar } from "@ionic/react";
-import "./Header.css";
+import "./Header.styles.css";
 
-const Header = () => {
+const HeaderComponent = () => {
   return (
     <IonHeader>
       <IonToolbar color='dark'>
@@ -39,4 +39,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderComponent;

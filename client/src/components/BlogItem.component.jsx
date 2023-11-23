@@ -8,9 +8,9 @@ import {
   IonCardTitle,
 } from "@ionic/react";
 
-import "./BlogItem.css";
+import "./BlogItem.styles.css";
 
-const BlogItem = ({ blog, showIntro = true, showContent = false }) => {
+const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
   const {
     title,
     subtitle,
@@ -67,7 +67,7 @@ const BlogItem = ({ blog, showIntro = true, showContent = false }) => {
   );
 };
 
-BlogItem.propTypes = {
+BlogItemComponent.propTypes = {
   blog: PropTypes.shape({
     title: PropTypes.string,
     subtitle: PropTypes.string,
@@ -82,4 +82,4 @@ BlogItem.propTypes = {
   showContent: PropTypes.bool,
 };
 
-export default BlogItem;
+export default BlogItemComponent;

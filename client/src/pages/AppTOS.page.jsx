@@ -1,9 +1,9 @@
 import { IonCard, IonCardContent } from "@ionic/react";
-import Page from "../components/Page";
+import PageComponent from "../components/Page.component";
 
-const AppTOS = () => {
+const AppTOSPage = () => {
   return (
-    <Page>
+    <PageComponent>
       <h1 className="about-title" style={{ textAlign: "center" }}>
         LiteStep iOS Application Terms of Use
       </h1>
@@ -279,8 +279,8 @@ const AppTOS = () => {
           </p>
         </IonCardContent>
       </IonCard>
-    </Page>
+    </PageComponent>
   );
 };
 
-export default AppTOS;
+export default AppTOSPage;

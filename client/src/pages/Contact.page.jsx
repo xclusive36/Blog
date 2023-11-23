@@ -10,9 +10,9 @@ import {
 } from "@ionic/react";
 
 import { useRef, useState } from "react";
-import Page from "../components/Page";
+import PageComponent from "../components/Page.component";
 
-const Contact = () => {
+const ContactPage = () => {
   // create Contact component
   const nameRef = useRef(null); // create ref for name input
   const emailRef = useRef(null); // create ref for email input
@@ -122,7 +122,7 @@ const Contact = () => {
   };
 
   return (
-    <Page>
+    <PageComponent>
       <h1 className="about-title" style={{ textAlign: "center" }}>
         Contact
       </h1>
@@ -180,8 +180,8 @@ const Contact = () => {
           </form>
         </IonCardContent>
       </IonCard>
-    </Page>
+    </PageComponent>
   );
 };
 
-export default Contact;
+export default ContactPage;

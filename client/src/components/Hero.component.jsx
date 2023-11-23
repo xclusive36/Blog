@@ -1,4 +1,4 @@
-const Hero = () => {
+const HeroComponent = () => {
   return (
     <div
       style={{
@@ -32,4 +32,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default HeroComponent;

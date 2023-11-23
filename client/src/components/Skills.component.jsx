@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 import { checkmarkOutline } from "ionicons/icons";
 
-const Skills = () => {
+const SkillsComponent = () => {
   return (
     <IonCard>
       <IonCardContent>
@@ -78,4 +78,4 @@ const Skills = () => {
   );
 };
 
-export default Skills;
+export default SkillsComponent;

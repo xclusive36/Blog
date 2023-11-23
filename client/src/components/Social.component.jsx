@@ -1,8 +1,8 @@
 import { IonButton, IonIcon } from "@ionic/react";
 import { logoGithub, logoLinkedin, logoTwitter } from "ionicons/icons";
-import "./Social.css";
+import "./Social.styles.css";
 
-const Social = () => {
+const SocialComponent = () => {
   return (
     <div className="social-links">
       <IonButton
@@ -36,4 +36,4 @@ const Social = () => {
   );
 };
 
-export default Social;
+export default SocialComponent;
