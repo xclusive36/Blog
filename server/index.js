@@ -77,7 +77,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  res.sendFile(
+    path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
+  );
 });
 
 // Set up our Express middleware to handle CORS, body parsing,
