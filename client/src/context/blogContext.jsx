@@ -319,13 +319,13 @@ I'll continue by breaking down the src folder in the next post.
 In its current state, the front end is incomplete. Not only is it waiting for a backend, more features will be added. We'll get into that in a future post. I am going to assume you have an understanding on how to use a command line interface or terminal interface.`,
     content: `On your computer, if you have not installed Node.js, Please do so now. The LTS version is the version I am using. Once installed, verify that it is working and can be used in a terminal application of your choice. For reference, I am on a Macintosh computer and use Warp as my terminal app.
 
-Node, or Node.js, is an open-source, cross-platform runtime environment for executing JavaScript code. It allows developers to create server-side tools and applications in JavaScript. Node is used extensively for server-side programming.
+Node, or [Node.js](https://nodejs.org/), is an open-source, cross-platform runtime environment for executing [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code. It allows developers to create server-side tools and applications in [JavaScript](https://www.javascript.com/). [Node](https://www.w3schools.com/nodejs/nodejs_intro.asp) is used extensively for [server-side programming](https://developer.mozilla.org/en-US/docs/Learn/Server-side).
     
 On your computer, pick a location, any location you want to create your web application. I on a Mac create my applications in my /home/user folder. If I was on windows, I would use my c:\\ drive folder.
     
-In your terminal application, navigate to that folder. Since I'm using Ionic Framework, lets get it installed.
+In your terminal application, navigate to that folder. Since I'm using [Ionic Framework](https://ionicframework.com/), lets get it installed.
 
-We are going to deviate from a typical Ionic Framework project. Under normal circumstances we would run the command “ionic start” command to begin the creation of an Ionic project. We’re not going to do this here. We will manually create a new project with Vite and then include Ionic to the new Vite project.
+We are going to deviate from a typical [Ionic Framework project](https://ionicframework.com/docs/intro/cli). Under normal circumstances we would run the command “ionic start” command to begin the creation of an Ionic project. We&#39;re not going to do this here. We will manually create a new project with [Vite](https://vitejs.dev/) and then include [Ionic](https://ionicframework.com/docs/intro/cdn) to the new [Vite project](https://vitejs.dev/guide/).
     
 Run the command to create a new Vite project:
 
@@ -345,7 +345,7 @@ Then run the command
 
 \`npm install\`
     
-On your computer If you do not have Visual Studio Code installed or a similar code editor application like Sublime installed, please install one now. You will need it for the next steps. For reference, I am using VSCode.
+On your computer If you do not have [Visual Studio Code](https://code.visualstudio.com/) installed or a similar code editor application like [Sublime Text](https://www.sublimetext.com/) installed, please install one now. You will need it for the next steps. For reference, I am using VSCode.
     
 Once VSCode or a similar application has been installed, open it. Once open, open up the command pallet by pressing these combination of keys. (These will only work for VSCode.)
     
@@ -369,7 +369,7 @@ Once open, on the left you will see a few files and folders. The source code for
     
 Thats enough for VSCode for now. We'll get started with it for real in the next blog post.
 
-As of writing this project, the npm package @ionic/react-router is version 7.0.0. The npm package react-router-dom needs to be version 5.2.0 or higher. The current version is 6.0.2. The two packages are not compatible. We will need to install the correct version of react-router-dom. In the terminal, run the following command.
+As of writing this project, the npm package [@ionic/react-router](https://www.npmjs.com/package/@ionic/react-router) is version 7.0.0. The npm package [react-router-dom](https://www.npmjs.com/package/react-router-dom) needs to be version 5.2.0 or higher. The current version is 6.0.2. The two packages are not compatible. We will need to install the correct version of react-router-dom. In the terminal, run the following command.
 
 \`npm install react-router-dom@5.3.4\`
 
@@ -377,7 +377,7 @@ and then run the following command to install @ionic/react-router.
 
 \`npm install @ionic/react-router@7.0.0\`
 
-Then we'll finish up by installing the npm package @ionic/react
+Then we'll finish up by installing the npm package [@ionic/react](https://www.npmjs.com/package/@ionic/react)
 
 \`npm install @ionic/react\`
     

@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "Personal portfolio and blog",
   "scripts": {
-    "start2": "cd client && serve -s dist",
+    "startWithoutServer": "cd client && serve -s dist",
     "start": "node server/index.js",
     "install": "cd server && npm i && cd ../client && npm i",
-    "dev2": "cd client && npm run dev",
+    "devWithoutServer": "cd client && npm run dev",
     "dev": "concurrently \"node server --ignore client\" \"cd client && npm run dev\"",
     "build": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
