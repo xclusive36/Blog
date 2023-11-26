@@ -26,7 +26,14 @@ app.use(urlencoded({ extended: false })); // add middleware to parse incoming JS
 app.use(json()); // add middleware to parse incoming JSON data
 app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
 app.use(compression()); // add compression middleware to Express app
-// app.use(helmet()); // add helmet middleware to Express app
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "img-src": ["'self'", "misfitgirl.com"],
+    },
+  },
+})); // add helmet middleware to Express app
 app.use(
   cors(
     // add cors middleware to allow cross-origin requests
