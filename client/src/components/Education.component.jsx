@@ -22,7 +22,7 @@ const EducationComponent = () => {
         <IonItem>
           <IonIcon slot="start" icon={schoolOutline} />
           <IonLabel className="ion-text-wrap">
-            Seneca Valley High, Germantown, MD: June 1996
+            Seneca Valley HighSchool, Germantown, MD: June 1996
           </IonLabel>
         </IonItem>
       </IonCardContent>

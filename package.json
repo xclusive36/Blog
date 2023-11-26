@@ -3,15 +3,17 @@
   "version": "0.0.1",
   "description": "Personal portfolio and blog",
   "scripts": {
-    "start": "cd client && serve -s dist",
-    "install": "cd client && npm i",
-    "dev": "cd client && npm run dev",
+    "start2": "cd client && serve -s dist",
+    "start": "node server/server.js",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "dev2": "cd client && npm run dev",
+    "dev": "concurrently \"node server --ignore client\" \"cd client && npm run dev\"",
     "build": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xclusive36/Blog.git"
+    "url": "git@github.com:xclusive36/Blog.git"
   },
   "author": "Joshua Cavell",
   "license": "GPL-3.0",
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/xclusive36/Blog#readme",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "serve": "^14.2.1"
   }
 }
