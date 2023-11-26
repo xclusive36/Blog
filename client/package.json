@@ -1,7 +1,7 @@
 {
   "name": "client",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "start": "vite",
@@ -9,6 +9,15 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xclusive36/Blog.git"
+  },
+  "author": "Joshua Cavell",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/xclusive36/Blog/issues"
   },
   "dependencies": {
     "@ionic/react": "^7.5.4",
