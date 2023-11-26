@@ -10,6 +10,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema"; // import makeExec
 import { authMiddleware } from "./utils/auth.js"; // import authMiddleware function to be configured with the Apollo Server
 import { rateLimitMiddleware } from "./utils/ratelimit.js"; // import rateLimitMiddleware function to be configured with the Apollo Server
 import helmet from "helmet";
+import compression from "compression";
 
 import db from "./config/connection.js"; // import db from config/connection.js
 
@@ -24,6 +25,7 @@ const app = express();
 app.use(urlencoded({ extended: false })); // add middleware to parse incoming JSON data
 app.use(json()); // add middleware to parse incoming JSON data
 app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
+app.use(compression()); // add compression middleware to Express app
 app.use(helmet()); // add helmet middleware to Express app
 app.use(
   cors(
@@ -118,14 +120,14 @@ db.once("open", () => {
 
 // custom 404
 app.use((req, res, next) => {
-  res.status(404).send("Sorry can't find that!")
-})
+  res.status(404).send("Sorry can't find that!");
+});
 
 // custom error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(500).send('Something broke!')
-})
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
