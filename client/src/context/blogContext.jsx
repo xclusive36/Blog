@@ -140,7 +140,9 @@ It's not a big addition in terms of looks but that'll be changed in a new post. 
 
 Why would you create new components instead of just adding to the main file? Multiple reasons. The first and biggest is reusability. Once you create a component, you can import it into any other file. Not only that, it can be reused many times over. Lets say you create a button component. You can reuse that button 2, 3, 1000 times or more throughout your Application. Even on the same page. Another reason would be compartmentalization. Once the component has been created and imported throughout your application. Lets say you want to make a change to that component, all you will need to do is edit that component file directly. Once saved, any changes will immediately be reflected throughout your application where ever the component has been used.
 
-We'll add a bit more detail in those components in the next post.`,
+We'll add a bit more detail in those components in the next post.
+    
+[Source code](https://github.com/xclusive36/Blog/)`,
   },
   {
     id: "7",
