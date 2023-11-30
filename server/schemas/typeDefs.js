@@ -7,8 +7,6 @@ export const typeDefs = `#graphql
   # This "User" type defines the queryable fields for every user in our data source.
   type User {
     _id: ID
-    firstName: String
-    lastName: String
     username: String
     email: String
     password: String
@@ -46,7 +44,7 @@ export const typeDefs = `#graphql
   # case, the "addUser" mutation returns an Auth (defined above).
   # The "login" mutation returns an Auth (defined above).
   type Mutation {
-    addUser(firstName: String!, lastName: String!, username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
     removeUser(_id: ID!): User
     login(email: String!, password: String!): Auth
   }
