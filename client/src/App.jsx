@@ -31,6 +31,7 @@ import ResumePage from "./pages/Resume.page";
 import AppTOSPage from "./pages/AppTOS.page";
 import AppPrivacyPage from "./pages/AppPrivacy.page";
 import BlogPage from "./pages/Blog.page";
+import { SettingsProvider } from "./context/settingsContext";
 
 setupIonicReact();
 
@@ -40,49 +41,52 @@ const App = () => (
     <IonReactRouter>
       {/* BlogProvider is used to provide the blog context data to the app */}
       <BlogProvider>
-        {/* IonRouterOutlet renders the pages based on the path */}
-        <IonRouterOutlet>
-          {/* Route / redirects to /home */}
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          {/* Route /home loads the Home component */}
-          <Route exact path="/home">
-            <HomePage />
-          </Route>
-          {/* Route /about loads the About component */}
-          <Route exact path="/about">
-            <AboutPage />
-          </Route>
-          {/* Route /projects loads the Projects component */}
-          <Route exact path="/projects">
-            <ProjectsPage />
-          </Route>
-          {/* Route /contact loads the Contact component */}
-          <Route exact path="/contact">
-            <ContactPage />
-          </Route>
-          {/* Route /resume loads the Resume component */}
-          <Route exact path="/resume">
-            <ResumePage />
-          </Route>
-          {/* Route //litestep-ios-app-privacy-policy loads the AppPrivacy component */}
-          <Route exact path="/litestep-ios-app-privacy-policy">
-            <AppPrivacyPage />
-          </Route>
-          {/* Route //litestep-ios-app-terms-of-use loads the AppTOS component */}
-          <Route exact path="/litestep-ios-app-terms-of-use">
-            <AppTOSPage />
-          </Route>
-          {/* Route /blog/:blogSlug loads the blog component with the variable as blogSlug */}
-          <Route path="/blog/:blogSlug" exact={true}>
-            <BlogPage />
-          </Route>
-          {/* wildcard, any non matching route gets redirected to /home */}
-          <Route>
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
+        {/* SettingsProvider is used to provide the settings context data to the app */}
+        <SettingsProvider>
+          {/* IonRouterOutlet renders the pages based on the path */}
+          <IonRouterOutlet>
+            {/* Route / redirects to /home */}
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+            {/* Route /home loads the Home component */}
+            <Route exact path="/home">
+              <HomePage />
+            </Route>
+            {/* Route /about loads the About component */}
+            <Route exact path="/about">
+              <AboutPage />
+            </Route>
+            {/* Route /projects loads the Projects component */}
+            <Route exact path="/projects">
+              <ProjectsPage />
+            </Route>
+            {/* Route /contact loads the Contact component */}
+            <Route exact path="/contact">
+              <ContactPage />
+            </Route>
+            {/* Route /resume loads the Resume component */}
+            <Route exact path="/resume">
+              <ResumePage />
+            </Route>
+            {/* Route //litestep-ios-app-privacy-policy loads the AppPrivacy component */}
+            <Route exact path="/litestep-ios-app-privacy-policy">
+              <AppPrivacyPage />
+            </Route>
+            {/* Route //litestep-ios-app-terms-of-use loads the AppTOS component */}
+            <Route exact path="/litestep-ios-app-terms-of-use">
+              <AppTOSPage />
+            </Route>
+            {/* Route /blog/:blogSlug loads the blog component with the variable as blogSlug */}
+            <Route path="/blog/:blogSlug" exact={true}>
+              <BlogPage />
+            </Route>
+            {/* wildcard, any non matching route gets redirected to /home */}
+            <Route>
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+        </SettingsProvider>
       </BlogProvider>
     </IonReactRouter>
   </IonApp>
