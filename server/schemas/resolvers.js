@@ -26,7 +26,6 @@ export const resolvers = {
         username,
         email,
         password,
-        online: true,
       });
       const token = signToken(user);
       return { token, user };
