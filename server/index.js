@@ -8,7 +8,7 @@ import path from "path"; // import path module from Node.js
 import { typeDefs, resolvers } from "./schemas/index.js"; // import typeDefs and resolvers from schemas/typeDefs.js
 import { makeExecutableSchema } from "@graphql-tools/schema"; // import makeExecutableSchema function to be configured with the Apollo Server
 import { authMiddleware } from "./utils/auth.js"; // import authMiddleware function to be configured with the Apollo Server
-import { rateLimitMiddleware } from "./utils/ratelimit.js"; // import rateLimitMiddleware function to be configured with the Apollo Server
+// import { rateLimitMiddleware } from "./utils/ratelimit.js"; // import rateLimitMiddleware function to be configured with the Apollo Server
 import helmet from "helmet";
 import compression from "compression";
 
@@ -24,16 +24,29 @@ const app = express();
 
 app.use(urlencoded({ extended: false })); // add middleware to parse incoming JSON data
 app.use(json()); // add middleware to parse incoming JSON data
-app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
+// app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
 app.use(compression()); // add compression middleware to Express app
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "misfitgirl.com"],
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        imgSrc: [
+          `'self'`,
+          "data:",
+          "misfitgirl.com",
+          "apollo-server-landing-page.cdn.apollographql.com",
+        ],
+        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+        manifestSrc: [
+          `'self'`,
+          "apollo-server-landing-page.cdn.apollographql.com",
+        ],
+        frameSrc: [`'self'`, "sandbox.embed.apollographql.com"],
+      },
     },
-  },
-})); // add helmet middleware to Express app
+  })
+); // add helmet middleware to Express app
 app.use(
   cors(
     // add cors middleware to allow cross-origin requests
@@ -84,12 +97,6 @@ if (process.env.NODE_ENV === "production") {
 // Define any API routes before this runs
 // route to serve up the index.html page in client/dist directory
 app.get("/", (req, res) => {
-  res.sendFile(
-    path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
-  );
-});
-
-app.get("*", (req, res) => {
   res.sendFile(
     path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
   );
