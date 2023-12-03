@@ -6,12 +6,18 @@ import {
   IonIcon,
   IonInput,
   IonText,
+  useIonLoading,
 } from "@ionic/react";
 import Auth from "../utils/auth";
 import { warning } from "ionicons/icons";
+import { useEffect } from "react";
 
 const LoginComponent = () => {
   const [login, { error, data }] = useMutation(LOGIN_USER);
+  const [
+    present,
+    // dismiss
+  ] = useIonLoading();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -31,48 +37,51 @@ const LoginComponent = () => {
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      present({
+        message: "Logging in... Please wait.",
+        duration: 3000,
+      });
+    }
+  }, [data, present]);
+
   return (
     <>
       <IonCardTitle className="header ion-margin-top ion-margin-bottom">
         Login
       </IonCardTitle>
 
-      {data ? (
-        <p>
-          Success! Heading back to the homepage...
+      <form className="ion-padding" onSubmit={handleFormSubmit}>
+        <IonInput
+          label="Email Address"
+          labelPlacement="stacked"
+          placeholder="Email Address"
+          name="email"
+          type="email"
+          fill="outline"
+          mode="md"
+        ></IonInput>
+        <IonInput
+          className="ion-margin-top ion-margin-bottom"
+          label="Password"
+          labelPlacement="stacked"
+          placeholder="******"
+          name="password"
+          type="password"
+          fill="outline"
+          mode="md"
+        ></IonInput>
+        <p className="ion-text-center">
+          By logging in, you agree to our&nbsp;
+          <a href="/terms">Terms of Use</a>
+          &nbsp;and&nbsp;
+          <a href="/privacy">Privacy Policy</a>.
         </p>
-      ) : (
-        <form className="ion-padding" onSubmit={handleFormSubmit}>
-          <IonInput
-            label="Email Address"
-            labelPlacement="stacked"
-            placeholder="Email Address"
-            name="email"
-            type="email"
-            fill="outline"
-            mode="md"
-          ></IonInput>
-          <IonInput
-            className="ion-margin-top ion-margin-bottom"
-            label="Password"
-            labelPlacement="stacked"
-            placeholder="******"
-            name="password"
-            type="password"
-            fill="outline"
-            mode="md"
-          ></IonInput>
-          <p className="ion-text-center">
-            By logging in, you agree to our&nbsp;
-            <a href="/terms">Terms of Use</a>
-            &nbsp;and&nbsp;
-            <a href="/privacy">Privacy Policy</a>.
-          </p>
-          <IonButton expand="block" type="submit">
-            Log In
-          </IonButton>
-        </form>
-      )}
+        <IonButton expand="block" type="submit">
+          Log In
+        </IonButton>
+      </form>
       {/* Show error message if login fails */}
       {error && (
         <IonText color="danger">

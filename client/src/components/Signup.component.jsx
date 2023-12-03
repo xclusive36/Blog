@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { IonButton, IonCardTitle, IonInput } from "@ionic/react";
+import { useEffect, useState } from "react";
+import { IonButton, IonCardTitle, IonInput, useIonLoading } from "@ionic/react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
@@ -9,6 +9,19 @@ const SignupComponent = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [
+    present,
+    // dismiss
+  ] = useIonLoading();
+
+  useEffect(() => {
+    if (data) {
+      present({
+        message: "Signing in... Please wait.",
+        duration: 3000,
+      });
+    }
+  }, [data, present]);
 
   // the passwordpattern requires at least one number, one lowercase letter, one uppercase letter, and one special character
   const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/; // regex pattern for password validation
@@ -82,76 +95,69 @@ const SignupComponent = () => {
         Signup
       </IonCardTitle>
 
-      {/* If data exists (successful user creation), show success message */}
-      {data ? (
-        <p>
-          Success! You may now head <a href="/">back to the homepage.</a>
+      <form className="ion-padding" onSubmit={handleFormSubmit}>
+        <IonInput
+          className="ion-margin-top ion-margin-bottom"
+          label="Username"
+          name="username"
+          labelPlacement="stacked"
+          fill="outline"
+          placeholder="Username"
+          mode="md"
+          onBlur={(event) => setUserName(event.target.value)}
+        />
+
+        {username && !namePattern.test(username) && (
+          <p className="help is-danger">This username is invalid</p>
+        )}
+
+        <IonInput
+          className="ion-margin-top ion-margin-bottom"
+          label="Email Address"
+          name="email"
+          labelPlacement="stacked"
+          fill="outline"
+          placeholder="Email Address"
+          mode="md"
+          onBlur={(event) => setEmail(event.target.value)}
+        />
+
+        {email && !emailPattern.test(email) && (
+          <p className="help is-danger">This email is invalid</p>
+        )}
+
+        <IonInput
+          className="ion-margin-top ion-margin-bottom"
+          label="Password"
+          name="password"
+          labelPlacement="stacked"
+          fill="outline"
+          placeholder="Password"
+          type="password"
+          mode="md"
+          onBlur={(event) => setPassword(event.target.value)}
+        />
+
+        {password && !passwordPattern.test(password) && (
+          <>
+            <p className="help is-danger">This password is invalid</p>
+            <p className="help">
+              Password must contain at least one number, one lowercase letter,
+              one uppercase letter, and one special character!
+            </p>
+          </>
+        )}
+
+        <p className="ion-text-center">
+          By Signing up, you agree to our&nbsp;
+          <a href="/terms">Terms of Use</a>
+          &nbsp;and&nbsp;
+          <a href="/privacy">Privacy Policy</a>.
         </p>
-      ) : (
-        <form className="ion-padding" onSubmit={handleFormSubmit}>
-          <IonInput
-            className="ion-margin-top ion-margin-bottom"
-            label="Username"
-            name="username"
-            labelPlacement="stacked"
-            fill="outline"
-            placeholder="Username"
-            mode="md"
-            onBlur={(event) => setUserName(event.target.value)}
-          />
-
-          {username && !namePattern.test(username) && (
-            <p className="help is-danger">This username is invalid</p>
-          )}
-
-          <IonInput
-            className="ion-margin-top ion-margin-bottom"
-            label="Email Address"
-            name="email"
-            labelPlacement="stacked"
-            fill="outline"
-            placeholder="Email Address"
-            mode="md"
-            onBlur={(event) => setEmail(event.target.value)}
-          />
-
-          {email && !emailPattern.test(email) && (
-            <p className="help is-danger">This email is invalid</p>
-          )}
-
-          <IonInput
-            className="ion-margin-top ion-margin-bottom"
-            label="Password"
-            name="password"
-            labelPlacement="stacked"
-            fill="outline"
-            placeholder="Password"
-            type="password"
-            mode="md"
-            onBlur={(event) => setPassword(event.target.value)}
-          />
-
-          {password && !passwordPattern.test(password) && (
-            <>
-              <p className="help is-danger">This password is invalid</p>
-              <p className="help">
-                Password must contain at least one number, one lowercase letter,
-                one uppercase letter, and one special character!
-              </p>
-            </>
-          )}
-
-          <p className="ion-text-center">
-            By Signing up, you agree to our&nbsp;
-            <a href="/terms">Terms of Use</a>
-            &nbsp;and&nbsp;
-            <a href="/privacy">Privacy Policy</a>.
-          </p>
-          <IonButton expand="block" type="submit">
-            Signup
-          </IonButton>
-        </form>
-      )}
+        <IonButton expand="block" type="submit">
+          Signup
+        </IonButton>
+      </form>
       {error && <p className="help is-danger">{error.message}</p>}
     </>
   );

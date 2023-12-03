@@ -29,7 +29,11 @@ class AuthService {
 
   login(idToken) {
     localStorage.setItem("id_token", idToken);
-    window.location.assign("/");
+    if (window.location.pathname === "/account") {
+      window.location.assign("/");
+      return;
+    }
+    window.location.reload();
   }
 
   logout() {
