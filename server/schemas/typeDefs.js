@@ -25,18 +25,13 @@ export const typeDefs = `#graphql
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
   # case, the "users" query returns an array of zero or more Users (defined above).
   # The "user" query returns a single User (defined above).
+  # The "books" query returns an array of zero or more Books (defined above).
   type Query {
     users: [User]
     user(_id: ID!): User
+    books: [Book]
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that

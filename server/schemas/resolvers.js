@@ -16,13 +16,14 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (
-      parent,
-      { firstName, lastName, username, email, password }
-    ) => {
+    addUser: async (parent, { username, email, password }) => {
+      if (!email || !password || !username) {
+        throw new AuthenticationError(
+          "You need to provide a username, email, and password!"
+        );
+      }
+
       const user = await User.create({
-        firstName,
-        lastName,
         username,
         email,
         password,
@@ -40,6 +41,12 @@ export const resolvers = {
       return user;
     },
     login: async (parent, { email, password }) => {
+      if (!email || !password) {
+        throw new AuthenticationError(
+          "You need to provide an email and password!"
+        );
+      }
+
       const user = await User.findOne({ email });
 
       if (!user) {

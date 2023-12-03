@@ -20,3 +20,16 @@ export const QUERY_USERS = gql`
     }
   }
 `;
+
+// query books
+export const QUERY_BOOKS = gql`
+  query getBooks {
+    books {
+      _id
+      title
+      description
+      image
+      link
+    }
+  }
+`;

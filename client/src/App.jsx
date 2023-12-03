@@ -3,13 +3,11 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { BlogProvider } from "./context/blogContext";
 import {
-  split,
   ApolloClient,
   InMemoryCache,
   createHttpLink,
   ApolloProvider,
 } from "@apollo/client";
-import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
 /* Core CSS required for Ionic components to work properly */
@@ -55,11 +53,10 @@ const httpLink = createHttpLink({
   }/graphql`,
 });
 
-// get the authentication token from local storage if it exists
-const token = localStorage.getItem("id_token");
-
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem("id_token");
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -71,19 +68,40 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const splitLink = split(({ query }) => {
-  const definition = getMainDefinition(query);
-  return (
-    definition.kind === "OperationDefinition" &&
-    definition.operation === "subscription"
-  );
-}, authLink.concat(httpLink));
-
 // Create the Apollo client with authentication middleware and a cache
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
-  link: splitLink,
-  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          users: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            // keyArgs: false,
+
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
+          books: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            // keyArgs: false,
+
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
 });
 
 const App = () => (
