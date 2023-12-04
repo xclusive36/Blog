@@ -17,10 +17,19 @@ export const typeDefs = `#graphql
     user: User
   }
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
+  # This "Blog" type defines the queryable fields for every blog in our data source.
+  type Blog {
+    _id: ID
+    userID: String
     title: String
-    author: String
+    subtitle: String
+    imageURL: String
+    imageAlt: String
+    date: String
+    slug: String
+    introduction: String
+    content: String
+    approved: Boolean
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -31,7 +40,12 @@ export const typeDefs = `#graphql
   type Query {
     users: [User]
     user(_id: ID!): User
-    books: [Book]
+    allBlogs: [Blog]
+    unapprovedBlogs: [Blog]
+    approvedBlogs: [Blog]
+    myUnapprovedBlogs(userID: String!): [Blog]
+    myBlogs(userID: String!): [Blog]
+    myApprovedBlogs(userID: String!): [Blog]
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that
@@ -42,5 +56,6 @@ export const typeDefs = `#graphql
     addUser(username: String!, email: String!, password: String!): Auth
     removeUser(_id: ID!): User
     login(email: String!, password: String!): Auth
+    addBlog(userID: String!, title: String!, subtitle: String!, imageURL: String, imageAlt: String, date: String!, slug: String!, introduction: String!, content: String!, approved: Boolean): Blog
   }
 `;

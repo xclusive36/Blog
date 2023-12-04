@@ -21,15 +21,116 @@ export const QUERY_USERS = gql`
   }
 `;
 
-// query books
-export const QUERY_BOOKS = gql`
-  query getBooks {
-    books {
+// query allBlogs
+export const QUERY_ALL_BLOGS = gql`
+  query allBlogs {
+    allBlogs {
       _id
+      userID
       title
-      description
-      image
-      link
+      subtitle
+      imageURL
+      imageAlt
+      date
+      slug
+      introduction
+      content
+      approved
+    }
+  }
+`;
+
+// query unapprovedBlogs
+export const QUERY_UNAPPROVED_BLOGS = gql`
+  query unapprovedBlogs {
+    unapprovedBlogs {
+      _id
+      userID
+      title
+      subtitle
+      imageURL
+      imageAlt
+      date
+      slug
+      introduction
+      content
+      approved
+    }
+  }
+`;
+
+// query approvedBlogs
+export const QUERY_APPROVED_BLOGS = gql`
+  query approvedBlogs {
+    approvedBlogs {
+      _id
+      userID
+      title
+      subtitle
+      imageURL
+      imageAlt
+      date
+      slug
+      introduction
+      content
+      approved
+    }
+  }
+`;
+
+// query myUnapprovedBlogs
+export const QUERY_MY_UNAPPROVED_BLOGS = gql`
+  query myUnapprovedBlogs($userID: String!) {
+    myUnapprovedBlogs(userID: $userID) {
+      _id
+      userID
+      title
+      subtitle
+      imageURL
+      imageAlt
+      date
+      slug
+      introduction
+      content
+      approved
+    }
+  }
+`;
+
+// query myBlogs
+export const QUERY_MY_BLOGS = gql`
+  query myBlogs($userID: String!) {
+    myBlogs(userID: $userID) {
+      _id
+      userID
+      title
+      subtitle
+      imageURL
+      imageAlt
+      date
+      slug
+      introduction
+      content
+      approved
+    }
+  }
+`;
+
+// query myApprovedBlogs
+export const QUERY_MY_APPROVED_BLOGS = gql`
+  query myApprovedBlogs($userID: String!) {
+    myApprovedBlogs(userID: $userID) {
+      _id
+      userID
+      title
+      subtitle
+      imageURL
+      imageAlt
+      date
+      slug
+      introduction
+      content
+      approved
     }
   }
 `;

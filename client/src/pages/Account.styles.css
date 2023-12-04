@@ -1,0 +1,11 @@
+.blog-item-link {
+  text-decoration: underline;
+  color: var(--ion-color-primary);
+  font-weight: 400;
+}
+
+.submitted-on {
+  font-size: small;
+  font-weight: 400;
+  text-decoration: none;
+}

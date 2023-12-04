@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const blogArray = [
   // {
   //   id: "",
+  //   userID: "",
   //   title: "",
   //   subtitle: "",
   //   imageURL: "",
@@ -15,6 +16,7 @@ const blogArray = [
   // },
   {
     id: "8",
+    userID: "1",
     title: "Create a few new basic React components and use them!",
     subtitle: "Let's start by creating a component folder, a new component jsx file and an accompanying css file",
     imageURL:
@@ -146,6 +148,7 @@ We'll add a bit more detail in those components in the next post.
   },
   {
     id: "7",
+    userID: "1",
     title: "Focus on the simplistic structure of a component",
     subtitle: "What is a src folder?",
     imageURL:
@@ -279,6 +282,7 @@ In the next blog, we will create some components!`,
   },
   {
     id: "6",
+    userID: "1",
     title: "Breaking down the application file structure a wee bit",
     subtitle:
       "The folder structure of a new Vite application is very simple and easy to understand",
@@ -308,6 +312,7 @@ I'll continue by breaking down the src folder in the next post.
   },
   {
     id: "5",
+    userID: "1",
     title: "Starting out with a new project, a new blog, and a new portfolio",
     subtitle:
       "Beginning Tutorial on how to create a new Ionic Framework React application with Typescript using Node.js",
@@ -403,6 +408,7 @@ Thanks for following along. I'll see you in the next blog.
   },
   {
     id: "4",
+    userID: "1",
     title: "Calling all wax melt lovers, delicious scents you will love",
     subtitle: "Soy wax melts are a great way to add fragrance to your home",
     imageURL:
@@ -435,6 +441,7 @@ Handcrafted wax melts are a great way to add fragrance to your home. They are al
   },
   {
     id: "3",
+    userID: "1",
     title:
       "The past history of the LiteStep application and its community of users and developers",
     subtitle:
@@ -457,6 +464,7 @@ Please read up on the history of LiteStep through your favorite search engine an
   },
   {
     id: "2",
+    userID: "1",
     title: "Building a new Portfolio Website with Ionic Framework using React",
     subtitle: "Building a thing!",
     imageURL:
@@ -479,6 +487,7 @@ The source code to this project is available at [Github.com](https://github.com/
   },
   {
     id: "1",
+    userID: "1",
     title: "Welcome to my fresh new Tech Blog and Portfolio",
     subtitle: "Putting myself out there!",
     imageURL:

@@ -1,4 +1,4 @@
-import { User, Book } from "../models/index.js";
+import { User, Blog } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -11,8 +11,23 @@ export const resolvers = {
     user: async (parent, { _id }) => {
       return User.findOne({ _id });
     },
-    books: async () => {
-      return Book.find();
+    allBlogs: async () => {
+      return Blog.find();
+    },
+    unapprovedBlogs: async () => {
+      return Blog.find({ approved: false });
+    },
+    approvedBlogs: async () => {
+      return Blog.find({ approved: true });
+    },
+    myUnapprovedBlogs: async (parent, { userID }) => {
+      return Blog.find({ userID, approved: false });
+    },
+    myBlogs: async (parent, { userID }) => {
+      return Blog.find({ userID });
+    },
+    myApprovedBlogs: async (parent, { userID }) => {
+      return Blog.find({ userID, approved: true });
     },
   },
   Mutation: {
@@ -62,6 +77,36 @@ export const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    addBlog: async (
+      parent,
+      {
+        userID,
+        title,
+        subtitle,
+        imageURL,
+        imageAlt,
+        date,
+        slug,
+        introduction,
+        content,
+        approved,
+      }
+    ) => {
+      const blog = await Blog.create({
+        userID,
+        title,
+        subtitle,
+        imageURL,
+        imageAlt,
+        date,
+        slug,
+        introduction,
+        content,
+        approved,
+      });
+
+      return blog;
     },
   },
 };

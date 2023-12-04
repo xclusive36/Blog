@@ -49,7 +49,7 @@ const HeaderComponent = () => {
           <IonButtons slot="end" className="header-buttons">
             {Auth.loggedIn() ? (
               <>
-                <IonButton>
+                <IonButton href="/account">
                   <IonIcon
                     slot="start"
                     icon={personCircleOutline}

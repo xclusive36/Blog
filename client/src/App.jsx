@@ -9,6 +9,8 @@ import {
   ApolloProvider,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { SettingsProvider } from "./context/settingsContext";
+import Auth from "./utils/auth";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -38,9 +40,9 @@ import ResumePage from "./pages/Resume.page";
 import AppTOSPage from "./pages/AppTOS.page";
 import AppPrivacyPage from "./pages/AppPrivacy.page";
 import BlogPage from "./pages/Blog.page";
-import { SettingsProvider } from "./context/settingsContext";
-
-import Auth from "./utils/auth";
+import AccountPage from "./pages/Account.page";
+import PrivacyPage from "./pages/Privacy.page";
+import TermsPage from "./pages/Terms.page";
 
 setupIonicReact();
 
@@ -150,6 +152,18 @@ const App = () => (
               {/* Route /blog/:blogSlug loads the blog component with the variable as blogSlug */}
               <Route path="/blog/:blogSlug" exact={true}>
                 <BlogPage />
+              </Route>
+              {/* Route /account loads the Account component */}
+              <Route exact path="/account">
+                <AccountPage />
+              </Route>
+              {/* Route /privacy loads the Privacy component */}
+              <Route exact path="/privacy">
+                <PrivacyPage />
+              </Route>
+              {/* Route /terms loads the Terms component */}
+              <Route exact path="/terms">
+                <TermsPage />
               </Route>
               {/* wildcard, any non matching route gets redirected to /home */}
               <Route>
