@@ -26,6 +26,7 @@ import {
   QUERY_APPROVED_BLOGS,
   QUERY_MY_UNAPPROVED_BLOGS,
 } from "../utils/queries";
+import MarkdownEditor from "../components/MarkdownEditor.component";
 
 import "./Account.styles.css";
 
@@ -97,9 +98,7 @@ const AccountPage = () => {
       {loginStatus && (
         <div className="home-container">
           <h1 className="ion-text-center">Account</h1>
-          <IonButton expand="full" fill="clear">
-            Create a new blog
-          </IonButton>
+          <MarkdownEditor />
           <IonGrid>
             <IonRow>
               <IonCol sizeXs="12" sizeSm="6">
