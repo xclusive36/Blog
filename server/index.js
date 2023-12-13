@@ -34,8 +34,8 @@ app.use(
         imgSrc: [
           `'self'`,
           "data:",
-          "misfitgirl.com",
-          "apollo-server-landing-page.cdn.apollographql.com",
+          // "apollo-server-landing-page.cdn.apollographql.com",
+          "*", // allow all sources to load images (not recommended)
         ],
         scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
         manifestSrc: [

@@ -4,6 +4,11 @@
 export const typeDefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
+  type Administrator {
+    _id: ID
+    userID: String
+  }
+
   # This "User" type defines the queryable fields for every user in our data source.
   type User {
     _id: ID
@@ -38,14 +43,15 @@ export const typeDefs = `#graphql
   # The "user" query returns a single User (defined above).
   # The "books" query returns an array of zero or more Books (defined above).
   type Query {
+    amIAdmin: Administrator
     users: [User]
     user(_id: ID!): User
     allBlogs: [Blog]
     unapprovedBlogs: [Blog]
     approvedBlogs: [Blog]
-    myUnapprovedBlogs(userID: String!): [Blog]
-    myBlogs(userID: String!): [Blog]
-    myApprovedBlogs(userID: String!): [Blog]
+    myUnapprovedBlogs: [Blog]
+    myBlogs: [Blog]
+    myApprovedBlogs: [Blog]
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that
@@ -53,9 +59,13 @@ export const typeDefs = `#graphql
   # case, the "addUser" mutation returns an Auth (defined above).
   # The "login" mutation returns an Auth (defined above).
   type Mutation {
+    addAdministrator(userID: String!): Administrator
     addUser(username: String!, email: String!, password: String!): Auth
     removeUser(_id: ID!): User
     login(email: String!, password: String!): Auth
-    addBlog(userID: String!, title: String!, subtitle: String!, imageURL: String, imageAlt: String, date: String!, slug: String!, introduction: String!, content: String!, approved: Boolean): Blog
+    addBlog(title: String!, subtitle: String!, imageURL: String, imageAlt: String, introduction: String!, content: String!): Blog
+    approveBlog(_id: ID!): Blog
+    updateBlog(_id: ID!, title: String!, subtitle: String!, imageURL: String, imageAlt: String, date: String!, slug: String!, introduction: String!, content: String!, approved: Boolean): Blog
+    removeBlog(_id: ID!): Blog
   }
 `;

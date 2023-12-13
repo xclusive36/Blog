@@ -20,11 +20,12 @@ import { useEffect, useState } from "react";
 
 import Auth from "../utils/auth";
 import PageComponent from "../components/Page.component";
-import { checkmarkOutline, hourglassOutline } from "ionicons/icons";
+import { squareOutline, checkboxOutline } from "ionicons/icons";
 
 import {
   QUERY_APPROVED_BLOGS,
   QUERY_MY_UNAPPROVED_BLOGS,
+  QUERY_AM_I_ADMIN,
 } from "../utils/queries";
 import MarkdownEditor from "../components/MarkdownEditor.component";
 
@@ -42,18 +43,29 @@ const AccountPage = () => {
     loading: loadingUnapproved,
     error: errorUnapproved,
     data: dataUnapproved,
-  } = useQuery(QUERY_MY_UNAPPROVED_BLOGS, {
-    variables: { userID: Auth.getToken() },
-  });
+  } = useQuery(QUERY_MY_UNAPPROVED_BLOGS);
 
   // query for approved blogs
   const {
     loading: loadingApproved,
     error: errorApproved,
     data: dataApproved,
-  } = useQuery(QUERY_APPROVED_BLOGS, {
-    variables: { userID: Auth.getToken() },
-  });
+  } = useQuery(QUERY_APPROVED_BLOGS);
+
+  // query for admin status
+  const { error: errorAdmin, data: dataAdmin } = useQuery(QUERY_AM_I_ADMIN);
+
+  useEffect(() => {
+    if (dataAdmin) {
+      console.log(dataAdmin);
+    }
+  }, [dataAdmin]);
+
+  useEffect(() => {
+    if (errorAdmin) {
+      console.log(errorAdmin);
+    }
+  }, [errorAdmin]);
 
   const [isUnapprovedLoading, setIsUnapprovedLoading] = useState(false);
   const [isApprovedLoading, setIsApprovedLoading] = useState(false);
@@ -97,7 +109,6 @@ const AccountPage = () => {
     <PageComponent>
       {loginStatus && (
         <div className="home-container">
-          <h1 className="ion-text-center">Account</h1>
           <MarkdownEditor />
           <IonGrid>
             <IonRow>
@@ -134,7 +145,7 @@ const AccountPage = () => {
                             </div>
                           </IonLabel>
                           <IonText>
-                            <IonIcon icon={hourglassOutline} color="dark" />
+                            <IonIcon icon={squareOutline} color="dark" />
                           </IonText>
                         </IonItem>
                       ))}
@@ -205,7 +216,7 @@ const AccountPage = () => {
                             </div>
                           </IonLabel>
                           <IonText>
-                            <IonIcon icon={checkmarkOutline} color="success" />
+                            <IonIcon icon={checkboxOutline} color="success" />
                           </IonText>
                         </IonItem>
                       ))}

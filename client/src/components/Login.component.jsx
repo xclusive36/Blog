@@ -86,7 +86,7 @@ const LoginComponent = () => {
       {error && (
         <IonText color="danger">
           <IonIcon slot="start" icon={warning} />
-          {error.message}
+          {error.message && ("Email or password is incorrect.")}
         </IonText>
       )}
     </>

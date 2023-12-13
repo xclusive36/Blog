@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const QUERY_USER = gql`
   query getUser($username: String!) {
     user(username: $username) {
-      _id
       username
       email
     }
@@ -80,8 +79,8 @@ export const QUERY_APPROVED_BLOGS = gql`
 
 // query myUnapprovedBlogs
 export const QUERY_MY_UNAPPROVED_BLOGS = gql`
-  query myUnapprovedBlogs($userID: String!) {
-    myUnapprovedBlogs(userID: $userID) {
+  query myUnapprovedBlogs {
+    myUnapprovedBlogs {
       _id
       userID
       title
@@ -99,8 +98,8 @@ export const QUERY_MY_UNAPPROVED_BLOGS = gql`
 
 // query myBlogs
 export const QUERY_MY_BLOGS = gql`
-  query myBlogs($userID: String!) {
-    myBlogs(userID: $userID) {
+  query myBlogs {
+    myBlogs {
       _id
       userID
       title
@@ -118,8 +117,8 @@ export const QUERY_MY_BLOGS = gql`
 
 // query myApprovedBlogs
 export const QUERY_MY_APPROVED_BLOGS = gql`
-  query myApprovedBlogs($userID: String!) {
-    myApprovedBlogs(userID: $userID) {
+  query myApprovedBlogs {
+    myApprovedBlogs {
       _id
       userID
       title
@@ -131,6 +130,16 @@ export const QUERY_MY_APPROVED_BLOGS = gql`
       introduction
       content
       approved
+    }
+  }
+`;
+
+// query amIAdmin
+export const QUERY_AM_I_ADMIN = gql`
+  query amIAdmin {
+    amIAdmin {
+      _id
+      userID
     }
   }
 `;
