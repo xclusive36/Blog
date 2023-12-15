@@ -8,24 +8,14 @@ export const resolvers = {
   Query: {
     amIAdmin: async (parent, args, context) => {
       if (context.user) {
-        // If you are logged in
+        // pull objects out of context
+        let { user } = context;
+        user = JSON.parse(user);
 
-        const { user } = context; // pull objects out of context
-        user = JSON.parse(user); // parse the user object
-
-        // find if context user id is in the administrators array
-        const admin = await Administrator.findOne({ userID: user._id });
-
-        if (!admin) {
-          // If no admin is found
-          throw new AuthenticationError("You are not an admin!"); // Throw an error message
-        }
-
-        return admin; // Return the admin object
-      } else {
-        // If you are not logged in
-        throw new AuthenticationError("You need to be logged in!"); // Throw an error message
+        return Administrator.findOne({ userID: user._id });
       }
+
+      throw new AuthenticationError("You need to be logged in!"); // Throw an error message
     },
     users: async () => {
       return User.find();
@@ -42,17 +32,6 @@ export const resolvers = {
     approvedBlogs: async () => {
       return Blog.find({ approved: true });
     },
-    myUnapprovedBlogs: async (parent, args, context) => {
-      if (context.user) {
-        // pull objects out of context
-        let { user } = context;
-        user = JSON.parse(user);
-
-        return Blog.find({ userID: user._id, approved: false });
-      }
-
-      throw new AuthenticationError("You need to be logged in!"); // Throw an error message
-    },
     myBlogs: async (parent, args, context) => {
       if (context.user) {
         // pull objects out of context
@@ -64,14 +43,84 @@ export const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!"); // Throw an error message
     },
-    myApprovedBlogs: async (parent, args, context) => {
+    myUnapprovedBlogs: async (
+      // This resolver is used to get the user's unapproved blogs and the count of the user's unapproved blogs
+      parent, // parent is the return value of the resolver for this field's parent (the field one level above)
+      { offset = 0, limit = 5, searchTerm = "" }, // offset is the number of documents to skip, limit is the number of documents to return, searchTerm is the string to search for
+      context // context is an object shared by all resolvers in a particular query, and is used to contain per-request state, including authentication information, dataloader instances, and anything else that should be taken into account when resolving the query
+    ) => {
       if (context.user) {
-        // pull objects out of context
-        let { user } = context;
-        user = JSON.parse(user);
+        // If you are logged in
+        let { user } = context; // pull objects out of context
+        user = JSON.parse(user); // parse the user object from a string to an object
 
-        return Blog.find({ userID: user._id, approved: true });
+        const query = {};
+        if (searchTerm) {
+          query.name = {
+            $regex: searchTerm,
+            $options: "i",
+          };
+        }
+
+        const unapprovedBlogs = await Blog.find({
+          userID: user._id,
+          approved: false,
+        })
+          .sort({ createdAt: -1 })
+          .skip(offset)
+          .limit(limit); // Find all unapproved blogs for the user in context
+        const unapprovedBlogsCount = await Blog.countDocuments({
+          userID: user._id,
+          approved: false,
+        }); // Count the number of unapproved blogs for the user in context
+
+        return {
+          unapprovedBlogs, // User unapproved blogs
+          unapprovedBlogsCount, // User unapproved blogs count
+        }; // Return the object
       }
+
+      throw new AuthenticationError("You need to be logged in!"); // Throw an error message if you are not logged in
+    },
+    myApprovedBlogs: async (
+      // This resolver is used to get the user's approved blogs and the count of the user's approved blogs
+      parent, // parent is the return value of the resolver for this field's parent (the field one level above)
+      { offset = 0, limit = 5, searchTerm = "" }, // offset is the number of documents to skip, limit is the number of documents to return, searchTerm is the string to search for
+      context // context is an object shared by all resolvers in a particular query, and is used to contain per-request state, including authentication information, dataloader instances, and anything else that should be taken into account when resolving the query
+    ) => {
+      if (context.user) {
+        // If you are logged in
+        let { user } = context; // pull objects out of context
+        user = JSON.parse(user); // parse the user object from a string to an object
+
+        const query = {};
+        if (searchTerm) {
+          query.name = {
+            $regex: searchTerm,
+            $options: "i",
+          };
+        }
+
+        const approvedBlogs = await Blog.find({
+          userID: user._id,
+          approved: true,
+        })
+          .sort({ createdAt: -1 })
+          .skip(offset)
+          .limit(limit); // Find all approved blogs for the user in context
+
+        const approvedBlogsCount = await Blog.countDocuments({
+          userID: user._id,
+          approved: true,
+        }); // Count the number of approved blogs for the user in context
+
+        return {
+          approvedBlogs, // User approved blogs
+          approvedBlogsCount, // User approved blogs count
+        }; // Return the object
+      }
+
+      throw new AuthenticationError("You need to be logged in!"); // Throw an error message if you are not logged in
     },
   },
   Mutation: {

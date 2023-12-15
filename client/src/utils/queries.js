@@ -77,48 +77,10 @@ export const QUERY_APPROVED_BLOGS = gql`
   }
 `;
 
-// query myUnapprovedBlogs
-export const QUERY_MY_UNAPPROVED_BLOGS = gql`
-  query myUnapprovedBlogs {
-    myUnapprovedBlogs {
-      _id
-      userID
-      title
-      subtitle
-      imageURL
-      imageAlt
-      date
-      slug
-      introduction
-      content
-      approved
-    }
-  }
-`;
-
 // query myBlogs
 export const QUERY_MY_BLOGS = gql`
   query myBlogs {
     myBlogs {
-      _id
-      userID
-      title
-      subtitle
-      imageURL
-      imageAlt
-      date
-      slug
-      introduction
-      content
-      approved
-    }
-  }
-`;
-
-// query myApprovedBlogs
-export const QUERY_MY_APPROVED_BLOGS = gql`
-  query myApprovedBlogs {
-    myApprovedBlogs {
       _id
       userID
       title
@@ -140,6 +102,50 @@ export const QUERY_AM_I_ADMIN = gql`
     amIAdmin {
       _id
       userID
+    }
+  }
+`;
+
+// query myUnapprovedBlogs
+export const QUERY_MY_UNAPPROVED_BLOGS = gql`
+  query myUnapprovedBlogs($offset: Int, $limit: Int, $searchTerm: String) {
+    myUnapprovedBlogs(offset: $offset, limit: $limit, searchTerm: $searchTerm) {
+      unapprovedBlogs {
+        _id
+        userID
+        title
+        subtitle
+        imageURL
+        imageAlt
+        date
+        slug
+        introduction
+        content
+        approved
+      }
+      unapprovedBlogsCount
+    }
+  }
+`;
+
+// query myApprovedBlogs
+export const QUERY_MY_APPROVED_BLOGS = gql`
+  query myApprovedBlogs($offset: Int, $limit: Int, $searchTerm: String) {
+    myApprovedBlogs(offset: $offset, limit: $limit, searchTerm: $searchTerm) {
+      approvedBlogs {
+        _id
+        userID
+        title
+        subtitle
+        imageURL
+        imageAlt
+        date
+        slug
+        introduction
+        content
+        approved
+      }
+      approvedBlogsCount
     }
   }
 `;

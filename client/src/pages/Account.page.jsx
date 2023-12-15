@@ -20,12 +20,11 @@ import { useEffect, useState } from "react";
 
 import Auth from "../utils/auth";
 import PageComponent from "../components/Page.component";
-import { squareOutline, checkboxOutline } from "ionicons/icons";
+import { closeCircle } from "ionicons/icons";
 
 import {
-  QUERY_APPROVED_BLOGS,
   QUERY_MY_UNAPPROVED_BLOGS,
-  QUERY_AM_I_ADMIN,
+  QUERY_MY_APPROVED_BLOGS,
 } from "../utils/queries";
 import MarkdownEditor from "../components/MarkdownEditor.component";
 
@@ -33,76 +32,110 @@ import "./Account.styles.css";
 
 const AccountPage = () => {
   const loginStatus = Auth.loggedIn();
+
   useEffect(() => {
     // redirect to login if not logged in
     loginStatus || window.location.assign("/home");
   }, [loginStatus]);
 
-  // query for blogs waiting approval
+  const [searchTermUnapproved, setSearchTermUnapproved] = useState("");
+  const [searchTermApproved, setSearchTermApproved] = useState("");
+
+  // query for my unapproved blogs
   const {
     loading: loadingUnapproved,
     error: errorUnapproved,
     data: dataUnapproved,
-  } = useQuery(QUERY_MY_UNAPPROVED_BLOGS);
+    fetchMore: fetchMoreUnapproved,
+  } = useQuery(QUERY_MY_UNAPPROVED_BLOGS, {
+    variables: { offset: 0, limit: 5, searchTerm: searchTermUnapproved },
+    fetchPolicy: "cache-and-network",
+  });
 
-  // query for approved blogs
+  // query for my approved blogs
   const {
     loading: loadingApproved,
     error: errorApproved,
     data: dataApproved,
-  } = useQuery(QUERY_APPROVED_BLOGS);
+    fetchMore: fetchMoreApproved,
+  } = useQuery(QUERY_MY_APPROVED_BLOGS, {
+    variables: { offset: 0, limit: 5, searchTerm: searchTermApproved },
+    fetchPolicy: "cache-and-network",
+  });
 
-  // query for admin status
-  const { error: errorAdmin, data: dataAdmin } = useQuery(QUERY_AM_I_ADMIN);
-
-  useEffect(() => {
-    if (dataAdmin) {
-      console.log(dataAdmin);
-    }
-  }, [dataAdmin]);
-
-  useEffect(() => {
-    if (errorAdmin) {
-      console.log(errorAdmin);
-    }
-  }, [errorAdmin]);
-
-  const [isUnapprovedLoading, setIsUnapprovedLoading] = useState(false);
-  const [isApprovedLoading, setIsApprovedLoading] = useState(false);
+  const [isLoadingUnapproved, setIsLoadingUnapproved] = useState(false);
+  const [isLoadingApproved, setIsLoadingApproved] = useState(false);
 
   const [unapprovedBlogs, setUnapprovedBlogs] = useState([]);
   const [approvedBlogs, setApprovedBlogs] = useState([]);
 
+  const [unapprovedBlogsCount, setUnapprovedBlogsCount] = useState(0);
+  const [approvedBlogsCount, setApprovedBlogsCount] = useState(0);
+
   useEffect(() => {
     loadingUnapproved
-      ? setIsUnapprovedLoading(true)
-      : setIsUnapprovedLoading(false);
+      ? setIsLoadingUnapproved(true)
+      : setIsLoadingUnapproved(false);
   }, [loadingUnapproved]);
 
   useEffect(() => {
-    loadingApproved ? setIsApprovedLoading(true) : setIsApprovedLoading(false);
+    loadingApproved ? setIsLoadingApproved(true) : setIsLoadingApproved(false);
   }, [loadingApproved]);
 
   useEffect(() => {
     if (dataUnapproved) {
-      setUnapprovedBlogs(dataUnapproved.myUnapprovedBlogs);
+      setUnapprovedBlogs(dataUnapproved.myUnapprovedBlogs.unapprovedBlogs);
+      setUnapprovedBlogsCount(
+        dataUnapproved.myUnapprovedBlogs.unapprovedBlogsCount
+      );
     }
   }, [dataUnapproved]);
 
   useEffect(() => {
     if (dataApproved) {
-      setApprovedBlogs(dataApproved.approvedBlogs);
+      setApprovedBlogs(dataApproved.myApprovedBlogs.approvedBlogs);
+      setApprovedBlogsCount(dataApproved.myApprovedBlogs.approvedBlogsCount);
     }
   }, [dataApproved]);
 
-  const handleLoadMoreUnapproved = (e) => {
-    e.preventDefault();
-    console.log("Load more unapproved blogs");
+  const handleLoadMoreUnapproved = async (e) => {
+    e.preventDefault(); // prevent page reload on form submit
+
+    try {
+      const { data } = await fetchMoreUnapproved({
+        variables: {
+          offset: unapprovedBlogs.length,
+          limit: 5,
+          searchTerm: searchTermUnapproved,
+        },
+      });
+      setUnapprovedBlogs([
+        ...unapprovedBlogs,
+        ...data.myUnapprovedBlogs.unapprovedBlogs,
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleLoadMoreApproved = (e) => {
     e.preventDefault();
-    console.log("Load more approved blogs");
+
+    try {
+      const { data } = fetchMoreApproved({
+        variables: {
+          offset: approvedBlogs.length,
+          limit: 5,
+          searchTerm: searchTermApproved,
+        },
+      });
+      setApprovedBlogs([
+        ...approvedBlogs,
+        ...data.myApprovedBlogs.approvedBlogs,
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -118,13 +151,14 @@ const AccountPage = () => {
                     <IonCardTitle>Blogs waiting approval:</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
-                    <IonSearchbar />
+                    <IonSearchbar disabled={unapprovedBlogs.length < 5} />
                     <IonList>
                       <IonListHeader>
-                        <IonLabel>Name:</IonLabel>
-                        <IonText>Approved:</IonText>
+                        <IonLabel>
+                          <b>Blogs:</b>
+                        </IonLabel>
                       </IonListHeader>
-                      {isUnapprovedLoading && (
+                      {isLoadingUnapproved && (
                         <IonItem>
                           <IonLabel className="ion-text-wrap">
                             <div>Loading...</div>
@@ -144,9 +178,9 @@ const AccountPage = () => {
                               Submitted: {blog.createdAt}
                             </div>
                           </IonLabel>
-                          <IonText>
-                            <IonIcon icon={squareOutline} color="dark" />
-                          </IonText>
+                          <IonButton fill="clear" color="danger" slot="end">
+                            <IonIcon slot="icon-only" icon={closeCircle} />
+                          </IonButton>
                         </IonItem>
                       ))}
                       {errorUnapproved && (
@@ -159,26 +193,34 @@ const AccountPage = () => {
                           </IonLabel>
                         </IonItem>
                       )}
-                      {unapprovedBlogs.length === 0 && !errorUnapproved ? (
-                        !isUnapprovedLoading && (
-                          <IonItem>
-                            <IonLabel className="ion-text-wrap">
-                              <div>No blogs waiting approval</div>
-                            </IonLabel>
-                          </IonItem>
-                        )
-                      ) : (
-                        <IonItem lines="none" className="ion-text-center">
-                          <IonLabel>
-                            <form onSubmit={handleLoadMoreUnapproved}>
-                              <IonButton type="submit" expand="block">
-                                <IonText className="small">Load More</IonText>
-                              </IonButton>
-                            </form>
-                            <div className="submitted-on">5 of 10</div>
-                          </IonLabel>
-                        </IonItem>
-                      )}
+                      {unapprovedBlogs.length === 0 && !errorUnapproved
+                        ? !isLoadingUnapproved && (
+                            <IonItem>
+                              <IonLabel className="ion-text-wrap">
+                                <div>No blogs waiting approval</div>
+                              </IonLabel>
+                            </IonItem>
+                          )
+                        : unapprovedBlogs.length < unapprovedBlogsCount && (
+                            <IonItem lines="none" className="ion-text-center">
+                              <IonLabel>
+                                <IonButton
+                                  onClick={handleLoadMoreUnapproved}
+                                  expand="block"
+                                  disabled={
+                                    unapprovedBlogs.length ===
+                                    unapprovedBlogsCount
+                                  }
+                                >
+                                  <IonText className="small">Load More</IonText>
+                                </IonButton>
+                                <div className="submitted-on">
+                                  {unapprovedBlogs.length} of{" "}
+                                  {unapprovedBlogsCount}
+                                </div>
+                              </IonLabel>
+                            </IonItem>
+                          )}
                     </IonList>
                   </IonCardContent>
                 </IonCard>
@@ -189,13 +231,14 @@ const AccountPage = () => {
                     <IonCardTitle>Active blogs:</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
-                    <IonSearchbar />
+                    <IonSearchbar disabled={approvedBlogs.length < 5} />
                     <IonList>
                       <IonListHeader>
-                        <IonLabel>Name:</IonLabel>
-                        <IonText>Approved:&nbsp;&nbsp;</IonText>
+                        <IonLabel>
+                          <b>Name:</b>
+                        </IonLabel>
                       </IonListHeader>
-                      {isApprovedLoading && (
+                      {isLoadingApproved && (
                         <IonItem>
                           <IonLabel className="ion-text-wrap">
                             <div>Loading...</div>
@@ -215,9 +258,9 @@ const AccountPage = () => {
                               Submitted: {blog.createdAt}
                             </div>
                           </IonLabel>
-                          <IonText>
-                            <IonIcon icon={checkboxOutline} color="success" />
-                          </IonText>
+                          <IonButton fill="clear" color="danger" slot="end">
+                            <IonIcon slot="icon-only" icon={closeCircle} />
+                          </IonButton>
                         </IonItem>
                       ))}
                       {errorApproved && (
@@ -230,26 +273,32 @@ const AccountPage = () => {
                           </IonLabel>
                         </IonItem>
                       )}
-                      {approvedBlogs.length === 0 && !errorApproved ? (
-                        !isApprovedLoading && (
-                          <IonItem>
-                            <IonLabel className="ion-text-wrap">
-                              <div>No active blogs</div>
-                            </IonLabel>
-                          </IonItem>
-                        )
-                      ) : (
-                        <IonItem lines="none" className="ion-text-center">
-                          <IonLabel>
-                            <form onSubmit={handleLoadMoreApproved}>
-                              <IonButton type="submit" expand="block">
-                                <IonText className="small">Load More</IonText>
-                              </IonButton>
-                            </form>
-                            <div className="submitted-on">5 of 10</div>
-                          </IonLabel>
-                        </IonItem>
-                      )}
+                      {approvedBlogs.length === 0 && !errorApproved
+                        ? !isLoadingApproved && (
+                            <IonItem>
+                              <IonLabel className="ion-text-wrap">
+                                <div>No active blogs</div>
+                              </IonLabel>
+                            </IonItem>
+                          )
+                        : approvedBlogs.length < approvedBlogsCount && (
+                            <IonItem lines="none" className="ion-text-center">
+                              <IonLabel>
+                                <IonButton
+                                  onClick={handleLoadMoreApproved}
+                                  disabled={
+                                    approvedBlogs.length === approvedBlogsCount
+                                  }
+                                  expand="block"
+                                >
+                                  <IonText className="small">Load More</IonText>
+                                </IonButton>
+                                <div className="submitted-on">
+                                  {approvedBlogs.length} of {approvedBlogsCount}
+                                </div>
+                              </IonLabel>
+                            </IonItem>
+                          )}
                     </IonList>
                   </IonCardContent>
                 </IonCard>

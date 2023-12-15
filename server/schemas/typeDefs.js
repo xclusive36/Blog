@@ -37,6 +37,23 @@ export const typeDefs = `#graphql
     approved: Boolean
   }
 
+  type MyBlogObject {
+    unapprovedBlogs: [Blog]
+    unapprovedBlogsCount: Int
+    approvedBlogs: [Blog]
+    approvedBlogsCount: Int
+  }
+
+  type myUnapproved {
+    unapprovedBlogs: [Blog]
+    unapprovedBlogsCount: Int
+  }
+
+  type myApproved {
+    approvedBlogs: [Blog]
+    approvedBlogsCount: Int
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "users" query returns an array of zero or more Users (defined above).
@@ -49,9 +66,9 @@ export const typeDefs = `#graphql
     allBlogs: [Blog]
     unapprovedBlogs: [Blog]
     approvedBlogs: [Blog]
-    myUnapprovedBlogs: [Blog]
     myBlogs: [Blog]
-    myApprovedBlogs: [Blog]
+    myUnapprovedBlogs(offset: Int, limit: Int, searchTerm: String): myUnapproved
+    myApprovedBlogs(offset: Int, limit: Int, searchTerm: String): myApproved
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that
