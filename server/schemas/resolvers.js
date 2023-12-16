@@ -54,24 +54,19 @@ export const resolvers = {
         let { user } = context; // pull objects out of context
         user = JSON.parse(user); // parse the user object from a string to an object
 
-        const query = {};
-        if (searchTerm) {
-          query.name = {
-            $regex: searchTerm,
-            $options: "i",
-          };
-        }
-
         const unapprovedBlogs = await Blog.find({
           userID: user._id,
           approved: false,
+          title: { $regex: searchTerm, $options: "i" },
         })
-          .sort({ createdAt: -1 })
           .skip(offset)
-          .limit(limit); // Find all unapproved blogs for the user in context
+          .limit(limit)
+          .sort({ name: 1 });
+
         const unapprovedBlogsCount = await Blog.countDocuments({
           userID: user._id,
           approved: false,
+          title: { $regex: searchTerm, $options: "i" },
         }); // Count the number of unapproved blogs for the user in context
 
         return {
@@ -93,25 +88,19 @@ export const resolvers = {
         let { user } = context; // pull objects out of context
         user = JSON.parse(user); // parse the user object from a string to an object
 
-        const query = {};
-        if (searchTerm) {
-          query.name = {
-            $regex: searchTerm,
-            $options: "i",
-          };
-        }
-
         const approvedBlogs = await Blog.find({
           userID: user._id,
           approved: true,
+          title: { $regex: searchTerm, $options: "i" },
         })
-          .sort({ createdAt: -1 })
           .skip(offset)
-          .limit(limit); // Find all approved blogs for the user in context
+          .limit(limit)
+          .sort({ name: 1 });
 
         const approvedBlogsCount = await Blog.countDocuments({
           userID: user._id,
           approved: true,
+          title: { $regex: searchTerm, $options: "i" },
         }); // Count the number of approved blogs for the user in context
 
         return {

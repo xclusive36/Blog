@@ -17,6 +17,7 @@ import {
 } from "@ionic/react";
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
+import DOMPurify from "isomorphic-dompurify";
 
 import Auth from "../utils/auth";
 import PageComponent from "../components/Page.component";
@@ -48,7 +49,7 @@ const AccountPage = () => {
     data: dataUnapproved,
     fetchMore: fetchMoreUnapproved,
   } = useQuery(QUERY_MY_UNAPPROVED_BLOGS, {
-    variables: { offset: 0, limit: 5, searchTerm: searchTermUnapproved },
+    variables: { offset: 0, limit: 3, searchTerm: searchTermUnapproved },
     fetchPolicy: "cache-and-network",
   });
 
@@ -59,7 +60,7 @@ const AccountPage = () => {
     data: dataApproved,
     fetchMore: fetchMoreApproved,
   } = useQuery(QUERY_MY_APPROVED_BLOGS, {
-    variables: { offset: 0, limit: 5, searchTerm: searchTermApproved },
+    variables: { offset: 0, limit: 3, searchTerm: searchTermApproved },
     fetchPolicy: "cache-and-network",
   });
 
@@ -105,7 +106,7 @@ const AccountPage = () => {
       const { data } = await fetchMoreUnapproved({
         variables: {
           offset: unapprovedBlogs.length,
-          limit: 5,
+          limit: 3,
           searchTerm: searchTermUnapproved,
         },
       });
@@ -125,7 +126,7 @@ const AccountPage = () => {
       const { data } = fetchMoreApproved({
         variables: {
           offset: approvedBlogs.length,
-          limit: 5,
+          limit: 3,
           searchTerm: searchTermApproved,
         },
       });
@@ -136,6 +137,26 @@ const AccountPage = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleUnapprovedSearch = (e) => {
+    e.preventDefault();
+
+    // sanitize input
+    const sanitizedInput = DOMPurify.sanitize(e.target.value.trim());
+
+    // set the search term
+    setSearchTermUnapproved(sanitizedInput);
+  };
+
+  const handleApprovedSearch = (e) => {
+    e.preventDefault();
+
+    // sanitize input
+    const sanitizedInput = DOMPurify.sanitize(e.target.value.trim());
+
+    // set the search term
+    setSearchTermApproved(sanitizedInput);
   };
 
   return (
@@ -151,7 +172,10 @@ const AccountPage = () => {
                     <IonCardTitle>Blogs waiting approval:</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
-                    <IonSearchbar disabled={unapprovedBlogs.length < 5} />
+                    <IonSearchbar
+                      onIonInput={handleUnapprovedSearch}
+                      disabled={unapprovedBlogs.length < 3}
+                    />
                     <IonList>
                       <IonListHeader>
                         <IonLabel>
@@ -231,7 +255,10 @@ const AccountPage = () => {
                     <IonCardTitle>Active blogs:</IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>
-                    <IonSearchbar disabled={approvedBlogs.length < 5} />
+                    <IonSearchbar
+                      onIonInput={handleApprovedSearch}
+                      disabled={approvedBlogs.length < 3}
+                    />
                     <IonList>
                       <IonListHeader>
                         <IonLabel>
