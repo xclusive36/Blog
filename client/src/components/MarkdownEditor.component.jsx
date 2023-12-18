@@ -21,9 +21,9 @@ import { informationCircleOutline } from "ionicons/icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useMutation } from "@apollo/client";
 import { ADD_BLOG } from "../utils/mutations";
-import Auth from "../utils/auth";
+import PropTypes from "prop-types";
 
-const MarkdownEditor = () => {
+const MarkdownEditor = ({ setShouldIRefetch = false }) => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -32,13 +32,12 @@ const MarkdownEditor = () => {
   const [content, setContent] = useState("");
 
   const [addBlog, { error }] = useMutation(ADD_BLOG);
-  const token = Auth.loggedIn() ? Auth.getToken() : null; // define token variable for simplicity
 
   const [present] = useIonToast();
 
   const presentToast = () => {
     present({
-      message: "Hello World!",
+      message: "Blog successfully created.",
       duration: 1500,
       position: "bottom",
     });
@@ -79,13 +78,6 @@ const MarkdownEditor = () => {
       return false;
     }
 
-    const headers = {
-      // define headers variable for simplicity
-      headers: {
-        authorization: token ? `Bearer ${token}` : "",
-      },
-    };
-
     // define the variables for the mutation and sanitize the input
     const sanitizedTitle = DOMPurify.sanitize(title.trim()); // sanitize the input and trim whitespace
     const sanitizedSubtitle = DOMPurify.sanitize(subtitle.trim()); // sanitize the input and trim whitespace
@@ -112,23 +104,21 @@ const MarkdownEditor = () => {
         variables: {
           ...blogData, // spread the blogData object
         },
-        context: headers, // set context to headers
       });
 
       if (data) {
         // if the data exists (i.e. the mutation was successful)
-        console.log("Blog created"); // Log the blog creation to the console
         presentToast(); // Present the toast notification
 
         // Clear the form fields by setting the state to empty strings
-        setTitle("") &&
-          setSubtitle("") &&
-          setImageURL("") &&
-          setImageAlt("") &&
-          setIntroduction("") &&
-          setContent("");
+        setTitle("");
+        setSubtitle("");
+        setImageURL("");
+        setImageAlt("");
+        setIntroduction("");
+        setContent("");
 
-        return true;
+        setShouldIRefetch(true); // Set the shouldIRefetch state to true to refetch the blogs
       }
     } catch (error) {
       // catch any errors
@@ -279,6 +269,10 @@ const MarkdownEditor = () => {
       </IonGrid>
     </div>
   );
+};
+
+MarkdownEditor.propTypes = {
+  setShouldIRefetch: PropTypes.func.isRequired,
 };
 
 export default MarkdownEditor;

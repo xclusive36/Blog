@@ -61,7 +61,7 @@ export const resolvers = {
         })
           .skip(offset)
           .limit(limit)
-          .sort({ name: 1 });
+          .sort({ date: 1 });
 
         const unapprovedBlogsCount = await Blog.countDocuments({
           userID: user._id,
@@ -95,7 +95,7 @@ export const resolvers = {
         })
           .skip(offset)
           .limit(limit)
-          .sort({ name: 1 });
+          .sort({ date: 1 });
 
         const approvedBlogsCount = await Blog.countDocuments({
           userID: user._id,
@@ -117,9 +117,13 @@ export const resolvers = {
       if (context.user) {
         // If you are logged in
 
+        // pull objects out of context
+        let { user } = context;
+        user = JSON.parse(user);
+
         // find if context user id is in the administrators array
         const amIAdmin = await Administrator.findOne({
-          userID: context.user._id,
+          userID: user._id,
         });
 
         if (!amIAdmin) {
@@ -163,9 +167,14 @@ export const resolvers = {
     removeUser: async (parent, args, context) => {
       if (context.user) {
         // If you are logged in
-        const user = await User.findOneAndDelete({ _id: context.user._id }); // Delete yourself only from the database
 
-        if (!user) {
+        // pull objects out of context
+        let { user } = context;
+        user = JSON.parse(user);
+
+        const userToRemove = await User.findOneAndDelete({ _id: user._id }); // Delete yourself only from the database
+
+        if (!userToRemove) {
           // If no user is found
           throw new AuthenticationError("No user found with this id!"); // Throw an error message
         }
@@ -286,9 +295,13 @@ export const resolvers = {
       if (context.user) {
         // If you are logged in
 
+        // pull objects out of context
+        let { user } = context;
+        user = JSON.parse(user);
+
         // find if context user id is in the administrators array
         const amIAdmin = await Administrator.findOne({
-          userID: context.user._id,
+          userID: user._id,
         });
 
         if (!amIAdmin) {
@@ -325,6 +338,10 @@ export const resolvers = {
       context
     ) => {
       if (context.user) {
+        // pull objects out of context
+        let { user } = context;
+        user = JSON.parse(user);
+
         // Check if the required fields are provided
         // The required fields are: title, content
         if (!title || !content) {
@@ -377,7 +394,7 @@ export const resolvers = {
           .replace(/[^\w-]+/g, ""); // Set slug to the title in lowercase with spaces replaced with dashes and all non-alphanumeric characters removed
 
         const blog = await Blog.findOneAndUpdate(
-          { _id },
+          { _id, userID: user._id },
           {
             sanitizedTitle,
             sanitizedSubtitle,
@@ -400,10 +417,14 @@ export const resolvers = {
 
     removeBlog: async (parent, { _id }, context) => {
       if (context.user) {
+        // pull objects out of context
+        let { user } = context;
+        user = JSON.parse(user);
+
         // find and delete blog by id where the user id matches the context user id
         const blog = await Blog.findOneAndDelete({
           _id,
-          userID: context.user._id,
+          userID: user._id,
         });
 
         if (!blog) {

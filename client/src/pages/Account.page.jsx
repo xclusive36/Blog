@@ -14,8 +14,9 @@ import {
   IonRow,
   IonSearchbar,
   IonText,
+  useIonToast,
 } from "@ionic/react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
 
@@ -27,6 +28,7 @@ import {
   QUERY_MY_UNAPPROVED_BLOGS,
   QUERY_MY_APPROVED_BLOGS,
 } from "../utils/queries";
+import { REMOVE_BLOG } from "../utils/mutations";
 import MarkdownEditor from "../components/MarkdownEditor.component";
 
 import "./Account.styles.css";
@@ -42,14 +44,27 @@ const AccountPage = () => {
   const [searchTermUnapproved, setSearchTermUnapproved] = useState("");
   const [searchTermApproved, setSearchTermApproved] = useState("");
 
+  const [removeBlog, { error: errorRemove }] = useMutation(REMOVE_BLOG);
+
+  const [present] = useIonToast();
+
+  const presentToast = () => {
+    present({
+      message: "Blog successfully removed.",
+      duration: 1500,
+      position: "bottom",
+    });
+  };
+
   // query for my unapproved blogs
   const {
     loading: loadingUnapproved,
     error: errorUnapproved,
     data: dataUnapproved,
     fetchMore: fetchMoreUnapproved,
+    refetch: refetchUnapproved,
   } = useQuery(QUERY_MY_UNAPPROVED_BLOGS, {
-    variables: { offset: 0, limit: 3, searchTerm: searchTermUnapproved },
+    variables: { offset: 0, limit: 5, searchTerm: searchTermUnapproved },
     fetchPolicy: "cache-and-network",
   });
 
@@ -59,8 +74,9 @@ const AccountPage = () => {
     error: errorApproved,
     data: dataApproved,
     fetchMore: fetchMoreApproved,
+    refetch: refetchApproved,
   } = useQuery(QUERY_MY_APPROVED_BLOGS, {
-    variables: { offset: 0, limit: 3, searchTerm: searchTermApproved },
+    variables: { offset: 0, limit: 5, searchTerm: searchTermApproved },
     fetchPolicy: "cache-and-network",
   });
 
@@ -72,6 +88,8 @@ const AccountPage = () => {
 
   const [unapprovedBlogsCount, setUnapprovedBlogsCount] = useState(0);
   const [approvedBlogsCount, setApprovedBlogsCount] = useState(0);
+
+  const [shouldIRefetch, setShouldIRefetch] = useState(false);
 
   useEffect(() => {
     loadingUnapproved
@@ -106,7 +124,7 @@ const AccountPage = () => {
       const { data } = await fetchMoreUnapproved({
         variables: {
           offset: unapprovedBlogs.length,
-          limit: 3,
+          limit: 5,
           searchTerm: searchTermUnapproved,
         },
       });
@@ -126,7 +144,7 @@ const AccountPage = () => {
       const { data } = fetchMoreApproved({
         variables: {
           offset: approvedBlogs.length,
-          limit: 3,
+          limit: 5,
           searchTerm: searchTermApproved,
         },
       });
@@ -159,11 +177,44 @@ const AccountPage = () => {
     setSearchTermApproved(sanitizedInput);
   };
 
+  const handleRemoveItem =
+    (blogId, approved = false) =>
+    async (e) => {
+      e.preventDefault(); // prevent page reload on form submit
+
+      // remove the blog from the list
+      try {
+        await removeBlog({
+          variables: { _id: blogId },
+        }).then(() => {
+          // once the blog is removed, refetch the blogs
+          // if the blog is unapproved, refetch the unapproved blogs
+          if (!approved) {
+            refetchUnapproved();
+          } else {
+            // if the blog is approved, refetch the approved blogs
+            refetchApproved();
+          }
+          return presentToast();
+        });
+      } catch (err) {
+        console.error(err);
+        console.error(errorRemove);
+      }
+    };
+
+  useEffect(() => {
+    if (shouldIRefetch) {
+      refetchUnapproved();
+      setShouldIRefetch(false);
+    }
+  }, [refetchUnapproved, shouldIRefetch]);
+
   return (
     <PageComponent>
       {loginStatus && (
         <div className="home-container">
-          <MarkdownEditor />
+          <MarkdownEditor setShouldIRefetch={setShouldIRefetch} />
           <IonGrid>
             <IonRow>
               <IonCol sizeXs="12" sizeSm="6">
@@ -174,7 +225,7 @@ const AccountPage = () => {
                   <IonCardContent>
                     <IonSearchbar
                       onIonInput={handleUnapprovedSearch}
-                      disabled={unapprovedBlogs.length < 3}
+                      disabled={unapprovedBlogs.length < 5}
                     />
                     <IonList>
                       <IonListHeader>
@@ -202,7 +253,12 @@ const AccountPage = () => {
                               Submitted: {blog.createdAt}
                             </div>
                           </IonLabel>
-                          <IonButton fill="clear" color="danger" slot="end">
+                          <IonButton
+                            onClick={handleRemoveItem(blog._id)}
+                            fill="clear"
+                            color="danger"
+                            slot="end"
+                          >
                             <IonIcon slot="icon-only" icon={closeCircle} />
                           </IonButton>
                         </IonItem>
@@ -257,7 +313,7 @@ const AccountPage = () => {
                   <IonCardContent>
                     <IonSearchbar
                       onIonInput={handleApprovedSearch}
-                      disabled={approvedBlogs.length < 3}
+                      disabled={approvedBlogs.length < 5}
                     />
                     <IonList>
                       <IonListHeader>
@@ -285,7 +341,12 @@ const AccountPage = () => {
                               Submitted: {blog.createdAt}
                             </div>
                           </IonLabel>
-                          <IonButton fill="clear" color="danger" slot="end">
+                          <IonButton
+                            onClick={handleRemoveItem(blog._id, true)}
+                            fill="clear"
+                            color="danger"
+                            slot="end"
+                          >
                             <IonIcon slot="icon-only" icon={closeCircle} />
                           </IonButton>
                         </IonItem>
