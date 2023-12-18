@@ -1,27 +1,29 @@
 import { useParams } from "react-router";
 import BlogItemComponent from "../components/BlogItem.component";
 import PageComponent from "../components/Page.component";
-import { BlogContext } from "../context/blogContext";
-import { useContext } from "react";
+import { QUERY_BLOG } from "../utils/queries";
+import { useQuery } from "@apollo/client";
 
 const BlogPage = () => {
-  const { BlogArray } = useContext(BlogContext);
   const { blogSlug } = useParams();
-
-  const blog = BlogArray.find((blog) => blog.slug === blogSlug);
-
-  if (!blog) {
-    return (
-      <PageComponent>
-        <h1>Blog not found</h1>
-      </PageComponent>
-    );
-  }
+  const { loading, data } = useQuery(QUERY_BLOG, {
+    variables: { slug: blogSlug },
+  });
 
   return (
     <PageComponent>
       <div className="home-container">
-        <BlogItemComponent blog={blog} showContent={true} />
+        {loading ? (
+          <p>Loading...</p>
+        ) : data?.blog ? (
+          <BlogItemComponent
+            blog={data.blog.blog}
+            username={data.blog.username}
+            showContent={true}
+          />
+        ) : (
+          <p>Blog not found</p>
+        )}
       </div>
     </PageComponent>
   );

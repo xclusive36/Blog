@@ -149,3 +149,25 @@ export const QUERY_MY_APPROVED_BLOGS = gql`
     }
   }
 `;
+
+// query blog
+export const QUERY_BLOG = gql`
+  query blog($slug: String!) {
+    blog(slug: $slug) {
+      blog {
+        _id
+        userID
+        title
+        subtitle
+        imageURL
+        imageAlt
+        date
+        slug
+        introduction
+        content
+        approved
+      }
+      username
+    }
+  }
+`;
