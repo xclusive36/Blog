@@ -6,11 +6,11 @@ import ModalComponent from "./Modal.component";
 
 import PropTypes from "prop-types";
 
-const PageComponent = ({ children }) => {
+const PageComponent = ({ contentRef, children }) => {
   return (
     <IonPage>
       <HeaderComponent />
-      <IonContent>
+      <IonContent ref={contentRef}>
         <SocialComponent />
         {children}
         <FooterComponent />
@@ -21,7 +21,7 @@ const PageComponent = ({ children }) => {
 };
 
 PageComponent.propTypes = {
-  showHero: PropTypes.bool,
+  contentRef: PropTypes.object,
   children: PropTypes.node.isRequired,
 };
 

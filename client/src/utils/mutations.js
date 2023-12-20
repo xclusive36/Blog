@@ -92,7 +92,6 @@ export const UPDATE_BLOG = gql`
     $subtitle: String!
     $imageURL: String!
     $imageAlt: String!
-    $date: String!
     $introduction: String!
     $content: String!
   ) {
@@ -102,7 +101,6 @@ export const UPDATE_BLOG = gql`
       subtitle: $subtitle
       imageURL: $imageURL
       imageAlt: $imageAlt
-      date: $date
       introduction: $introduction
       content: $content
     ) {
@@ -140,8 +138,8 @@ export const REMOVE_BLOG = gql`
 `;
 
 export const ADD_AMINISTRATOR = gql`
-  mutation addAdmin($userID: String!) {
-    addAdmin(userID: $userID) {
+  mutation addAdministrator($userID: String!) {
+    addAdministrator(userID: $userID) {
       _id
       userID
     }

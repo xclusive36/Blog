@@ -319,12 +319,13 @@ export const resolvers = {
             "You need to provide a title and content!"
           ); // Throw an error message if the required fields are not provided
         }
-        sanitizedTitle = DOMPurify.sanitize(title).trim(); // sanitize the input and trim whitespace
-        sanitizedSubtitle = DOMPurify.sanitize(subtitle).trim(); // sanitize the input and trim whitespace
-        sanitizedImageURL = DOMPurify.sanitize(imageURL).trim(); // sanitize the input and trim whitespace
-        sanitizedImageAlt = DOMPurify.sanitize(imageAlt).trim(); // sanitize the input and trim whitespace
-        sanitizedIntroduction = DOMPurify.sanitize(introduction).trim(); // sanitize the input and trim whitespace
-        sanitizedContent = DOMPurify.sanitize(content).trim(); // sanitize the input and trim whitespace
+        const sanitizedID = DOMPurify.sanitize(_id.trim()); // sanitize the input and trim whitespace
+        const sanitizedTitle = DOMPurify.sanitize(title.trim()); // sanitize the input and trim whitespace
+        const sanitizedSubtitle = DOMPurify.sanitize(subtitle.trim()); // sanitize the input and trim whitespace
+        const sanitizedImageURL = DOMPurify.sanitize(imageURL.trim()); // sanitize the input and trim whitespace
+        const sanitizedImageAlt = DOMPurify.sanitize(imageAlt.trim()); // sanitize the input and trim whitespace
+        const sanitizedIntroduction = DOMPurify.sanitize(introduction.trim()); // sanitize the input and trim whitespace
+        const sanitizedContent = DOMPurify.sanitize(content.trim()); // sanitize the input and trim whitespace
         if (sanitizedTitle.length > 100) {
           // Check title length
           throw new AuthenticationError(
@@ -357,16 +358,16 @@ export const resolvers = {
           .replace(/[^\w-]+/g, ""); // Set slug to the title in lowercase with spaces replaced with dashes and all non-alphanumeric characters removed
         return await Blog.findOneAndUpdate(
           // Update the blog
-          { _id, userID: user._id }, // find blog by id where the user id matches the context user id
+          { _id: sanitizedID, userID: user._id },
           {
-            sanitizedTitle,
-            sanitizedSubtitle,
-            sanitizedImageURL,
-            sanitizedImageAlt,
+            title: sanitizedTitle, // Set title to the sanitized title
+            subtitle: sanitizedSubtitle, // Set subtitle to the sanitized subtitle
+            imageURL: sanitizedImageURL, // Set imageURL to the sanitized imageURL
+            imageAlt: sanitizedImageAlt, // Set imageAlt to the sanitized imageAlt
             date: new Date().toISOString(), // Set date to the current date and time
-            slug,
-            sanitizedIntroduction,
-            sanitizedContent,
+            slug, // Set slug to the slug
+            introduction: sanitizedIntroduction, // Set introduction to the sanitized introduction
+            content: sanitizedContent,
             approved: false, // Set approved to false by default
           }, // Set the fields to the sanitized fields
           { new: true } // Return the updated blog

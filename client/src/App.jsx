@@ -43,6 +43,7 @@ import BlogPage from "./pages/Blog.page";
 import AccountPage from "./pages/Account.page";
 import PrivacyPage from "./pages/Privacy.page";
 import TermsPage from "./pages/Terms.page";
+import AdminPage from "./pages/Admin.page";
 
 setupIonicReact();
 
@@ -165,6 +166,10 @@ const App = () => (
               {/* Route /terms loads the Terms component */}
               <Route exact path="/terms">
                 <TermsPage />
+              </Route>
+              {/* Route /admin loads the Admin component */}
+              <Route exact path="/admin">
+                <AdminPage />
               </Route>
               {/* wildcard, any non matching route gets redirected to /home */}
               <Route>

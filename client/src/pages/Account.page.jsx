@@ -14,15 +14,16 @@ import {
   IonRow,
   IonSearchbar,
   IonText,
+  useIonAlert,
   useIonToast,
 } from "@ionic/react";
 import { useMutation, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
 
 import Auth from "../utils/auth";
 import PageComponent from "../components/Page.component";
-import { closeCircle } from "ionicons/icons";
+import { closeCircle, createOutline } from "ionicons/icons";
 
 import {
   QUERY_MY_UNAPPROVED_BLOGS,
@@ -35,6 +36,8 @@ import "./Account.styles.css";
 
 const AccountPage = () => {
   const loginStatus = Auth.loggedIn();
+  const contentRef = useRef(null);
+  const [presentAlert] = useIonAlert();
 
   useEffect(() => {
     // redirect to login if not logged in
@@ -90,6 +93,7 @@ const AccountPage = () => {
   const [approvedBlogsCount, setApprovedBlogsCount] = useState(0);
 
   const [shouldIRefetch, setShouldIRefetch] = useState(false);
+  const [updateBlog, setUpdateBlog] = useState(null);
 
   useEffect(() => {
     loadingUnapproved
@@ -179,42 +183,65 @@ const AccountPage = () => {
 
   const handleRemoveItem =
     (blogId, approved = false) =>
-    async (e) => {
+    (e) => {
       e.preventDefault(); // prevent page reload on form submit
-
-      // remove the blog from the list
-      try {
-        await removeBlog({
-          variables: { _id: blogId },
-        }).then(() => {
-          // once the blog is removed, refetch the blogs
-          // if the blog is unapproved, refetch the unapproved blogs
-          if (!approved) {
-            refetchUnapproved();
-          } else {
-            // if the blog is approved, refetch the approved blogs
-            refetchApproved();
-          }
-          return presentToast();
-        });
-      } catch (err) {
-        console.error(err);
-        console.error(errorRemove);
-      }
+      presentAlert({
+        header: "Remove Item?",
+        subHeader: "Are you sure you want to remove this item?",
+        message: "This action cannot be undone.",
+        buttons: [
+          "Cancel",
+          {
+            text: "Remove",
+            handler: async () => {
+              // remove the blog from the list
+              try {
+                await removeBlog({
+                  variables: { _id: blogId },
+                }).then(() => {
+                  // once the blog is removed, refetch the blogs
+                  // if the blog is unapproved, refetch the unapproved blogs
+                  if (!approved) {
+                    refetchUnapproved();
+                  } else {
+                    // if the blog is approved, refetch the approved blogs
+                    refetchApproved();
+                  }
+                  return presentToast();
+                });
+              } catch (err) {
+                console.error(err);
+                console.error(errorRemove);
+              }
+            },
+          },
+        ],
+      });
     };
 
   useEffect(() => {
     if (shouldIRefetch) {
       refetchUnapproved();
+      refetchApproved();
       setShouldIRefetch(false);
     }
   }, [refetchUnapproved, shouldIRefetch]);
 
+  const handleEditItem = (blog) => (e) => {
+    e.preventDefault();
+    setUpdateBlog(blog);
+    contentRef.current.scrollToTop(500, "smooth", "start");
+  };
+
   return (
-    <PageComponent>
+    <PageComponent contentRef={contentRef}>
       {loginStatus && (
         <div className="home-container">
-          <MarkdownEditor setShouldIRefetch={setShouldIRefetch} />
+          <MarkdownEditor
+            updateBlog={updateBlog} // If a blog is being updated, pass the blog to the editor
+            setUpdateBlog={setUpdateBlog} // Set to null when the blog is submitted for approval
+            setShouldIRefetch={setShouldIRefetch} // Set to true when a blog is submitted for approval so that the unapproved blogs are refetched
+          />
           <IonGrid>
             <IonRow>
               <IonCol sizeXs="12" sizeSm="6">
@@ -244,7 +271,7 @@ const AccountPage = () => {
                         <IonItem key={blog._id}>
                           <IonLabel className="ion-text-wrap">
                             <a
-                              href={`/blog/${blog._id}`}
+                              href={`/blog/${blog.slug}`}
                               className="blog-item-link"
                             >
                               {blog.title}
@@ -253,6 +280,14 @@ const AccountPage = () => {
                               Submitted: {blog.createdAt}
                             </div>
                           </IonLabel>
+                          <IonButton
+                            onClick={handleEditItem(blog)}
+                            fill="clear"
+                            color="dark"
+                            slot="end"
+                          >
+                            <IonIcon slot="icon-only" icon={createOutline} />
+                          </IonButton>
                           <IonButton
                             onClick={handleRemoveItem(blog._id)}
                             fill="clear"
@@ -341,6 +376,14 @@ const AccountPage = () => {
                               Submitted: {blog.createdAt}
                             </div>
                           </IonLabel>
+                          <IonButton
+                            onClick={handleEditItem(blog)}
+                            fill="clear"
+                            color="dark"
+                            slot="end"
+                          >
+                            <IonIcon slot="icon-only" icon={createOutline} />
+                          </IonButton>
                           <IonButton
                             onClick={handleRemoveItem(blog._id, true)}
                             fill="clear"

@@ -15,15 +15,19 @@ import {
   IonTextarea,
   useIonToast,
 } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { informationCircleOutline } from "ionicons/icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useMutation } from "@apollo/client";
-import { ADD_BLOG } from "../utils/mutations";
+import { ADD_BLOG, UPDATE_BLOG } from "../utils/mutations";
 import PropTypes from "prop-types";
 
-const MarkdownEditor = ({ setShouldIRefetch = false }) => {
+const MarkdownEditor = ({
+  updateBlog: updateBlogProp,
+  setUpdateBlog,
+  setShouldIRefetch = false,
+}) => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -31,13 +35,25 @@ const MarkdownEditor = ({ setShouldIRefetch = false }) => {
   const [introduction, setIntroduction] = useState("");
   const [content, setContent] = useState("");
 
+  useEffect(() => {
+    if (updateBlogProp) {
+      setTitle(updateBlogProp.title);
+      setSubtitle(updateBlogProp.subtitle);
+      setImageURL(updateBlogProp.imageURL);
+      setImageAlt(updateBlogProp.imageAlt);
+      setIntroduction(updateBlogProp.introduction);
+      setContent(updateBlogProp.content);
+    }
+  }, [updateBlogProp]);
+
   const [addBlog, { error }] = useMutation(ADD_BLOG);
+  const [updateBlog, { error: errorUpdate }] = useMutation(UPDATE_BLOG);
 
   const [present] = useIonToast();
 
-  const presentToast = () => {
+  const presentToast = (message = "Blog successfully created") => {
     present({
-      message: "Blog successfully created.",
+      message: message,
       duration: 1500,
       position: "bottom",
     });
@@ -96,6 +112,41 @@ const MarkdownEditor = ({ setShouldIRefetch = false }) => {
       content: sanitizedContent,
     };
 
+    // If the updateBlogProp exists, update the blog with the updateBlog mutation
+    if (updateBlogProp) {
+      try {
+        // try to update the blog
+        const { data } = await updateBlog({
+          // destructure the data from the mutation
+          variables: {
+            _id: updateBlogProp._id, // pass the blogId
+            ...blogData, // spread the blogData object
+          },
+        });
+
+        if (data) {
+          // if the data exists (i.e. the mutation was successful)
+          presentToast("Blog successfully updated"); // Present the toast notification
+
+          // Clear the form fields by setting the state to empty strings
+          setTitle("");
+          setSubtitle("");
+          setImageURL("");
+          setImageAlt("");
+          setIntroduction("");
+          setContent("");
+
+          setUpdateBlog(null); // Set the updateBlog state to null
+          setShouldIRefetch(true); // Set the shouldIRefetch state to true to refetch the blogs
+        }
+      } catch (error) {
+        // catch any errors
+        console.log(error); // log the error to the console if there is one
+      }
+
+      return false; // return false to exit the function
+    }
+
     // Create the blog with the addBlog mutation
     try {
       // try to create the blog
@@ -124,6 +175,21 @@ const MarkdownEditor = ({ setShouldIRefetch = false }) => {
       // catch any errors
       console.log(error); // log the error to the console if there is one
     }
+  };
+
+  // Handle the reset of the form
+  const handleReset = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior (refreshing the page)
+
+    // Clear the form fields by setting the state to empty strings
+    setTitle("");
+    setSubtitle("");
+    setImageURL("");
+    setImageAlt("");
+    setIntroduction("");
+    setContent("");
+
+    setUpdateBlog(null); // Set the updateBlog state to null
   };
 
   return (
@@ -218,9 +284,26 @@ const MarkdownEditor = ({ setShouldIRefetch = false }) => {
                     required
                   />
                   <div className="ion-text-center ion-padding">
+                    {updateBlogProp && (
+                      <IonButton
+                        className="ion-margin-bottom"
+                        onClick={handleReset}
+                      >
+                        Cancel
+                      </IonButton>
+                    )}
                     <IonButton className="ion-margin-bottom" type="submit">
-                      Submit
+                      {updateBlogProp ? "Update" : "Submit"}
                     </IonButton>
+                    {updateBlogProp && (
+                      <>
+                        <br />
+                        <small style={{ color: "var(--ion-color-danger)" }}>
+                          Click &quot;Cancel&quot; or &quot;Update&quot; to end
+                          the update process.
+                        </small>
+                      </>
+                    )}
                     <br />
                     <small>Blog Title and Blog Content are required</small>
                   </div>
@@ -230,6 +313,14 @@ const MarkdownEditor = ({ setShouldIRefetch = false }) => {
                     <div className="ion-text-center ion-padding">
                       <div className="blog-item-link">Error creating blog</div>
                       <div>{error.message}</div>
+                    </div>
+                  </div>
+                )}
+                {errorUpdate && (
+                  <div className="ion-text-center ion-padding">
+                    <div className="ion-text-center ion-padding">
+                      <div className="blog-item-link">Error updating blog</div>
+                      <div>{errorUpdate.message}</div>
                     </div>
                   </div>
                 )}
@@ -272,6 +363,8 @@ const MarkdownEditor = ({ setShouldIRefetch = false }) => {
 };
 
 MarkdownEditor.propTypes = {
+  updateBlog: PropTypes.object,
+  setUpdateBlog: PropTypes.func.isRequired,
   setShouldIRefetch: PropTypes.func.isRequired,
 };
 
