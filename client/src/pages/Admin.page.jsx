@@ -270,7 +270,7 @@ const AdminPage = () => {
                           <IonItem key={blog._id}>
                             <IonLabel className="ion-text-wrap">
                               <a
-                                href={`/blog/${blog._id}`}
+                                href={`/blog/${blog.slug}`}
                                 className="blog-item-link"
                               >
                                 {blog.title}

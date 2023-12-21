@@ -225,7 +225,7 @@ const AccountPage = () => {
       refetchApproved();
       setShouldIRefetch(false);
     }
-  }, [refetchUnapproved, shouldIRefetch]);
+  }, [refetchApproved, refetchUnapproved, shouldIRefetch]);
 
   const handleEditItem = (blog) => (e) => {
     e.preventDefault();
