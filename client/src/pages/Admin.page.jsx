@@ -7,7 +7,11 @@ import {
   QUERY_UNAPPROVED_BLOGS,
   QUERY_APPROVED_BLOGS,
 } from "../utils/queries";
-import { ADD_AMINISTRATOR, REMOVE_BLOG } from "../utils/mutations";
+import {
+  ADD_AMINISTRATOR,
+  REMOVE_BLOG,
+  APPROVE_BLOG,
+} from "../utils/mutations";
 import {
   IonButton,
   IonCard,
@@ -23,6 +27,7 @@ import {
   IonList,
   IonListHeader,
   IonRow,
+  IonToggle,
   useIonAlert,
   useIonToast,
 } from "@ionic/react";
@@ -42,6 +47,7 @@ const AdminPage = () => {
 
   const { loading, data: dataAdmin } = useQuery(QUERY_AM_I_ADMIN);
   const [removeBlog, { error: errorRemove }] = useMutation(REMOVE_BLOG);
+  const [approveBlog, { error: errorApprove }] = useMutation(APPROVE_BLOG);
 
   useEffect(() => {
     // redirect to home if not admin
@@ -80,9 +86,9 @@ const AdminPage = () => {
 
   const [present] = useIonToast();
 
-  const presentToast = () => {
+  const presentToast = (message = "Administrator added successfully!") => {
     present({
-      message: "Administrator added successfully!",
+      message: message,
       duration: 1500,
       position: "bottom",
     });
@@ -140,6 +146,24 @@ const AdminPage = () => {
       });
     };
 
+  const handleBlogActive = async (e, blogId) => {
+    e.preventDefault(); // prevent page reload on form submit
+    const isActive = e.target.checked;
+    try {
+      await approveBlog({
+        variables: { _id: blogId, approved: isActive },
+      }).then(() => {
+        // once the blog is approved, refetch the blogs
+        refetchUnapproved();
+        refetchApproved();
+        return presentToast("Status updated!");
+      });
+    } catch (err) {
+      console.error(err);
+      console.error(errorApprove);
+    }
+  };
+
   return (
     <PageComponent contentRef={contentRef}>
       <div className="admin-container">
@@ -161,6 +185,7 @@ const AdminPage = () => {
                           <IonLabel>
                             <b>Blogs:</b>
                           </IonLabel>
+                          Active:
                         </IonListHeader>
                         {isLoadingUnapproved && (
                           <IonItem>
@@ -186,10 +211,16 @@ const AdminPage = () => {
                               onClick={handleRemoveItem(blog._id)}
                               fill="clear"
                               color="danger"
-                              slot="end"
+                              slot="start"
                             >
                               <IonIcon slot="icon-only" icon={closeCircle} />
                             </IonButton>
+                            <IonToggle
+                              checked={blog.approved}
+                              onClick={(e) => handleBlogActive(e, blog._id)}
+                              aria-label="activate"
+                              slot="end"
+                            />
                           </IonItem>
                         ))}
                         {errorUnapproved && (
@@ -224,8 +255,9 @@ const AdminPage = () => {
                       <IonList>
                         <IonListHeader>
                           <IonLabel>
-                            <b>Name:</b>
+                            <b>Blogs:</b>
                           </IonLabel>
+                          Active:
                         </IonListHeader>
                         {isLoadingApproved && (
                           <IonItem>
@@ -251,10 +283,16 @@ const AdminPage = () => {
                               onClick={handleRemoveItem(blog._id, true)}
                               fill="clear"
                               color="danger"
-                              slot="end"
+                              slot="start"
                             >
                               <IonIcon slot="icon-only" icon={closeCircle} />
                             </IonButton>
+                            <IonToggle
+                              checked={blog.approved}
+                              onClick={(e) => handleBlogActive(e, blog._id)}
+                              aria-label="activate"
+                              slot="end"
+                            />
                           </IonItem>
                         ))}
                         {errorApproved && (

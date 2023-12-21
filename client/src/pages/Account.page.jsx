@@ -353,7 +353,7 @@ const AccountPage = () => {
                     <IonList>
                       <IonListHeader>
                         <IonLabel>
-                          <b>Name:</b>
+                          <b>Blogs:</b>
                         </IonLabel>
                       </IonListHeader>
                       {isLoadingApproved && (

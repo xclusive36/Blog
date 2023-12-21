@@ -68,8 +68,8 @@ export const ADD_BLOG = gql`
 `;
 
 export const APPROVE_BLOG = gql`
-  mutation approveBlog($_id: ID!) {
-    approveBlog(_id: $_id) {
+  mutation approveBlog($_id: ID!, $approved: Boolean!) {
+    approveBlog(_id: $_id, approved: $approved) {
       _id
       userID
       title

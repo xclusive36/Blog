@@ -87,7 +87,7 @@ export const typeDefs = `#graphql
     removeUser(_id: ID!): User
     login(email: String!, password: String!): Auth
     addBlog(title: String!, subtitle: String!, imageURL: String, imageAlt: String, introduction: String!, content: String!): Blog
-    approveBlog(_id: ID!): Blog
+    approveBlog(_id: ID!, approved: Boolean!): Blog
     updateBlog(_id: ID!, title: String!, subtitle: String!, imageURL: String, imageAlt: String, introduction: String!, content: String!, approved: Boolean): Blog
     removeBlog(_id: ID!): Blog
   }

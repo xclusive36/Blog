@@ -272,7 +272,7 @@ export const resolvers = {
         throw new AuthenticationError("You need to be logged in!"); // Throw an error message
       }
     },
-    approveBlog: async (parent, { _id }, context) => {
+    approveBlog: async (parent, { _id, approved }, context) => {
       // This resolver is used to approve a blog
       if (context.user) {
         // If you are logged in
@@ -291,11 +291,10 @@ export const resolvers = {
           // If no blog is found
           throw new AuthenticationError("No blog found with this id!"); // Throw an error message
         }
-        const approved = true; // Set approved to true
         return await Blog.findOneAndUpdate(
           // Update the blog
           { _id }, // find blog by id
-          { approved }, // Set approved to true
+          { approved }, // Set approved to the approved value
           { new: true } // Return the updated blog
         );
       } else {
