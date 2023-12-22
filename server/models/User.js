@@ -2,6 +2,12 @@ import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  lastName: { type: String, required: true, trim: true },
   username: {
     type: String,
     required: true,

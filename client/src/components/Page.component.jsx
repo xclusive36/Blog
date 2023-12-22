@@ -2,26 +2,24 @@ import { IonContent, IonPage } from "@ionic/react";
 import HeaderComponent from "./Header.component";
 import SocialComponent from "./Social.component";
 import FooterComponent from "./Footer.component";
-import ModalComponent from "./Modal.component";
 
 import PropTypes from "prop-types";
 
-const PageComponent = ({ contentRef, children }) => {
+const PageComponent = ({ children }) => {
   return (
     <IonPage>
       <HeaderComponent />
-      <IonContent ref={contentRef}>
+      <IonContent>
         <SocialComponent />
         {children}
         <FooterComponent />
-        <ModalComponent />
       </IonContent>
     </IonPage>
   );
 };
 
 PageComponent.propTypes = {
-  contentRef: PropTypes.object,
+  showHero: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 
