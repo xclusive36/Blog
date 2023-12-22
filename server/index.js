@@ -8,7 +8,7 @@ import path from "path"; // import path module from Node.js
 import { typeDefs, resolvers } from "./schemas/index.js"; // import typeDefs and resolvers from schemas/typeDefs.js
 import { makeExecutableSchema } from "@graphql-tools/schema"; // import makeExecutableSchema function to be configured with the Apollo Server
 import { authMiddleware } from "./utils/auth.js"; // import authMiddleware function to be configured with the Apollo Server
-import { rateLimitMiddleware } from "./utils/ratelimit.js"; // import rateLimitMiddleware function to be configured with the Apollo Server
+// import { rateLimitMiddleware } from "./utils/ratelimit.js"; // import rateLimitMiddleware function to be configured with the Apollo Server
 import helmet from "helmet";
 import compression from "compression";
 
@@ -24,16 +24,29 @@ const app = express();
 
 app.use(urlencoded({ extended: false })); // add middleware to parse incoming JSON data
 app.use(json()); // add middleware to parse incoming JSON data
-app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
+// app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
 app.use(compression()); // add compression middleware to Express app
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "misfitgirl.com"],
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        imgSrc: [
+          `'self'`,
+          "data:",
+          // "apollo-server-landing-page.cdn.apollographql.com",
+          "*", // allow all sources to load images (not recommended)
+        ],
+        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+        manifestSrc: [
+          `'self'`,
+          "apollo-server-landing-page.cdn.apollographql.com",
+        ],
+        frameSrc: [`'self'`, "sandbox.embed.apollographql.com"],
+      },
     },
-  },
-})); // add helmet middleware to Express app
+  })
+); // add helmet middleware to Express app
 app.use(
   cors(
     // add cors middleware to allow cross-origin requests
@@ -76,7 +89,7 @@ if (process.env.NODE_ENV === "production") {
   // import.meta.url is the current file path
   app.use(
     express.static(
-      path.join(new URL("../client/dist", import.meta.url).pathname)
+      path.join(new URL("../client/dist", process.env.url).pathname)
     )
   );
 }
@@ -85,13 +98,7 @@ if (process.env.NODE_ENV === "production") {
 // route to serve up the index.html page in client/dist directory
 app.get("/", (req, res) => {
   res.sendFile(
-    path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
-  );
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
+    path.join(new URL("../client/dist/index.html", process.env.url).pathname)
   );
 });
 
@@ -125,16 +132,16 @@ db.once("open", () => {
 
 // last app.use calls right before app.listen(): custom 404 and error handler
 
-// custom 404
-app.use((req, res, next) => {
-  res.status(404).send("Sorry can't find that!");
-});
+// // custom 404
+// app.use((req, res, next) => {
+//   res.status(404).send("Sorry can't find that!");
+// });
 
-// custom error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
+// // custom error handler
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send("Something broke!");
+// });
 
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));

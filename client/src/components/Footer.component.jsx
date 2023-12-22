@@ -1,42 +1,27 @@
-import { IonButton, IonButtons, IonToolbar } from "@ionic/react";
+import { IonToolbar, IonButtons, IonButton } from "@ionic/react";
 
 import "./Footer.styles.css";
+import MenuBar from "./MenuBar.component";
 
 const FooterComponent = () => {
   return (
     <>
       <IonToolbar color="dark">
-        <IonButtons className="footer-buttons">
-          <IonButton color="light" className="footer-button" routerLink="/home">
-            Home
+        <MenuBar />
+        <IonButtons className="header-buttons">
+          <IonButton
+            color="light"
+            className="header-button"
+            routerLink="/terms"
+          >
+            Terms of Use
           </IonButton>
           <IonButton
             color="light"
-            className="footer-button"
-            routerLink="/about"
+            className="header-button"
+            routerLink="/privacy"
           >
-            About Me
-          </IonButton>
-          <IonButton
-            color="light"
-            className="footer-button"
-            routerLink="/projects"
-          >
-            Github Repos
-          </IonButton>
-          <IonButton
-            color="light"
-            className="footer-button"
-            routerLink="/resume"
-          >
-            Resume
-          </IonButton>
-          <IonButton
-            color="light"
-            className="footer-button"
-            routerLink="/contact"
-          >
-            Contact Me
+            Privacy Policy
           </IonButton>
         </IonButtons>
         <div className="footer-text">&#169; 2023 Joshua Cavell</div>

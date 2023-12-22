@@ -1,4 +1,5 @@
+import { Administrator } from "./Administrator.js";
 import { User } from "./User.js";
-import { Book } from "./Book.js";
+import { Blog } from "./Blog.js";
 
-export { User, Book };
+export { Administrator, User, Blog };

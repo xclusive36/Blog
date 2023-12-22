@@ -1,5 +1,5 @@
 import Markdown from "react-markdown";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   IonCard,
   IonCardContent,
@@ -10,22 +10,22 @@ import {
 
 import "./BlogItem.styles.css";
 
-const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
-  const {
-    title,
-    subtitle,
-    imageURL,
-    imageAlt,
-    date,
-    // eslint-disable-next-line no-unused-vars
-    slug,
-    introduction,
-    content,
-  } = blog;
+const BlogItemComponent = ({
+  blog,
+  username = "",
+  showIntro = true,
+  showContent = false,
+}) => {
+  const { title, subtitle, imageURL, imageAlt, date, introduction, content } =
+    blog;
 
   const convertDate = (date) => {
-    const newDate = new Date(date);
-    return newDate.toDateString();
+    // return the date in the format of Month Day, Year
+    const dateObject = new Date(date);
+    const month = dateObject.toLocaleString("default", { month: "long" });
+    const day = dateObject.getDate();
+    const year = dateObject.getFullYear();
+    return `${month} ${day}, ${year}`;
   };
 
   return (
@@ -38,7 +38,11 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
       {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
     >
       <div className={showContent ? "" : "thumbnail"}>
-        <img className={!showContent && "blog-image"} alt={imageAlt} src={imageURL} />
+        <img
+          className={!showContent ? "blog-image" : ""}
+          alt={imageAlt}
+          src={imageURL}
+        />
       </div>
       <IonCardHeader>
         <IonCardTitle
@@ -59,7 +63,11 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
         {showContent && (
           <>
             <Markdown>{content}</Markdown>
-            {date && <p>Published by Joshua on {convertDate(date)}</p>}
+            {date && (
+              <p>
+                Published by {username} on {convertDate(date)}
+              </p>
+            )}
           </>
         )}
       </IonCardContent>
@@ -78,6 +86,7 @@ BlogItemComponent.propTypes = {
     introduction: PropTypes.string,
     content: PropTypes.string,
   }).isRequired,
+  username: PropTypes.string,
   showIntro: PropTypes.bool,
   showContent: PropTypes.bool,
 };
