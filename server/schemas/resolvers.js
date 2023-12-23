@@ -129,10 +129,10 @@ export const resolvers = {
         const amIAdmin = await Administrator.findOne({
           userID: user._id,
         }); // find if user who sent the request is an admin
-        // if (!amIAdmin) {
-        //   // If no admin is found then you are not an admin!
-        //   throw new AuthenticationError("You are not an admin!"); // Throw an error message
-        // }
+        if (!amIAdmin) {
+          // If no admin is found then you are not an admin!
+          throw new AuthenticationError("You are not an admin!"); // Throw an error message
+        }
         const doesAdminExist = await Administrator.findOne({ userID }); // find if userID being added previously exists
         if (doesAdminExist) {
           // If userID is found
