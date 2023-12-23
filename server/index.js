@@ -47,15 +47,6 @@ app.use(
     },
   })
 ); // add helmet middleware to Express app
-app.use(
-  cors(
-    // add cors middleware to allow cross-origin requests
-    {
-      origin: ["http://localhost:5173", "https://litestep.com/"], // define origin property to allow requests from this origin
-      credentials: true, // allow passing of cookies
-    }
-  )
-);
 
 // Our httpServer handles incoming requests to our Express app.
 // Below, we tell Apollo Server to "drain" this httpServer,
@@ -89,7 +80,7 @@ if (process.env.NODE_ENV === "production") {
   // import.meta.url is the current file path
   app.use(
     express.static(
-      path.join(new URL("../client/dist", process.env.url).pathname)
+      path.join(new URL("../client/dist", import.meta.url).pathname)
     )
   );
 }
@@ -98,7 +89,13 @@ if (process.env.NODE_ENV === "production") {
 // route to serve up the index.html page in client/dist directory
 app.get("/", (req, res) => {
   res.sendFile(
-    path.join(new URL("../client/dist/index.html", process.env.url).pathname)
+    path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
+  );
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(new URL("../client/dist/index.html", import.meta.url).pathname)
   );
 });
 
@@ -132,16 +129,16 @@ db.once("open", () => {
 
 // last app.use calls right before app.listen(): custom 404 and error handler
 
-// // custom 404
-// app.use((req, res, next) => {
-//   res.status(404).send("Sorry can't find that!");
-// });
+// custom 404
+app.use((req, res, next) => {
+  res.status(404).send("Sorry can't find that!");
+});
 
-// // custom error handler
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send("Something broke!");
-// });
+// custom error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
