@@ -49,12 +49,12 @@ const AdminPage = () => {
   const [removeBlog, { error: errorRemove }] = useMutation(REMOVE_BLOG);
   const [approveBlog, { error: errorApprove }] = useMutation(APPROVE_BLOG);
 
-  useEffect(() => {
-    // redirect to home if not admin
-    if (dataAdmin && !dataAdmin.amIAdmin) {
-      window.location.assign("/home");
-    }
-  }, [dataAdmin]);
+  // useEffect(() => {
+  //   // redirect to home if not admin
+  //   if (dataAdmin && !dataAdmin.amIAdmin) {
+  //     window.location.assign("/home");
+  //   }
+  // }, [dataAdmin]);
 
   const {
     loading: isLoadingUnapproved,
@@ -69,6 +69,9 @@ const AdminPage = () => {
     error: errorApproved,
     refetch: refetchApproved,
   } = useQuery(QUERY_APPROVED_BLOGS);
+
+  const user = Auth.getProfile().data; // Get the user data from the local storage
+  console.log(user);
 
   useEffect(() => {
     if (dataUnapproved) {
