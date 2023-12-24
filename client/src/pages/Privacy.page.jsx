@@ -3,7 +3,7 @@ import PageComponent from "../components/Page.component";
 const PrivacyPage = () => {
   return (
     <PageComponent>
-      <div className="home-container">
+      <div className="home-container ion-padding">
         <h1>Privacy Policy</h1>
         <p>
           This Privacy Policy explains how we collect, process, and store your

@@ -3,7 +3,7 @@ import PageComponent from "../components/Page.component";
 const TermsPage = () => {
   return (
     <PageComponent>
-      <div className="home-container">
+      <div className="home-container ion-padding">
         <h1>Terms of Use</h1>
         <p>
           Welcome to Our Website. If you continue to browse and use this
