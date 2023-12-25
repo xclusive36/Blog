@@ -37,7 +37,7 @@ app.use(
           // "apollo-server-landing-page.cdn.apollographql.com",
           "*", // allow all sources to load images (not recommended)
         ],
-        scriptSrc: [`'self'`, `ajax.cloudflare.com`],
+        scriptSrc: [`'self'`, "ajax.cloudflare.com"],
         manifestSrc: [
           `'self'`,
           "apollo-server-landing-page.cdn.apollographql.com",
