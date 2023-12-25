@@ -34,7 +34,7 @@ export const resolvers = {
     },
     approvedBlogs: async () => {
       // This resolver is used to get all approved blogs
-      return Blog.find({ approved: true }).sort({ date: 1 }); // find all blogs where approved is true and sort by date in ascending order
+      return Blog.find({ approved: true }).sort({ date: -1 }); // find all blogs where approved is true and sort by date in decending order
     },
     myBlogs: async (parent, args, context) => {
       // This resolver is used to get the user's blogs
