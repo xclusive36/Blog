@@ -37,21 +37,84 @@ const BlogItemComponent = ({
       }}
       {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
     >
-      <div className={showContent ? "" : "thumbnail"}>
-        <img
-          className={!showContent ? "blog-image" : ""}
-          alt={imageAlt}
-          src={imageURL}
-        />
-      </div>
-      <IonCardHeader>
-        <IonCardTitle
-          className={showContent ? "card-title" : "card-title underline"}
-        >
-          {title}
-        </IonCardTitle>
-        {showContent && <IonCardSubtitle>{subtitle}</IonCardSubtitle>}
-      </IonCardHeader>
+      {
+        /* If showContent is false, then show the image and title only */
+        !showContent ? (
+          <div
+            style={{
+              position: "relative",
+              color: "var(--ion-color-light)",
+            }}
+            className="thumbnail"
+          >
+            <img
+              className={!showContent ? "blog-image" : ""}
+              alt={imageAlt}
+              src={imageURL}
+              style={{
+                filter: "brightness(75%)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: ".8rem",
+                left: "1rem",
+                right: "1rem",
+                // make backdrop darker
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              <IonCardSubtitle color="light">{title}</IonCardSubtitle>
+              {date && (
+                <>
+                  Published by {username} on {convertDate(date)}
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              position: "relative",
+              color: "var(--ion-color-light)",
+            }}
+          >
+            <img
+              className={!showContent ? "blog-image" : ""}
+              alt={imageAlt}
+              src={imageURL}
+              style={{
+                filter: "brightness(75%)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: ".8rem",
+                left: "1rem",
+                right: "1rem",
+                // make backdrop darker
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              <IonCardHeader
+                style={{
+                  color: "var(--ion-color-light)",
+                }}
+              >
+                <IonCardTitle color="light">{title}</IonCardTitle>
+                <IonCardSubtitle color="light">{subtitle}</IonCardSubtitle>
+                {date && (
+                  <>
+                    Published by {username} on {convertDate(date)}
+                  </>
+                )}
+              </IonCardHeader>
+            </div>
+          </div>
+        )
+      }
 
       <IonCardContent
         style={{
