@@ -26,27 +26,38 @@ app.use(urlencoded({ extended: false })); // add middleware to parse incoming JS
 app.use(json()); // add middleware to parse incoming JSON data
 // app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
 app.use(compression()); // add compression middleware to Express app
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: {
-      directives: {
-        imgSrc: [
-          `'self'`,
-          "data:",
-          // "apollo-server-landing-page.cdn.apollographql.com",
-          "*", // allow all sources to load images (not recommended)
-        ],
-        scriptSrc: [`'self'`, "ajax.cloudflare.com"],
-        manifestSrc: [
-          `'self'`,
-          "apollo-server-landing-page.cdn.apollographql.com",
-        ],
-        frameSrc: [`'self'`, "sandbox.embed.apollographql.com"],
+process.env.NODE_ENV === "production" &&
+  app.use(
+    helmet({
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: {
+        directives: {
+          imgSrc: [
+            `'self'`,
+            "data:",
+            // "apollo-server-landing-page.cdn.apollographql.com",
+            "*", // allow all sources to load images (not recommended)
+          ],
+          scriptSrc: [`'self'`, "ajax.cloudflare.com"],
+          manifestSrc: [
+            `'self'`,
+            "apollo-server-landing-page.cdn.apollographql.com",
+          ],
+          frameSrc: [`'self'`, "sandbox.embed.apollographql.com"],
+        },
       },
-    },
-  })
-); // add helmet middleware to Express app
+    })
+  ); // add helmet middleware to Express app
+
+app.use(
+  cors(
+    // add cors middleware to allow cross-origin requests
+    {
+      origin: ["http://localhost:5173", "https://litestep.com/"], // define origin property to allow requests from this origin
+      credentials: true, // allow passing of cookies
+    }
+  )
+);
 
 // Our httpServer handles incoming requests to our Express app.
 // Below, we tell Apollo Server to "drain" this httpServer,
