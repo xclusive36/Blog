@@ -61,7 +61,6 @@ const BlogItemComponent = ({
                 bottom: ".8rem",
                 left: "1rem",
                 right: "1rem",
-                // make backdrop darker
                 backdropFilter: "blur(10px)",
               }}
             >
@@ -75,6 +74,7 @@ const BlogItemComponent = ({
           </div>
         ) : (
           <div
+            className="ion-padding"
             style={{
               position: "relative",
               color: "var(--ion-color-light)",
@@ -86,6 +86,7 @@ const BlogItemComponent = ({
               src={imageURL}
               style={{
                 filter: "brightness(75%)",
+                borderRadius: "4px",
               }}
             />
             <div

@@ -13,7 +13,9 @@ import {
   personCircleOutline,
   logOutOutline,
   logInOutline,
+  downloadOutline,
 } from "ionicons/icons";
+import Resume from "../assets/JoshuaCavellResume.pdf";
 
 import MenuBar from "./MenuBar.component";
 
@@ -76,6 +78,12 @@ const HeaderComponent = () => {
                 Login
               </IonButton>
             )}
+          </IonButtons>
+          <IonButtons slot="end" className="header-buttons">
+            <IonButton href={Resume} fill="solid" color="light">
+              <IonIcon slot="start" icon={downloadOutline} />
+              Resume
+            </IonButton>
           </IonButtons>
         </IonToolbar>
         <IonToolbar color="dark">
