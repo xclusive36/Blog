@@ -2,9 +2,9 @@ import {
   IonButton,
   IonCard,
   IonCardContent,
-  IonCardHeader,
+  // IonCardHeader,
   IonCardTitle,
-  IonCardSubtitle,
+  // IonCardSubtitle,
   IonCol,
   IonGrid,
   IonIcon,
@@ -12,16 +12,18 @@ import {
   IonItem,
   IonLabel,
   IonRow,
-  IonTextarea,
+  // IonTextarea,
   useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import Markdown from "react-markdown";
+// import Markdown from "react-markdown";
 import { informationCircleOutline } from "ionicons/icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useMutation } from "@apollo/client";
 import { ADD_BLOG, UPDATE_BLOG } from "../utils/mutations";
 import PropTypes from "prop-types";
+// import Basic from "./BasicMarkDown.component";
+import MDEditor from "./Remirror.component";
 
 const MarkdownEditor = ({
   updateBlog: updateBlogProp,
@@ -32,8 +34,8 @@ const MarkdownEditor = ({
   const [subtitle, setSubtitle] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [imageAlt, setImageAlt] = useState("");
-  const [introduction, setIntroduction] = useState("");
-  const [content, setContent] = useState("");
+  const [introduction, setIntroduction] = useState(``);
+  const [content, setContent] = useState(``);
 
   useEffect(() => {
     if (updateBlogProp) {
@@ -79,11 +81,13 @@ const MarkdownEditor = ({
 
   // Handle the introduction change
   const handleChangeIntroduction = (e) =>
-    setIntroduction(DOMPurify.sanitize(e.target.value)); // Sanitize the input and set the state
+    // setIntroduction(DOMPurify.sanitize(e.target.value)); // Sanitize the input and set the state
+    setIntroduction(DOMPurify.sanitize(e.helpers.getMarkdown())); // Sanitize the input and set the state
 
   // Handle the content change
   const handleChangeContent = (e) =>
-    setContent(DOMPurify.sanitize(e.target.value)); // Sanitize the input and set the state
+    // setContent(DOMPurify.sanitize(e.target.value)); // Sanitize the input and set the state
+    setContent(DOMPurify.sanitize(e.helpers.getMarkdown())); // Sanitize the input and set the state
 
   // Handle the blog creation
   const handleBlogCreation = async (e) => {
@@ -178,8 +182,8 @@ const MarkdownEditor = ({
   };
 
   // Handle the reset of the form
-  const handleReset = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior (refreshing the page)
+  const handleReset = (e = null) => {
+    if (e) e.preventDefault(); // Prevent the default form submission behavior (refreshing the page)
 
     // Clear the form fields by setting the state to empty strings
     setTitle("");
@@ -194,24 +198,23 @@ const MarkdownEditor = ({
 
   return (
     <div className="MarkdownEditor">
-      <IonGrid>
-        <IonRow>
-          <IonCol size="6" sizeSm="12" sizeMd="6" sizeXs="12">
-            <IonCard>
-              <IonItem lines="none">
-                <IonLabel>
-                  <IonCardTitle>Blog Editor</IonCardTitle>
-                </IonLabel>
-                <IonButton
-                  href="https://www.markdownguide.org/cheat-sheet/"
-                  target="_blank"
-                  fill="clear"
-                >
-                  <IonIcon slot="icon-only" icon={informationCircleOutline} />
-                </IonButton>
-              </IonItem>
-              <IonCardContent>
-                <form onSubmit={handleBlogCreation}>
+      <form onSubmit={handleBlogCreation}>
+        <IonGrid>
+          <IonRow>
+            <IonCol size="3" sizeSm="12" sizeMd="3" sizeXs="12">
+              <IonCard>
+                <IonItem lines="none">
+                  <IonLabel>
+                    <IonCardTitle>Blog Header</IonCardTitle>
+                  </IonLabel>
+                  <IonButton
+                    href="https://www.markdownguide.org/cheat-sheet/"
+                    target="_blank"
+                    fill="clear">
+                    <IonIcon slot="icon-only" icon={informationCircleOutline} />
+                  </IonButton>
+                </IonItem>
+                <IonCardContent>
                   <IonInput
                     label="Image URL"
                     labelPlacement="stacked"
@@ -261,7 +264,7 @@ const MarkdownEditor = ({
                     value={subtitle}
                     onIonInput={handleChangeSubTitle}
                   />
-                  <IonTextarea
+                  {/* <IonTextarea
                     label="Blog Introduction"
                     fill="outline"
                     mode="md"
@@ -287,8 +290,7 @@ const MarkdownEditor = ({
                     {updateBlogProp && (
                       <IonButton
                         className="ion-margin-bottom"
-                        onClick={handleReset}
-                      >
+                        onClick={handleReset}>
                         Cancel
                       </IonButton>
                     )}
@@ -306,9 +308,9 @@ const MarkdownEditor = ({
                     )}
                     <br />
                     <small>Blog Title and Blog Content are required</small>
-                  </div>
-                </form>
-                {error && (
+                  </div> */}
+
+                  {/* {error && (
                   <div className="ion-text-center ion-padding">
                     <div className="ion-text-center ion-padding">
                       <div className="blog-item-link">Error creating blog</div>
@@ -323,17 +325,90 @@ const MarkdownEditor = ({
                       <div>{errorUpdate.message}</div>
                     </div>
                   </div>
+                )} */}
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol>
+              <IonCard>
+                <IonItem lines="none">
+                  <IonLabel>
+                    <IonCardTitle>Blog Introduction</IonCardTitle>
+                  </IonLabel>
+                </IonItem>
+                <IonCardContent>
+                  <MDEditor
+                    content={introduction}
+                    handleChange={handleChangeIntroduction}
+                  />
+                  {/* <Basic
+                    content={introduction}
+                    setContent={setIntroduction}
+                    handleChange={handleChangeIntroduction}
+                  /> */}
+                </IonCardContent>
+              </IonCard>
+              <IonCard>
+                <IonItem lines="none">
+                  <IonLabel>
+                    <IonCardTitle>Blog Content</IonCardTitle>
+                  </IonLabel>
+                </IonItem>
+                <IonCardContent>
+                  <MDEditor
+                    content={content}
+                    handleChange={handleChangeContent}
+                  />
+                </IonCardContent>
+              </IonCard>
+
+              <div className="ion-text-center ion-padding">
+                {updateBlogProp && (
+                  <IonButton
+                    className="ion-margin-bottom"
+                    onClick={handleReset}>
+                    Cancel
+                  </IonButton>
                 )}
-              </IonCardContent>
-            </IonCard>
-          </IonCol>
-          <IonCol size="6" sizeSm="12" sizeMd="6" sizeXs="12">
+                <IonButton className="ion-margin-bottom" type="submit">
+                  {updateBlogProp ? "Update" : "Submit"}
+                </IonButton>
+                {updateBlogProp && (
+                  <>
+                    <br />
+                    <small style={{ color: "var(--ion-color-danger)" }}>
+                      Click &quot;Cancel&quot; or &quot;Update&quot; to end the
+                      update process.
+                    </small>
+                  </>
+                )}
+                <br />
+                <small>Blog Title and Blog Content are required</small>
+              </div>
+
+              {error && (
+                <div className="ion-text-center ion-padding">
+                  <div className="ion-text-center ion-padding">
+                    <div className="blog-item-link">Error creating blog</div>
+                    <div>{error.message}</div>
+                  </div>
+                </div>
+              )}
+              {errorUpdate && (
+                <div className="ion-text-center ion-padding">
+                  <div className="ion-text-center ion-padding">
+                    <div className="blog-item-link">Error updating blog</div>
+                    <div>{errorUpdate.message}</div>
+                  </div>
+                </div>
+              )}
+            </IonCol>
+            {/* <IonCol size="6" sizeSm="12" sizeMd="6" sizeXs="12">
             <IonCard
               style={{
                 maxWidth: "786px",
                 margin: "auto",
-              }}
-            >
+              }}>
               <IonCardHeader>
                 {imageURL && <img src={imageURL} alt={imageAlt} />}
                 <IonCardTitle className="card-title">
@@ -355,9 +430,10 @@ const MarkdownEditor = ({
                 </article>
               </IonCardContent>
             </IonCard>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
+          </IonCol> */}
+          </IonRow>
+        </IonGrid>
+      </form>
     </div>
   );
 };

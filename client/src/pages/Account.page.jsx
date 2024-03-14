@@ -272,8 +272,7 @@ const AccountPage = () => {
                           <IonLabel className="ion-text-wrap">
                             <a
                               href={`/blog/${blog.slug}`}
-                              className="blog-item-link"
-                            >
+                              className="blog-item-link">
                               {blog.title}
                             </a>
                             <div className="submitted-on">
@@ -284,16 +283,14 @@ const AccountPage = () => {
                             onClick={handleEditItem(blog)}
                             fill="clear"
                             color="dark"
-                            slot="end"
-                          >
+                            slot="end">
                             <IonIcon slot="icon-only" icon={createOutline} />
                           </IonButton>
                           <IonButton
                             onClick={handleRemoveItem(blog._id)}
                             fill="clear"
                             color="danger"
-                            slot="end"
-                          >
+                            slot="end">
                             <IonIcon slot="icon-only" icon={closeCircle} />
                           </IonButton>
                         </IonItem>
@@ -325,8 +322,7 @@ const AccountPage = () => {
                                   disabled={
                                     unapprovedBlogs.length ===
                                     unapprovedBlogsCount
-                                  }
-                                >
+                                  }>
                                   <IonText className="small">Load More</IonText>
                                 </IonButton>
                                 <div className="submitted-on">
@@ -368,8 +364,7 @@ const AccountPage = () => {
                           <IonLabel className="ion-text-wrap">
                             <a
                               href={`/blog/${blog._id}`}
-                              className="blog-item-link"
-                            >
+                              className="blog-item-link">
                               {blog.title}
                             </a>
                             <div className="submitted-on">
@@ -380,16 +375,14 @@ const AccountPage = () => {
                             onClick={handleEditItem(blog)}
                             fill="clear"
                             color="dark"
-                            slot="end"
-                          >
+                            slot="end">
                             <IonIcon slot="icon-only" icon={createOutline} />
                           </IonButton>
                           <IonButton
                             onClick={handleRemoveItem(blog._id, true)}
                             fill="clear"
                             color="danger"
-                            slot="end"
-                          >
+                            slot="end">
                             <IonIcon slot="icon-only" icon={closeCircle} />
                           </IonButton>
                         </IonItem>
@@ -420,8 +413,7 @@ const AccountPage = () => {
                                   disabled={
                                     approvedBlogs.length === approvedBlogsCount
                                   }
-                                  expand="block"
-                                >
+                                  expand="block">
                                   <IonText className="small">Load More</IonText>
                                 </IonButton>
                                 <div className="submitted-on">
