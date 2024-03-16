@@ -7,22 +7,16 @@ import {
   // IonCardSubtitle,
   IonCol,
   IonGrid,
-  IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
   IonRow,
   // IonTextarea,
   useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-// import Markdown from "react-markdown";
-import { informationCircleOutline } from "ionicons/icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useMutation } from "@apollo/client";
 import { ADD_BLOG, UPDATE_BLOG } from "../utils/mutations";
 import PropTypes from "prop-types";
-// import Basic from "./BasicMarkDown.component";
 import MDEditor from "./Remirror.component";
 
 const MarkdownEditor = ({
@@ -197,23 +191,12 @@ const MarkdownEditor = ({
   };
 
   return (
-    <div className="MarkdownEditor">
-      <form onSubmit={handleBlogCreation}>
-        <IonGrid>
-          <IonRow>
-            <IonCol size="3" sizeSm="12" sizeMd="3" sizeXs="12">
-              <IonCard>
-                <IonItem lines="none">
-                  <IonLabel>
-                    <IonCardTitle>Blog Header</IonCardTitle>
-                  </IonLabel>
-                  <IonButton
-                    href="https://www.markdownguide.org/cheat-sheet/"
-                    target="_blank"
-                    fill="clear">
-                    <IonIcon slot="icon-only" icon={informationCircleOutline} />
-                  </IonButton>
-                </IonItem>
+    <IonCard>
+      <div className="MarkdownEditor">
+        <form onSubmit={handleBlogCreation}>
+          <IonGrid>
+            <IonRow>
+              <IonCol size="3" sizeSm="12" sizeMd="3" sizeXs="12">
                 <IonCardContent>
                   <IonInput
                     label="Image URL"
@@ -264,177 +247,71 @@ const MarkdownEditor = ({
                     value={subtitle}
                     onIonInput={handleChangeSubTitle}
                   />
-                  {/* <IonTextarea
-                    label="Blog Introduction"
-                    fill="outline"
-                    mode="md"
-                    labelPlacement="stacked"
-                    rows={5}
-                    placeholder="Type something here in markdown..."
-                    className="ion-margin-bottom"
-                    value={introduction}
-                    onIonInput={handleChangeIntroduction}
-                  />
-                  <IonTextarea
-                    label="Blog Content"
-                    fill="outline"
-                    mode="md"
-                    labelPlacement="stacked"
-                    rows={10}
-                    placeholder="Type something here in markdown..."
-                    value={content}
-                    onIonInput={handleChangeContent}
-                    required
-                  />
-                  <div className="ion-text-center ion-padding">
-                    {updateBlogProp && (
-                      <IonButton
-                        className="ion-margin-bottom"
-                        onClick={handleReset}>
-                        Cancel
-                      </IonButton>
-                    )}
-                    <IonButton className="ion-margin-bottom" type="submit">
-                      {updateBlogProp ? "Update" : "Submit"}
-                    </IonButton>
-                    {updateBlogProp && (
-                      <>
-                        <br />
-                        <small style={{ color: "var(--ion-color-danger)" }}>
-                          Click &quot;Cancel&quot; or &quot;Update&quot; to end
-                          the update process.
-                        </small>
-                      </>
-                    )}
-                    <br />
-                    <small>Blog Title and Blog Content are required</small>
-                  </div> */}
-
-                  {/* {error && (
-                  <div className="ion-text-center ion-padding">
-                    <div className="ion-text-center ion-padding">
-                      <div className="blog-item-link">Error creating blog</div>
-                      <div>{error.message}</div>
-                    </div>
-                  </div>
-                )}
-                {errorUpdate && (
-                  <div className="ion-text-center ion-padding">
-                    <div className="ion-text-center ion-padding">
-                      <div className="blog-item-link">Error updating blog</div>
-                      <div>{errorUpdate.message}</div>
-                    </div>
-                  </div>
-                )} */}
                 </IonCardContent>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard>
-                <IonItem lines="none">
-                  <IonLabel>
-                    <IonCardTitle>Blog Introduction</IonCardTitle>
-                  </IonLabel>
-                </IonItem>
+              </IonCol>
+              <IonCol>
                 <IonCardContent>
+                  <IonCardTitle className="ion-padding-bottom">
+                    Blog Introduction
+                  </IonCardTitle>
                   <MDEditor
                     content={introduction}
                     handleChange={handleChangeIntroduction}
                   />
-                  {/* <Basic
-                    content={introduction}
-                    setContent={setIntroduction}
-                    handleChange={handleChangeIntroduction}
-                  /> */}
                 </IonCardContent>
-              </IonCard>
-              <IonCard>
-                <IonItem lines="none">
-                  <IonLabel>
-                    <IonCardTitle>Blog Content</IonCardTitle>
-                  </IonLabel>
-                </IonItem>
                 <IonCardContent>
+                  <IonCardTitle className="ion-padding-bottom">
+                    Blog Content
+                  </IonCardTitle>
                   <MDEditor
                     content={content}
                     handleChange={handleChangeContent}
                   />
                 </IonCardContent>
-              </IonCard>
-
-              <div className="ion-text-center ion-padding">
-                {updateBlogProp && (
-                  <IonButton
-                    className="ion-margin-bottom"
-                    onClick={handleReset}>
-                    Cancel
-                  </IonButton>
-                )}
-                <IonButton className="ion-margin-bottom" type="submit">
-                  {updateBlogProp ? "Update" : "Submit"}
-                </IonButton>
-                {updateBlogProp && (
-                  <>
-                    <br />
-                    <small style={{ color: "var(--ion-color-danger)" }}>
-                      Click &quot;Cancel&quot; or &quot;Update&quot; to end the
-                      update process.
-                    </small>
-                  </>
-                )}
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+          <div className="ion-text-center ion-padding">
+            {updateBlogProp && (
+              <IonButton className="ion-margin-bottom" onClick={handleReset}>
+                Cancel
+              </IonButton>
+            )}
+            <IonButton className="ion-margin-bottom" type="submit">
+              {updateBlogProp ? "Update" : "Submit"}
+            </IonButton>
+            {updateBlogProp && (
+              <>
                 <br />
-                <small>Blog Title and Blog Content are required</small>
-              </div>
+                <small style={{ color: "var(--ion-color-danger)" }}>
+                  Click &quot;Cancel&quot; or &quot;Update&quot; to end the
+                  update process.
+                </small>
+              </>
+            )}
+            <br />
+            <small>Blog Title and Blog Content are required</small>
+          </div>
 
-              {error && (
-                <div className="ion-text-center ion-padding">
-                  <div className="ion-text-center ion-padding">
-                    <div className="blog-item-link">Error creating blog</div>
-                    <div>{error.message}</div>
-                  </div>
-                </div>
-              )}
-              {errorUpdate && (
-                <div className="ion-text-center ion-padding">
-                  <div className="ion-text-center ion-padding">
-                    <div className="blog-item-link">Error updating blog</div>
-                    <div>{errorUpdate.message}</div>
-                  </div>
-                </div>
-              )}
-            </IonCol>
-            {/* <IonCol size="6" sizeSm="12" sizeMd="6" sizeXs="12">
-            <IonCard
-              style={{
-                maxWidth: "786px",
-                margin: "auto",
-              }}>
-              <IonCardHeader>
-                {imageURL && <img src={imageURL} alt={imageAlt} />}
-                <IonCardTitle className="card-title">
-                  {title ? title : "Blog Title"}
-                </IonCardTitle>
-                <IonCardSubtitle>{subtitle && subtitle}</IonCardSubtitle>
-              </IonCardHeader>
-              <IonCardContent>
-                <article>
-                  {introduction && <Markdown>{introduction}</Markdown>}
-                  {content ? (
-                    <Markdown>{content}</Markdown>
-                  ) : (
-                    <div>
-                      No content to preview, type something in the Blog Content
-                      box.
-                    </div>
-                  )}
-                </article>
-              </IonCardContent>
-            </IonCard>
-          </IonCol> */}
-          </IonRow>
-        </IonGrid>
-      </form>
-    </div>
+          {error && (
+            <div className="ion-text-center ion-padding">
+              <div className="ion-text-center ion-padding">
+                <div className="blog-item-link">Error creating blog</div>
+                <div>{error.message}</div>
+              </div>
+            </div>
+          )}
+          {errorUpdate && (
+            <div className="ion-text-center ion-padding">
+              <div className="ion-text-center ion-padding">
+                <div className="blog-item-link">Error updating blog</div>
+                <div>{errorUpdate.message}</div>
+              </div>
+            </div>
+          )}
+        </form>
+      </div>
+    </IonCard>
   );
 };
 

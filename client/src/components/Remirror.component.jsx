@@ -1,8 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import {
-  ThemeProvider,
-  useRemirrorContext,
-} from "@remirror/react";
+import { ThemeProvider, useRemirrorContext } from "@remirror/react";
 import { MarkdownEditor } from "@remirror/react-editors/markdown";
 import PropTypes from "prop-types";
 
@@ -35,26 +32,14 @@ const MDEditor = ({
   }, [content]);
 
   return (
-    <>
-      <button
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={(e) => {
-          if (editorRef.current) {
-            e.preventDefault();
-            editorRef.current.setContent(content);
-          }
-        }}>
-        Replace content
-      </button>
-      <ThemeProvider>
-        <MarkdownEditor
-          placeholder={placeholder}
-          initialContent={content}
-          onChange={handleChange}>
-          <ImperativeHandle ref={editorRef} />
-        </MarkdownEditor>
-      </ThemeProvider>
-    </>
+    <ThemeProvider>
+      <MarkdownEditor
+        placeholder={placeholder}
+        initialContent={content}
+        onChange={handleChange}>
+        <ImperativeHandle ref={editorRef} />
+      </MarkdownEditor>
+    </ThemeProvider>
   );
 };
 
