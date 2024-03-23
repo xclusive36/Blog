@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
-  query getUser($username: String!) {
-    user(username: $username) {
+  query getUser($_id: String!) {
+    user(_id: $_id) {
       username
       email
     }
@@ -26,6 +26,7 @@ export const QUERY_ALL_BLOGS = gql`
     allBlogs {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -45,6 +46,7 @@ export const QUERY_UNAPPROVED_BLOGS = gql`
     unapprovedBlogs {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -64,6 +66,7 @@ export const QUERY_APPROVED_BLOGS = gql`
     approvedBlogs {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -83,6 +86,7 @@ export const QUERY_MY_BLOGS = gql`
     myBlogs {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -113,6 +117,7 @@ export const QUERY_MY_UNAPPROVED_BLOGS = gql`
       unapprovedBlogs {
         _id
         userID
+        username
         title
         subtitle
         imageURL
@@ -135,6 +140,7 @@ export const QUERY_MY_APPROVED_BLOGS = gql`
       approvedBlogs {
         _id
         userID
+        username
         title
         subtitle
         imageURL
@@ -157,6 +163,7 @@ export const QUERY_BLOG = gql`
       blog {
         _id
         userID
+        username
         title
         subtitle
         imageURL

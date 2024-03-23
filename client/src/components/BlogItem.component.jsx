@@ -10,14 +10,17 @@ import {
 
 import "./BlogItem.styles.css";
 
-const BlogItemComponent = ({
-  blog,
-  username = "",
-  showIntro = true,
-  showContent = false,
-}) => {
-  const { title, subtitle, imageURL, imageAlt, date, introduction, content } =
-    blog;
+const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
+  const {
+    username,
+    title,
+    subtitle,
+    imageURL,
+    imageAlt,
+    date,
+    introduction,
+    content,
+  } = blog;
 
   const convertDate = (date) => {
     // return the date in the format of Month Day, Year
@@ -35,8 +38,7 @@ const BlogItemComponent = ({
         margin: "auto",
         boxShadow: "0 0 40px rgba(0, 0, 0, 0.05)",
       }}
-      {...(!showContent && { routerLink: `/blog/${blog.slug}` })}
-    >
+      {...(!showContent && { routerLink: `/blog/${blog.slug}` })}>
       {
         /* If showContent is false, then show the image and title only */
         !showContent ? (
@@ -45,8 +47,7 @@ const BlogItemComponent = ({
               position: "relative",
               color: "var(--ion-color-light)",
             }}
-            className="thumbnail"
-          >
+            className="thumbnail">
             <img
               className={!showContent ? "blog-image" : ""}
               alt={imageAlt}
@@ -62,8 +63,7 @@ const BlogItemComponent = ({
                 left: "1rem",
                 right: "1rem",
                 backdropFilter: "blur(10px)",
-              }}
-            >
+              }}>
               <IonCardSubtitle color="light">{title}</IonCardSubtitle>
               {date && (
                 <>
@@ -78,8 +78,7 @@ const BlogItemComponent = ({
             style={{
               position: "relative",
               color: "var(--ion-color-light)",
-            }}
-          >
+            }}>
             <img
               className={!showContent ? "blog-image" : ""}
               alt={imageAlt}
@@ -97,13 +96,11 @@ const BlogItemComponent = ({
                 right: "1rem",
                 // make backdrop darker
                 backdropFilter: "blur(10px)",
-              }}
-            >
+              }}>
               <IonCardHeader
                 style={{
                   color: "var(--ion-color-light)",
-                }}
-              >
+                }}>
                 <IonCardTitle color="light">{title}</IonCardTitle>
                 <IonCardSubtitle color="light">{subtitle}</IonCardSubtitle>
                 {date && (
@@ -121,8 +118,7 @@ const BlogItemComponent = ({
         style={{
           display: "flex",
           flexDirection: "column",
-        }}
-      >
+        }}>
         {showIntro && <Markdown>{introduction}</Markdown>}
         {showContent && (
           <>
@@ -141,6 +137,7 @@ const BlogItemComponent = ({
 
 BlogItemComponent.propTypes = {
   blog: PropTypes.shape({
+    username: PropTypes.string,
     title: PropTypes.string,
     subtitle: PropTypes.string,
     imageURL: PropTypes.string,

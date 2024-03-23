@@ -26,6 +26,7 @@ export const typeDefs = `#graphql
   type Blog {
     _id: ID
     userID: String
+    username: String
     title: String
     subtitle: String
     imageURL: String

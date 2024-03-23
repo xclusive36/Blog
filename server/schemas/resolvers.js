@@ -34,7 +34,7 @@ export const resolvers = {
     },
     approvedBlogs: async () => {
       // This resolver is used to get all approved blogs
-      return Blog.find({ approved: true }).sort({ date: -1 }); // find all blogs where approved is true and sort by date in decending order
+      return Blog.find({ approved: true }).sort({ date: 1 }); // find all blogs where approved is true and sort by date in ascending order
     },
     myBlogs: async (parent, args, context) => {
       // This resolver is used to get the user's blogs
@@ -257,6 +257,7 @@ export const resolvers = {
         user = JSON.parse(user); // parse the user object from a string to an object
         return await Blog.create({
           userID: user._id, // Set userID to the context user id
+          username: user.username, // Set username to the context user username
           title: sanitizedTitle, // Set title to the sanitized title
           subtitle: sanitizedSubtitle, // Set subtitle to the sanitized subtitle
           imageURL: sanitizedImageURL, // Set imageURL to the sanitized imageURL
@@ -359,6 +360,7 @@ export const resolvers = {
           // Update the blog
           { _id: sanitizedID, userID: user._id },
           {
+            username: user.username, // Set username to the context user username
             title: sanitizedTitle, // Set title to the sanitized title
             subtitle: sanitizedSubtitle, // Set subtitle to the sanitized subtitle
             imageURL: sanitizedImageURL, // Set imageURL to the sanitized imageURL

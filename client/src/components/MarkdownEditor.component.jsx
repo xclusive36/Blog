@@ -2,14 +2,13 @@ import {
   IonButton,
   IonCard,
   IonCardContent,
-  // IonCardHeader,
+  IonCardSubtitle,
   IonCardTitle,
-  // IonCardSubtitle,
   IonCol,
   IonGrid,
   IonInput,
   IonRow,
-  // IonTextarea,
+  IonText,
   useIonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
@@ -47,11 +46,15 @@ const MarkdownEditor = ({
 
   const [present] = useIonToast();
 
-  const presentToast = (message = "Blog successfully created") => {
+  const presentToast = (
+    message = "Blog successfully created",
+    color = "dark"
+  ) => {
     present({
       message: message,
       duration: 1500,
       position: "bottom",
+      color: color,
     });
   };
 
@@ -89,6 +92,7 @@ const MarkdownEditor = ({
 
     // Make sure the required fields are filled out
     if (!title || !content) {
+      presentToast("Blog content required", "danger"); // Present the toast notification
       return false;
     }
 
@@ -124,7 +128,7 @@ const MarkdownEditor = ({
 
         if (data) {
           // if the data exists (i.e. the mutation was successful)
-          presentToast("Blog successfully updated"); // Present the toast notification
+          presentToast("Blog successfully updated", "success"); // Present the toast notification
 
           // Clear the form fields by setting the state to empty strings
           setTitle("");
@@ -157,7 +161,7 @@ const MarkdownEditor = ({
 
       if (data) {
         // if the data exists (i.e. the mutation was successful)
-        presentToast(); // Present the toast notification
+        presentToast("Blog successfully created", "success"); // Present the toast notification
 
         // Clear the form fields by setting the state to empty strings
         setTitle("");
@@ -196,34 +200,9 @@ const MarkdownEditor = ({
         <form onSubmit={handleBlogCreation}>
           <IonGrid>
             <IonRow>
-              <IonCol size="3" sizeSm="12" sizeMd="3" sizeXs="12">
+              <IonCol sizeSm="12" sizeMd="4" sizeXs="12">
                 <IonCardContent>
                   <IonInput
-                    label="Image URL"
-                    labelPlacement="stacked"
-                    clearInput={true}
-                    type="url"
-                    fill="outline"
-                    mode="md"
-                    placeholder="Image URL"
-                    className="ion-margin-bottom"
-                    value={imageURL}
-                    onIonInput={handleChangeImage}
-                  />
-                  <IonInput
-                    label="Image Alt"
-                    labelPlacement="stacked"
-                    clearInput={true}
-                    type="text"
-                    fill="outline"
-                    mode="md"
-                    placeholder="Image alt text"
-                    className="ion-margin-bottom"
-                    value={imageAlt}
-                    onIonInput={handleChangeImageAlt}
-                  />
-                  <IonInput
-                    label="Blog Title"
                     labelPlacement="stacked"
                     clearInput={true}
                     type="text"
@@ -233,10 +212,13 @@ const MarkdownEditor = ({
                     className="ion-margin-bottom"
                     value={title}
                     onIonInput={handleChangeTitle}
-                    required
-                  />
+                    required>
+                    <div slot="label">
+                      <strong>Blog Title</strong>{" "}
+                      <IonText color="danger">(Required)</IonText>
+                    </div>
+                  </IonInput>
                   <IonInput
-                    label="Blog Subtitle"
                     labelPlacement="stacked"
                     clearInput={true}
                     type="text"
@@ -245,41 +227,86 @@ const MarkdownEditor = ({
                     placeholder="Blog subtitle"
                     className="ion-margin-bottom"
                     value={subtitle}
-                    onIonInput={handleChangeSubTitle}
-                  />
+                    onIonInput={handleChangeSubTitle}>
+                    <div slot="label">
+                      <strong>Blog Subtitle</strong>
+                    </div>
+                  </IonInput>
+                  <IonInput
+                    labelPlacement="stacked"
+                    clearInput={true}
+                    type="url"
+                    fill="outline"
+                    mode="md"
+                    placeholder="Image URL"
+                    className="ion-margin-bottom"
+                    value={imageURL}
+                    onIonInput={handleChangeImage}>
+                    <div slot="label">
+                      <strong>Image URL</strong>
+                    </div>
+                  </IonInput>
+                  <IonInput
+                    labelPlacement="stacked"
+                    clearInput={true}
+                    type="text"
+                    fill="outline"
+                    mode="md"
+                    placeholder="Image alt text"
+                    className="ion-margin-bottom"
+                    value={imageAlt}
+                    onIonInput={handleChangeImageAlt}>
+                    <div slot="label">
+                      <strong>Image Alt</strong>
+                    </div>
+                  </IonInput>
                 </IonCardContent>
               </IonCol>
-              <IonCol>
+              <IonCol sizeSm="12" sizeMd="8" sizeXs="12">
                 <IonCardContent>
-                  <IonCardTitle className="ion-padding-bottom">
-                    Blog Introduction
-                  </IonCardTitle>
+                  <IonCardTitle>Blog Introduction</IonCardTitle>
+                  <IonCardSubtitle className="ion-padding-bottom">
+                    <small>
+                      This is where you can add an introduction to the blog. It
+                      will be displayed at the top of the blog post.
+                    </small>
+                  </IonCardSubtitle>
                   <MDEditor
                     content={introduction}
                     handleChange={handleChangeIntroduction}
                   />
                 </IonCardContent>
                 <IonCardContent>
-                  <IonCardTitle className="ion-padding-bottom">
-                    Blog Content
-                  </IonCardTitle>
+                  <IonCardTitle>Blog Content&nbsp;</IonCardTitle>
+                  <IonCardSubtitle className="ion-margin-bottom">
+                    <small>
+                      This is where you can add the content of the blog. You can
+                      use markdown to format the text. &nbsp;
+                      <IonText color="danger">(Required)</IonText>
+                    </small>
+                  </IonCardSubtitle>
                   <MDEditor
                     content={content}
                     handleChange={handleChangeContent}
                   />
+                  {updateBlogProp && (
+                    <IonButton
+                      className="ion-margin-top ion-margin-bottom"
+                      onClick={handleReset}
+                      color="tertiary">
+                      Cancel
+                    </IonButton>
+                  )}
+                  <IonButton
+                    className="ion-margin-top ion-margin-bottom"
+                    type="submit">
+                    {updateBlogProp ? "Update" : "Submit"}
+                  </IonButton>
                 </IonCardContent>
               </IonCol>
             </IonRow>
           </IonGrid>
           <div className="ion-text-center ion-padding">
-            {updateBlogProp && (
-              <IonButton className="ion-margin-bottom" onClick={handleReset}>
-                Cancel
-              </IonButton>
-            )}
-            <IonButton className="ion-margin-bottom" type="submit">
-              {updateBlogProp ? "Update" : "Submit"}
-            </IonButton>
             {updateBlogProp && (
               <>
                 <br />
@@ -289,8 +316,6 @@ const MarkdownEditor = ({
                 </small>
               </>
             )}
-            <br />
-            <small>Blog Title and Blog Content are required</small>
           </div>
 
           {error && (

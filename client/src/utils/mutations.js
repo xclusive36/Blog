@@ -54,6 +54,7 @@ export const ADD_BLOG = gql`
     ) {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -72,6 +73,7 @@ export const APPROVE_BLOG = gql`
     approveBlog(_id: $_id, approved: $approved) {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -106,6 +108,7 @@ export const UPDATE_BLOG = gql`
     ) {
       _id
       userID
+      username
       title
       subtitle
       imageURL
@@ -124,6 +127,7 @@ export const REMOVE_BLOG = gql`
     removeBlog(_id: $_id) {
       _id
       userID
+      username
       title
       subtitle
       imageURL

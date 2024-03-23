@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const blogSchema = new Schema({
   userID: { type: String, required: true, trim: true },
+  username: { type: String, required: true, trim: true },
   title: {
     type: String,
     required: true,
