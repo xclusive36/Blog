@@ -32,6 +32,8 @@ process.env.NODE_ENV === "production" &&
       crossOriginEmbedderPolicy: false,
       contentSecurityPolicy: {
         directives: {
+          defaultSrc: [`'self'`],
+          connectSrc: [`'self'`, "sandbox.embed.apollographql.com", "ajax.cloudflare.com", "https://api.github.com"],
           imgSrc: [
             `'self'`,
             "data:",
