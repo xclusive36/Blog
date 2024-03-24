@@ -32,6 +32,7 @@ export const typeDefs = `#graphql
     imageURL: String
     imageAlt: String
     date: String
+    lastUpdated: String
     slug: String
     introduction: String
     content: String

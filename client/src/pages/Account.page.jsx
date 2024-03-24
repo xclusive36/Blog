@@ -243,6 +243,7 @@ const AccountPage = () => {
                   blogs={approvedBlogs}
                   error={errorApproved}
                   blogsCount={approvedBlogsCount}
+                  approved={true}
                 />
               </IonCol>
             </IonRow>

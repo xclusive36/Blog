@@ -23,6 +23,7 @@ export const AccountItemComponent = ({
   blogs,
   error,
   blogsCount,
+  approved,
 }) => {
   const convertDate = (date) => {
     // return the date in the format of Month Day, Year
@@ -37,7 +38,11 @@ export const AccountItemComponent = ({
     <IonCard>
       <IonCardContent>
         <IonSearchbar onIonInput={handleSearch} />
-        <IonCardTitle>Blogs waiting approval:</IonCardTitle>
+        {approved ? (
+          <IonCardTitle>Approved blogs:</IonCardTitle>
+        ) : (
+          <IonCardTitle>Blogs waiting approval:</IonCardTitle>
+        )}
         <IonList>
           {loading && (
             <IonItem>
@@ -128,4 +133,5 @@ AccountItemComponent.propTypes = {
     message: PropTypes.string,
   }),
   blogsCount: PropTypes.number,
+  approved: PropTypes.bool,
 };

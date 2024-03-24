@@ -12,6 +12,7 @@ const blogSchema = new Schema({
   imageURL: { type: String, required: false, trim: true },
   imageAlt: { type: String, required: false, trim: true },
   date: { type: String, required: true, trim: true },
+  lastUpdated: { type: String, required: true, trim: true },
   slug: { type: String, required: true, trim: true },
   introduction: { type: String, required: false, trim: true },
   content: { type: String, required: true, trim: true },

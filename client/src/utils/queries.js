@@ -32,6 +32,7 @@ export const QUERY_ALL_BLOGS = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -52,6 +53,7 @@ export const QUERY_UNAPPROVED_BLOGS = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -72,6 +74,7 @@ export const QUERY_APPROVED_BLOGS = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -92,6 +95,7 @@ export const QUERY_MY_BLOGS = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -123,6 +127,7 @@ export const QUERY_MY_UNAPPROVED_BLOGS = gql`
         imageURL
         imageAlt
         date
+        lastUpdated
         slug
         introduction
         content
@@ -146,6 +151,7 @@ export const QUERY_MY_APPROVED_BLOGS = gql`
         imageURL
         imageAlt
         date
+        lastUpdated
         slug
         introduction
         content
@@ -169,6 +175,7 @@ export const QUERY_BLOG = gql`
         imageURL
         imageAlt
         date
+        lastUpdated
         slug
         introduction
         content

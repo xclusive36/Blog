@@ -249,6 +249,7 @@ export const resolvers = {
             "The imageAlt cannot be longer than 100 characters!"
           ); // Throw an error message if the imageAlt is too long
         }
+        const date = new Date().toISOString(); // Set date to the current date and time
         const slug = sanitizedTitle
           .toLowerCase()
           .replace(/ /g, "-")
@@ -262,7 +263,8 @@ export const resolvers = {
           subtitle: sanitizedSubtitle, // Set subtitle to the sanitized subtitle
           imageURL: sanitizedImageURL, // Set imageURL to the sanitized imageURL
           imageAlt: sanitizedImageAlt, // Set imageAlt to the sanitized imageAlt
-          date: new Date().toISOString(), // Set date to the current date and time
+          date: date, // Set date to the current date and time
+          lastUpdated: date, // Set lastUpdated to the current date and time
           slug, // Set slug to the slug
           introduction: sanitizedIntroduction, // Set introduction to the sanitized introduction
           content: sanitizedContent,
@@ -365,7 +367,8 @@ export const resolvers = {
             subtitle: sanitizedSubtitle, // Set subtitle to the sanitized subtitle
             imageURL: sanitizedImageURL, // Set imageURL to the sanitized imageURL
             imageAlt: sanitizedImageAlt, // Set imageAlt to the sanitized imageAlt
-            date: new Date().toISOString(), // Set date to the current date and time
+            // date: new Date().toISOString(), // Set date to the current date and time
+            lastUpdated: new Date().toISOString(), // Set lastUpdated to the current date and time
             slug, // Set slug to the slug
             introduction: sanitizedIntroduction, // Set introduction to the sanitized introduction
             content: sanitizedContent,

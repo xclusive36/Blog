@@ -60,6 +60,7 @@ export const ADD_BLOG = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -79,6 +80,7 @@ export const APPROVE_BLOG = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -114,6 +116,7 @@ export const UPDATE_BLOG = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
@@ -133,6 +136,7 @@ export const REMOVE_BLOG = gql`
       imageURL
       imageAlt
       date
+      lastUpdated
       slug
       introduction
       content
