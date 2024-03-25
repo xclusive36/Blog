@@ -45,6 +45,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
           <div
             style={{
               position: "relative",
+              backgroundColor: "var(--ion-color-dark)",
               color: "var(--ion-color-light)",
             }}
             className="thumbnail">
@@ -77,6 +78,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
             className="ion-padding"
             style={{
               position: "relative",
+              backgroundColor: "var(--ion-color-dark)",
               color: "var(--ion-color-light)",
             }}>
             <img

@@ -117,18 +117,17 @@ const AccountPage = () => {
     }
   };
 
-  const handleLoadMoreApproved = (e) => {
-    e.preventDefault();
-
+  const handleLoadMoreApproved = async (e) => {
+    e.preventDefault(); // prevent page reload on form submit
     try {
-      const { data } = fetchMoreApproved({
+      const { data } = await fetchMoreApproved({
         variables: {
           offset: approvedBlogs.length,
           limit: 5,
           searchTerm: searchTermApproved,
         },
       });
-      
+
       setApprovedBlogs([
         ...approvedBlogs,
         ...data.myApprovedBlogs.approvedBlogs,
