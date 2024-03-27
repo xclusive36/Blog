@@ -1,22 +1,32 @@
 import {
   IonButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardSubtitle,
   IonCardTitle,
   IonCol,
+  IonContent,
   IonGrid,
+  IonHeader,
+  IonIcon,
   IonInput,
+  IonModal,
   IonRow,
+  IonSelect,
+  IonSelectOption,
   IonText,
+  IonTitle,
+  IonToolbar,
   useIonToast,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
 import { useMutation } from "@apollo/client";
 import { ADD_BLOG, UPDATE_BLOG } from "../utils/mutations";
 import PropTypes from "prop-types";
 import MDEditor from "./Remirror.component";
+import { searchOutline } from "ionicons/icons";
 
 const MarkdownEditor = ({
   updateBlog: updateBlogProp,
@@ -29,6 +39,8 @@ const MarkdownEditor = ({
   const [imageAlt, setImageAlt] = useState("");
   const [introduction, setIntroduction] = useState(``);
   const [content, setContent] = useState(``);
+
+  const imageModal = useRef(null);
 
   useEffect(() => {
     if (updateBlogProp) {
@@ -194,6 +206,41 @@ const MarkdownEditor = ({
     setUpdateBlog(null); // Set the updateBlog state to null
   };
 
+  const [imageSearchText, setImageSearchText] = useState("");
+  const [imagesArray, setImagesArray] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [quantity, setQuantity] = useState(10);
+  const [orientation, setOrientation] = useState("landscape");
+  const [orderBy, setOrderBy] = useState("relevant");
+  const [color, setColor] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchImageRequest = useCallback(async () => {
+    try {
+      const data = await fetch(
+        `https://api.unsplash.com/search/photos?page=${pageNumber}&per_page=${quantity}&orientation=${orientation}&order_by=${orderBy}&client_id=${
+          import.meta.env.VITE_IMAGE_API_KEY
+        }&query=${imageSearchText}${color ? `&color=${color}` : ""}`
+      );
+      const JSONData = await data.json(); // Convert the data to JSON
+      // const result = JSONData.results;
+      // setImagesArray(result);
+      setTotalPages(JSONData.total_pages);
+      setImagesArray(JSONData.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [color, imageSearchText, orderBy, orientation, pageNumber, quantity]);
+
+  useEffect(() => {
+    fetchImageRequest();
+  }, [fetchImageRequest]);
+
+  const Submit = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior (refreshing the page)
+    fetchImageRequest(); // Fetch the images
+  };
+
   return (
     <IonCard>
       <div className="MarkdownEditor">
@@ -232,20 +279,30 @@ const MarkdownEditor = ({
                       <strong>Blog Subtitle</strong>
                     </div>
                   </IonInput>
-                  <IonInput
-                    labelPlacement="stacked"
-                    clearInput={true}
-                    type="url"
-                    fill="outline"
-                    mode="md"
-                    placeholder="Image URL"
-                    className="ion-margin-bottom"
-                    value={imageURL}
-                    onIonInput={handleChangeImage}>
-                    <div slot="label">
-                      <strong>Image URL</strong>
-                    </div>
-                  </IonInput>
+                </IonCardContent>
+                <IonCardContent>
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <IonInput
+                      labelPlacement="stacked"
+                      clearInput={true}
+                      type="url"
+                      fill="outline"
+                      mode="md"
+                      placeholder="Image URL"
+                      className="ion-margin-bottom"
+                      value={imageURL}
+                      onIonInput={handleChangeImage}>
+                      <div slot="label">
+                        <strong>Image URL</strong>
+                      </div>
+                    </IonInput>
+                    <IonButton
+                      size="small"
+                      style={{ position: "relative", bottom: "8px" }}
+                      id="image-modal">
+                      <IonIcon slot="icon-only" icon={searchOutline} />
+                    </IonButton>
+                  </div>
                   <IonInput
                     labelPlacement="stacked"
                     clearInput={true}
@@ -335,6 +392,145 @@ const MarkdownEditor = ({
             </div>
           )}
         </form>
+        <IonModal ref={imageModal} trigger="image-modal">
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot="start">
+                <IonButton onClick={() => imageModal.current?.dismiss()}>
+                  Cancel
+                </IonButton>
+              </IonButtons>
+              <IonTitle>Image Search</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            <form onSubmit={Submit}>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <IonInput
+                  mode="md"
+                  placeholder="Search for an image"
+                  clearInput={true}
+                  type="text"
+                  labelPlacement="stacked"
+                  fill="outline"
+                  value={imageSearchText}
+                  onIonInput={(e) => setImageSearchText(e.target.value)}>
+                  <div slot="label">
+                    <strong>Image Search</strong>
+                  </div>
+                </IonInput>
+                <IonButton type="submit" onClick={Submit}>
+                  Search
+                </IonButton>
+              </div>
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <IonSelect
+                      aria-label="Quantity"
+                      placeholder="Select Quantity"
+                      onIonChange={(e) => setQuantity(e.target.value)}>
+                      <IonSelectOption value="10">10</IonSelectOption>
+                      <IonSelectOption value="20">20</IonSelectOption>
+                      <IonSelectOption value="30">30</IonSelectOption>
+                    </IonSelect>
+                  </IonCol>
+                  <IonCol>
+                    <IonSelect
+                      aria-label="Orientation"
+                      placeholder="Select Orientation"
+                      onIonChange={(e) => setOrientation(e.target.value)}>
+                      <IonSelectOption value="landscape">
+                        Landscape
+                      </IonSelectOption>
+                      <IonSelectOption value="portrait">
+                        Portrait
+                      </IonSelectOption>
+                      <IonSelectOption value="squarish">
+                        Squarish
+                      </IonSelectOption>
+                    </IonSelect>
+                  </IonCol>
+                  <IonCol>
+                    <IonSelect
+                      aria-label="Order By"
+                      placeholder="Order By"
+                      onIonChange={(e) => setOrderBy(e.target.value)}>
+                      <IonSelectOption value="relevant">
+                        Relevant
+                      </IonSelectOption>
+                      <IonSelectOption value="latest">Latest</IonSelectOption>
+                    </IonSelect>
+                  </IonCol>
+                  <IonCol>
+                    <IonSelect
+                      aria-label="Color"
+                      placeholder="Color"
+                      onIonChange={(e) => setColor(e.target.value)}>
+                      <IonSelectOption value="">None</IonSelectOption>
+                      <IonSelectOption value="black_and_white">
+                        Black and White
+                      </IonSelectOption>
+                      <IonSelectOption value="black">Black</IonSelectOption>
+                      <IonSelectOption value="white">White</IonSelectOption>
+                      <IonSelectOption value="yellow">Yellow</IonSelectOption>
+                      <IonSelectOption value="orange">Orange</IonSelectOption>
+                      <IonSelectOption value="red">Red</IonSelectOption>
+                      <IonSelectOption value="purple">Purple</IonSelectOption>
+                      <IonSelectOption value="magenta">Magenta</IonSelectOption>
+                      <IonSelectOption value="green">Green</IonSelectOption>
+                      <IonSelectOption value="teal">Teal</IonSelectOption>
+                      <IonSelectOption value="blue">Blue</IonSelectOption>
+                      <IonSelectOption value="black_and_white">
+                        Black and White
+                      </IonSelectOption>
+                    </IonSelect>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+            </form>
+            <IonGrid>
+              <IonRow>
+                {imagesArray.map((val) => {
+                  return (
+                    <IonCol
+                      sizeXs="6"
+                      sizeSm="6"
+                      sizeMd="4"
+                      key={val.id}
+                      onClick={() => {
+                        setImageURL(val.urls.regular);
+                        setImageAlt(val.alt_description);
+                        imageModal.current?.dismiss();
+                      }}>
+                      <img src={val.urls.small} alt="val.alt_description" />
+                    </IonCol>
+                  );
+                })}
+              </IonRow>
+              <IonRow>
+                <IonCol>
+                  <IonButton
+                    disabled={pageNumber <= 1}
+                    onClick={() => setPageNumber(pageNumber - 1)}
+                    color="secondary"
+                    expand="block">
+                    Prev
+                  </IonButton>
+                </IonCol>
+                <IonCol>
+                  <IonButton
+                    disabled={pageNumber === totalPages || totalPages <= 1}
+                    onClick={() => setPageNumber(pageNumber + 1)}
+                    color="primary"
+                    expand="block">
+                    Next
+                  </IonButton>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+          </IonContent>
+        </IonModal>
       </div>
     </IonCard>
   );
