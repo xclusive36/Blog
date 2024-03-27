@@ -34,7 +34,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
   return (
     <IonCard
       style={{
-        maxWidth: "786px",
+        maxWidth: "1080px",
         margin: "auto",
         boxShadow: "0 0 40px rgba(0, 0, 0, 0.05)",
       }}
