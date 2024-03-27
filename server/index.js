@@ -33,7 +33,7 @@ process.env.NODE_ENV === "production" &&
       contentSecurityPolicy: {
         directives: {
           defaultSrc: [`'self'`],
-          connectSrc: [`'self'`, "sandbox.embed.apollographql.com", "ajax.cloudflare.com", "https://api.github.com"],
+          connectSrc: [`'self'`, "sandbox.embed.apollographql.com", "ajax.cloudflare.com", "https://api.github.com", "https://api.unsplash.com"],
           imgSrc: [
             `'self'`,
             "data:",
