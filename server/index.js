@@ -25,7 +25,7 @@ const app = express();
 app.use(urlencoded({ extended: false })); // add middleware to parse incoming JSON data
 app.use(json()); // add middleware to parse incoming JSON data
 // app.use(rateLimitMiddleware()); // add rate limit middleware to Express app
-// app.use(compression()); // add compression middleware to Express app
+app.use(compression()); // add compression middleware to Express app
 process.env.NODE_ENV === "production" &&
   app.use(
     helmet({
