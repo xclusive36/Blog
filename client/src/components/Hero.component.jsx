@@ -2,7 +2,7 @@ const HeroComponent = () => {
   return (
     <div
       style={{
-        height: "25rem",
+        // height: "25rem",
         display: "flex",
         flexDirection: "column",
       }}
