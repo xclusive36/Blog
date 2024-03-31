@@ -100,6 +100,9 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                 bottom: ".8rem",
                 left: "1rem",
                 right: "1rem",
+                backgroundColor: textColor === "light" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)",
+                padding: "0.5rem",
+                borderRadius: "4px",
               }}>
               <IonCardSubtitle color={textColor}>{title}</IonCardSubtitle>
               {date && (
@@ -128,9 +131,12 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: ".8rem",
-                  left: "1rem",
-                  right: "1rem",
+                  bottom: "3rem",
+                  left: "2rem",
+                  right: "2rem",
+                  backgroundColor: textColor === "light" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)",
+                  padding: "0.1rem",
+                  borderRadius: "4px",
                 }}>
                 <IonCardHeader
                   style={{
