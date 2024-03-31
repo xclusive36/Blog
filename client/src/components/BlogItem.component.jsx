@@ -61,11 +61,11 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
       // if (res === "light") setTextColor("dark");
       // setTextColor(res);
       // if the image is light and the color scheme is light, then set the text color to dark
-      if (res === "light" && colorScheme === "light") setTextColor("light");
+      if (res === "light" && colorScheme === "light") setTextColor("dark");
       // if the image is dark and the color scheme is light, then set the text color to light
       if (res === "dark" && colorScheme === "light") setTextColor("dark");
       // if the image is light and the color scheme is dark, then set the text color to light
-      if (res === "light" && colorScheme === "dark") setTextColor("dark");
+      if (res === "light" && colorScheme === "dark") setTextColor("light");
       // if the image is dark and the color scheme is dark, then set the text color to dark
       if (res === "dark" && colorScheme === "dark") setTextColor("dark");
     });
@@ -86,7 +86,6 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
             style={{
               position: "relative",
               backgroundColor: "var(--ion-color-dark)",
-              color: `var(--ion-color-${textColor})`,
             }}
             className="thumbnail">
             <img
@@ -100,11 +99,18 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                 bottom: ".8rem",
                 left: "1rem",
                 right: "1rem",
-                backgroundColor: textColor === "light" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)",
+                backgroundColor:
+                  textColor === "light"
+                    ? "rgba(0, 0, 0, .8)"
+                    : "rgba(255, 255, 255, .8)",
                 padding: "0.5rem",
                 borderRadius: "4px",
               }}>
-              <IonCardSubtitle color={textColor}>{title}</IonCardSubtitle>
+              <IonCardSubtitle
+              //  color={textColor}
+              >
+                {title}
+              </IonCardSubtitle>
               {date && (
                 <>
                   Published by {username} on {convertDate(date)}
@@ -114,12 +120,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
           </div>
         ) : (
           <>
-            <div
-              className="ion-padding"
-              style={{
-                position: "relative",
-                color: `var(--ion-color-${textColor})`,
-              }}>
+            {/* <div className="ion-padding"> */}
               <img
                 className={!showContent ? "blog-image" : ""}
                 alt={imageAlt}
@@ -128,30 +129,16 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                   borderRadius: "4px",
                 }}
               />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "3rem",
-                  left: "2rem",
-                  right: "2rem",
-                  backgroundColor: textColor === "light" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)",
-                  padding: "0.1rem",
-                  borderRadius: "4px",
-                }}>
-                <IonCardHeader
-                  style={{
-                    color: `var(--ion-color-${textColor})`,
-                  }}>
-                  <IonCardTitle color={textColor}>{title}</IonCardTitle>
-                  <IonCardSubtitle color="light">{subtitle}</IonCardSubtitle>
+                <IonCardHeader>
+                  <IonCardTitle>{title}</IonCardTitle>
+                  <IonCardSubtitle>{subtitle}</IonCardSubtitle>
                   {date && (
                     <>
                       Published by {username} on {convertDate(date)}
                     </>
                   )}
                 </IonCardHeader>
-              </div>
-            </div>
+            {/* </div> */}
             <IonCardContent
               style={{
                 display: "flex",
