@@ -132,11 +132,6 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                 <IonCardHeader>
                   <IonCardTitle>{title}</IonCardTitle>
                   <IonCardSubtitle>{subtitle}</IonCardSubtitle>
-                  {date && (
-                    <>
-                      Published by {username} on {convertDate(date)}
-                    </>
-                  )}
                 </IonCardHeader>
             {/* </div> */}
             <IonCardContent
