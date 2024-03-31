@@ -7,8 +7,10 @@ import {
   IonCardSubtitle,
   IonCardTitle,
 } from "@ionic/react";
+import lightOrDarkImage from "@check-light-or-dark/image";
 
 import "./BlogItem.styles.css";
+import { useEffect, useState } from "react";
 
 const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
   const {
@@ -31,6 +33,44 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
     return `${month} ${day}, ${year}`;
   };
 
+  const [textColor, setTextColor] = useState("light");
+  const [colorScheme, setColorScheme] = useState("light");
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      const newColorScheme = e.matches ? "dark" : "light";
+      setColorScheme(newColorScheme);
+    });
+
+  useEffect(() => {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      // dark mode
+      setColorScheme("dark");
+    } else {
+      // light mode
+      setColorScheme("light");
+    }
+
+    lightOrDarkImage({
+      image: imageURL,
+    }).then((res) => {
+      // if (res === "light") setTextColor("dark");
+      // setTextColor(res);
+      // if the image is light and the color scheme is light, then set the text color to dark
+      if (res === "light" && colorScheme === "light") setTextColor("dark");
+      // if the image is dark and the color scheme is light, then set the text color to light
+      if (res === "dark" && colorScheme === "light") setTextColor("light");
+      // if the image is light and the color scheme is dark, then set the text color to light
+      if (res === "light" && colorScheme === "dark") setTextColor("light");
+      // if the image is dark and the color scheme is dark, then set the text color to dark
+      if (res === "dark" && colorScheme === "dark") setTextColor("dark");
+    });
+  }, [colorScheme, imageURL]);
+
   return (
     <IonCard
       style={{
@@ -46,16 +86,13 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
             style={{
               position: "relative",
               backgroundColor: "var(--ion-color-dark)",
-              color: "var(--ion-color-light)",
+              color: `var(--ion-color-${textColor})`,
             }}
             className="thumbnail">
             <img
               className={!showContent ? "blog-image" : ""}
               alt={imageAlt}
               src={imageURL}
-              style={{
-                filter: "brightness(75%)",
-              }}
             />
             <div
               style={{
@@ -63,9 +100,8 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                 bottom: ".8rem",
                 left: "1rem",
                 right: "1rem",
-                backdropFilter: "blur(10px)",
               }}>
-              <IonCardSubtitle color="light">{title}</IonCardSubtitle>
+              <IonCardSubtitle color={textColor}>{title}</IonCardSubtitle>
               {date && (
                 <>
                   Published by {username} on {convertDate(date)}
@@ -74,65 +110,62 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
             </div>
           </div>
         ) : (
-          <div
-            className="ion-padding"
-            style={{
-              position: "relative",
-              backgroundColor: "var(--ion-color-dark)",
-              color: "var(--ion-color-light)",
-            }}>
-            <img
-              className={!showContent ? "blog-image" : ""}
-              alt={imageAlt}
-              src={imageURL}
-              style={{
-                filter: "brightness(75%)",
-                borderRadius: "4px",
-              }}
-            />
+          <>
             <div
+              className="ion-padding"
               style={{
-                position: "absolute",
-                bottom: ".8rem",
-                left: "1rem",
-                right: "1rem",
-                // make backdrop darker
-                backdropFilter: "blur(10px)",
+                position: "relative",
+                color: `var(--ion-color-${textColor})`,
               }}>
-              <IonCardHeader
+              <img
+                className={!showContent ? "blog-image" : ""}
+                alt={imageAlt}
+                src={imageURL}
                 style={{
-                  color: "var(--ion-color-light)",
+                  borderRadius: "4px",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: ".8rem",
+                  left: "1rem",
+                  right: "1rem",
                 }}>
-                <IonCardTitle color="light">{title}</IonCardTitle>
-                <IonCardSubtitle color="light">{subtitle}</IonCardSubtitle>
-                {date && (
-                  <>
-                    Published by {username} on {convertDate(date)}
-                  </>
-                )}
-              </IonCardHeader>
+                <IonCardHeader
+                  style={{
+                    color: `var(--ion-color-${textColor})`,
+                  }}>
+                  <IonCardTitle color={textColor}>{title}</IonCardTitle>
+                  <IonCardSubtitle color="light">{subtitle}</IonCardSubtitle>
+                  {date && (
+                    <>
+                      Published by {username} on {convertDate(date)}
+                    </>
+                  )}
+                </IonCardHeader>
+              </div>
             </div>
-          </div>
+            <IonCardContent
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}>
+              {showIntro && <Markdown>{introduction}</Markdown>}
+              {showContent && (
+                <>
+                  <Markdown>{content}</Markdown>
+                  {date && (
+                    <p>
+                      Published by {username} on {convertDate(date)}
+                    </p>
+                  )}
+                </>
+              )}
+            </IonCardContent>
+          </>
         )
       }
-
-      <IonCardContent
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}>
-        {showIntro && <Markdown>{introduction}</Markdown>}
-        {showContent && (
-          <>
-            <Markdown>{content}</Markdown>
-            {date && (
-              <p>
-                Published by {username} on {convertDate(date)}
-              </p>
-            )}
-          </>
-        )}
-      </IonCardContent>
     </IonCard>
   );
 };
