@@ -61,11 +61,11 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
       // if (res === "light") setTextColor("dark");
       // setTextColor(res);
       // if the image is light and the color scheme is light, then set the text color to dark
-      if (res === "light" && colorScheme === "light") setTextColor("dark");
+      if (res === "light" && colorScheme === "light") setTextColor("light");
       // if the image is dark and the color scheme is light, then set the text color to light
-      if (res === "dark" && colorScheme === "light") setTextColor("light");
+      if (res === "dark" && colorScheme === "light") setTextColor("dark");
       // if the image is light and the color scheme is dark, then set the text color to light
-      if (res === "light" && colorScheme === "dark") setTextColor("light");
+      if (res === "light" && colorScheme === "dark") setTextColor("dark");
       // if the image is dark and the color scheme is dark, then set the text color to dark
       if (res === "dark" && colorScheme === "dark") setTextColor("dark");
     });
