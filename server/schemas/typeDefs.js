@@ -39,6 +39,16 @@ export const typeDefs = `#graphql
     approved: Boolean
   }
 
+  # This "Comment" type defines the queryable fields for every comment in our data source.
+  type Comment {
+    _id: ID
+    userID: String
+    username: String
+    blogID: String
+    date: String
+    content: String
+  }
+
   type MyBlogObject {
     unapprovedBlogs: [Blog]
     unapprovedBlogsCount: Int
@@ -77,6 +87,7 @@ export const typeDefs = `#graphql
     myUnapprovedBlogs(offset: Int, limit: Int, searchTerm: String): myUnapproved
     myApprovedBlogs(offset: Int, limit: Int, searchTerm: String): myApproved
     blog(slug: String!): BlogObject
+    getBlogComments(blogID: String!, offset: Int, limit: Int): [Comment]
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that
@@ -92,5 +103,7 @@ export const typeDefs = `#graphql
     approveBlog(_id: ID!, approved: Boolean!): Blog
     updateBlog(_id: ID!, title: String!, subtitle: String!, imageURL: String, imageAlt: String, introduction: String!, content: String!, approved: Boolean): Blog
     removeBlog(_id: ID!): Blog
+    addComment(blogID: ID!, content: String!): Comment
+    removeComment(_id: ID!): Comment
   }
 `;

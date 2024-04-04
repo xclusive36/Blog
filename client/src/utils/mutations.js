@@ -153,3 +153,29 @@ export const ADD_AMINISTRATOR = gql`
     }
   }
 `;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($blogID: ID!, $content: String!) {
+    addComment(blogID: $blogID, content: $content) {
+      _id
+      userID
+      username
+      blogID
+      date
+      content
+    }
+  }
+`;
+
+export const REMOVE_COMMENT = gql`
+  mutation removeComment($_id: ID!) {
+    removeComment(_id: $_id) {
+      _id
+      userID
+      username
+      blogID
+      date
+      content
+    }
+  }
+`;

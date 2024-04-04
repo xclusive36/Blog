@@ -1,19 +1,32 @@
 import Markdown from "react-markdown";
 import PropTypes from "prop-types";
 import {
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonTextarea,
 } from "@ionic/react";
 import lightOrDarkImage from "@check-light-or-dark/image";
+import Auth from "../utils/auth.js";
+import { personCircle, closeOutline } from "ionicons/icons";
+import { useEffect, useRef, useState } from "react";
+import DOMPurify from "isomorphic-dompurify";
 
 import "./BlogItem.styles.css";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { QUERY_AM_I_ADMIN, QUERY_GET_BLOG_COMMENTS } from "../utils/queries.js";
+import { REMOVE_COMMENT, ADD_COMMENT } from "../utils/mutations.js";
 
 const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
   const {
+    _id,
     username,
     title,
     subtitle,
@@ -23,6 +36,30 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
     introduction,
     content,
   } = blog;
+
+  const [comments, setComments] = useState([]);
+
+  const { data: adminData } = useQuery(QUERY_AM_I_ADMIN);
+  const { loading, data: getBlogCommentsData } = useQuery(
+    QUERY_GET_BLOG_COMMENTS,
+    {
+      variables: {
+        blogID: _id,
+        offset: 0,
+        limit: 5,
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (getBlogCommentsData) {
+      setComments(getBlogCommentsData.getBlogComments);
+    }
+  }, [getBlogCommentsData]);
+
+  const [addComment, { error: addCommentError }] = useMutation(ADD_COMMENT);
+  const [removeComment, { error: removeCommentError }] =
+    useMutation(REMOVE_COMMENT);
 
   const convertDate = (date) => {
     // return the date in the format of Month Day, Year
@@ -58,8 +95,6 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
     lightOrDarkImage({
       image: imageURL,
     }).then((res) => {
-      // if (res === "light") setTextColor("dark");
-      // setTextColor(res);
       // if the image is light and the color scheme is light, then set the text color to dark
       if (res === "light" && colorScheme === "light") setTextColor("dark");
       // if the image is dark and the color scheme is light, then set the text color to light
@@ -70,6 +105,43 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
       if (res === "dark" && colorScheme === "dark") setTextColor("dark");
     });
   }, [colorScheme, imageURL]);
+
+  const addCommentRef = useRef();
+
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    const commentContent = DOMPurify.sanitize(addCommentRef.current.value);
+    try {
+      const newComment = await addComment({
+        variables: {
+          blogID: _id,
+          content: commentContent,
+        },
+      });
+
+      setComments([...comments, newComment.data.addComment]);
+      addCommentRef.current.value = "";
+    } catch (err) {
+      console.error(err);
+      console.error(addCommentError);
+    }
+  };
+
+  const handleRemoveComment = async (e, commentID) => {
+    e.preventDefault();
+    try {
+      await removeComment({
+        variables: {
+          _id: commentID,
+        },
+      });
+
+      setComments(comments.filter((comment) => comment._id !== commentID));
+    } catch (err) {
+      console.error(err);
+      console.error(removeCommentError);
+    }
+  };
 
   return (
     <IonCard
@@ -106,11 +178,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                 padding: "0.5rem",
                 borderRadius: "4px",
               }}>
-              <IonCardSubtitle
-              //  color={textColor}
-              >
-                {title}
-              </IonCardSubtitle>
+              <IonCardSubtitle>{title}</IonCardSubtitle>
               {date && (
                 <>
                   Published by {username} on {convertDate(date)}
@@ -120,20 +188,18 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
           </div>
         ) : (
           <>
-            {/* <div className="ion-padding"> */}
-              <img
-                className={!showContent ? "blog-image" : ""}
-                alt={imageAlt}
-                src={imageURL}
-                style={{
-                  borderRadius: "4px",
-                }}
-              />
-                <IonCardHeader>
-                  <IonCardTitle>{title}</IonCardTitle>
-                  <IonCardSubtitle>{subtitle}</IonCardSubtitle>
-                </IonCardHeader>
-            {/* </div> */}
+            <img
+              className={!showContent ? "blog-image" : ""}
+              alt={imageAlt}
+              src={imageURL}
+              style={{
+                borderRadius: "4px",
+              }}
+            />
+            <IonCardHeader>
+              <IonCardTitle>{title}</IonCardTitle>
+              <IonCardSubtitle>{subtitle}</IonCardSubtitle>
+            </IonCardHeader>
             <IonCardContent
               style={{
                 display: "flex",
@@ -151,6 +217,75 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                 </>
               )}
             </IonCardContent>
+
+            <IonCardContent>
+              <IonCardSubtitle>Comments</IonCardSubtitle>
+              <IonList>
+                {loading && (
+                  <IonItem>
+                    <IonLabel className="ion-text-wrap">
+                      Loading Comments...
+                    </IonLabel>
+                  </IonItem>
+                )}
+                {comments &&
+                  comments.length > 0 &&
+                  comments.map((comment) => (
+                    <IonItem key={comment._id}>
+                      <div slot="start">
+                        <IonIcon
+                          style={{
+                            position: "absolute",
+                            top: "1.8rem",
+                            left: ".5rem",
+                          }}
+                          icon={personCircle}
+                        />
+                      </div>
+                      <IonLabel className="ion-text-wrap">
+                        {comment.username}
+                        <br />
+                        <small>{convertDate(comment.date)}</small>
+                        <p>{comment.content}</p>
+                      </IonLabel>
+                      {adminData && adminData.amIAdmin && (
+                        <IonButton
+                          slot="end"
+                          color="danger"
+                          onClick={(e) => handleRemoveComment(e, comment._id)}>
+                          <IonIcon slot="icon-only" icon={closeOutline} />
+                        </IonButton>
+                      )}
+                    </IonItem>
+                  ))}
+                {comments && comments.length === 0 && (
+                  <IonItem>
+                    <IonLabel className="ion-text-wrap">No Comments</IonLabel>
+                  </IonItem>
+                )}
+              </IonList>
+              {Auth.loggedIn() && (
+                <form onSubmit={handleAddComment}>
+                  <IonTextarea
+                    className="ion-margin-top ion-margin-bottom"
+                    labelPlacement="stacked"
+                    fill="outline"
+                    mode="md"
+                    aria-label="Add Comment"
+                    counter={true}
+                    maxlength={500}
+                    placeholder="Add Comment"
+                    ref={addCommentRef}>
+                    <div slot="label">
+                      <strong>Add Comment</strong>
+                    </div>
+                  </IonTextarea>
+                  <IonButton type="submit" expand="block">
+                    Add Comment
+                  </IonButton>
+                </form>
+              )}
+            </IonCardContent>
           </>
         )
       }
@@ -160,6 +295,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
 
 BlogItemComponent.propTypes = {
   blog: PropTypes.shape({
+    _id: PropTypes.string,
     username: PropTypes.string,
     title: PropTypes.string,
     subtitle: PropTypes.string,

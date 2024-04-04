@@ -1,4 +1,4 @@
-import { User, Blog, Administrator } from "../models/index.js";
+import { User, Blog, Comment, Administrator } from "../models/index.js";
 import { signToken } from "../utils/auth.js";
 import DOMPurify from "isomorphic-dompurify";
 
@@ -116,6 +116,13 @@ export const resolvers = {
       // If a blog is found, get the username of the user who created the blog
       const { username } = await User.findOne({ _id: blog.userID });
       return { blog, username }; // Return the blog and username
+    },
+    getBlogComments: async (parent, { blogID, offset = 0, limit = 5 }) => {
+      // This resolver is used to get comments by blogID
+      return Comment.find({ blogID }) // find all comments where the blog id matches the blog id
+        .skip(offset) // skip the number of documents specified by the offset
+        .limit(limit) // limit the number of documents returned to the number specified by the limit
+        .sort({ date: 1 }); // sort the documents by date in ascending order
     },
   },
   Mutation: {
@@ -397,6 +404,55 @@ export const resolvers = {
           throw new AuthenticationError("No blog found with this id!"); // Throw an error message
         }
         return blog; // Return the deleted blog
+      } else {
+        // If you are not logged in
+        throw new AuthenticationError("You need to be logged in!"); // Throw an error message
+      }
+    },
+    addComment: async (parent, { blogID, content }, context) => {
+      // This resolver is used to add a comment
+      if (context.user) {
+        // If you are logged in
+        if (!content) {
+          // Check if the required fields are provided
+          throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
+        }
+        const sanitizedContent = DOMPurify.sanitize(content.trim()); // sanitize the input and trim whitespace
+        if (sanitizedContent === "") {
+          // Check if the required fields are provided
+          throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
+        }
+        const date = new Date().toISOString(); // Set date to the current date and time
+        let { user } = context; // pull user object out of context
+        user = JSON.parse(user); // parse the user object from a string to an object
+        return await Comment.create({
+          userID: user._id, // Set userID to the context user id
+          username: user.username, // Set username to the context user username
+          blogID, // Set blogID to the blogID
+          date, // Set date to the current date and time
+          content: sanitizedContent, // Set content to the sanitized content
+        }); // Create a new comment with the provided fields and save it to the database
+      } else {
+        // If you are not logged in
+        throw new AuthenticationError("You need to be logged in!"); // Throw an error message
+      }
+    },
+    removeComment: async (parent, { _id }, context) => {
+      // This resolver is used to remove a comment
+      if (context.user) {
+        // If you are logged in
+        let { user } = context; // pull user object out of context
+        user = JSON.parse(user); // parse the user object from a string to an object
+        const comment = await Comment.findOneAndDelete({
+          // Delete the comment
+          _id, // find comment by id
+          userID: user._id, // Set userID to the context user id
+        });
+        if (!comment) {
+          // If no comment is found
+          throw new AuthenticationError("No comment found with this id!"); // Throw an error message
+        }
+        return comment; // Return the deleted comment
       } else {
         // If you are not logged in
         throw new AuthenticationError("You need to be logged in!"); // Throw an error message
