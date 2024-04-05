@@ -56,6 +56,11 @@ export const typeDefs = `#graphql
     approvedBlogsCount: Int
   }
 
+  type blogs {
+    blogs: [Blog]
+    blogsCount: Int
+  }
+
   type myUnapproved {
     unapprovedBlogs: [Blog]
     unapprovedBlogsCount: Int
@@ -82,7 +87,8 @@ export const typeDefs = `#graphql
     user(_id: ID!): User
     allBlogs: [Blog]
     unapprovedBlogs: [Blog]
-    approvedBlogs: [Blog]
+    approvedBlogs(offset: Int, limit: Int): [Blog]
+    blogs(offset: Int, limit: Int): blogs
     myBlogs: [Blog]
     myUnapprovedBlogs(offset: Int, limit: Int, searchTerm: String): myUnapproved
     myApprovedBlogs(offset: Int, limit: Int, searchTerm: String): myApproved

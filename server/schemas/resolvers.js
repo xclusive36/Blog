@@ -36,6 +36,18 @@ export const resolvers = {
       // This resolver is used to get all approved blogs
       return Blog.find({ approved: true }).sort({ date: -1 }); // find all blogs where approved is true and sort by date in descending order
     },
+    blogs: async (parent, { offset = 0, limit = 9 }) => {
+      // This resolver is used to get all blogs and the count of all blogs that are approved for the home page
+      const blogs = await Blog.find({ approved: true }) // find all blogs where approved is true
+        .skip(offset) // skip the number of documents specified by the offset
+        .limit(limit) // limit the number of documents returned to the number specified by the limit
+        .sort({ date: -1 }); // sort the documents by date in descending order
+      const blogsCount = await Blog.countDocuments({ approved: true }); // Count the number of approved blogs
+      return {
+        blogs, // All approved blogs
+        blogsCount, // All approved blogs count
+      }; // Return the object
+    },
     myBlogs: async (parent, args, context) => {
       // This resolver is used to get the user's blogs
       if (context.user) {

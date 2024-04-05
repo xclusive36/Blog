@@ -83,6 +83,29 @@ export const QUERY_APPROVED_BLOGS = gql`
   }
 `;
 
+export const QUERY_BLOGS = gql`
+  query blogs($offset: Int, $limit: Int) {
+    blogs(offset: $offset, limit: $limit) {
+      blogs {
+        _id
+        userID
+        username
+        title
+        subtitle
+        imageURL
+        imageAlt
+        date
+        lastUpdated
+        slug
+        introduction
+        content
+        approved
+      }
+      blogsCount
+    }
+  }
+`;
+
 // query myBlogs
 export const QUERY_MY_BLOGS = gql`
   query myBlogs {

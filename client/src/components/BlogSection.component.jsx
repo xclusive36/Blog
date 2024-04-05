@@ -1,15 +1,21 @@
 import { IonCol, IonGrid, IonLoading, IonRow } from "@ionic/react";
 import BlogItemComponent from "./BlogItem.component";
-import { QUERY_APPROVED_BLOGS } from "../utils/queries";
+import { QUERY_BLOGS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
+import { useState } from "react";
 
 const BlogSectionComponent = () => {
-  const { loading, data } = useQuery(QUERY_APPROVED_BLOGS, {
-    // variables: {
-    //   offset: 0,
-    //   limit: 9,
-    // },
+  const [blogs, setBlogs] = useState([]);
+
+  const { loading } = useQuery(QUERY_BLOGS, {
     fetchPolicy: "cache-and-network",
+    variables: {
+      offset: 0,
+      limit: 9,
+    },
+    onCompleted: (data) => {
+      setBlogs(data.blogs.blogs);
+    },
   });
 
   return (
@@ -22,8 +28,8 @@ const BlogSectionComponent = () => {
             duration={3000}
             spinner="circles"
           />
-        ) : data ? (
-          data?.approvedBlogs.map((blog) => (
+        ) : blogs ? (
+          blogs.map((blog) => (
             <IonCol
               sizeLg="4"
               sizeMd="6"
