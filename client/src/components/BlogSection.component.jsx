@@ -4,13 +4,24 @@ import { QUERY_APPROVED_BLOGS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
 
 const BlogSectionComponent = () => {
-  const { loading, data } = useQuery(QUERY_APPROVED_BLOGS);
+  const { loading, data } = useQuery(QUERY_APPROVED_BLOGS, {
+    // variables: {
+    //   offset: 0,
+    //   limit: 9,
+    // },
+    fetchPolicy: "cache-and-network",
+  });
 
   return (
     <IonGrid>
       <IonRow>
         {loading ? (
-         <IonLoading isOpen={loading} message="Loading..." duration={3000} spinner="circles" />
+          <IonLoading
+            isOpen={loading}
+            message="Loading..."
+            duration={3000}
+            spinner="circles"
+          />
         ) : data ? (
           data?.approvedBlogs.map((blog) => (
             <IonCol
