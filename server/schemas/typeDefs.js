@@ -49,6 +49,11 @@ export const typeDefs = `#graphql
     content: String
   }
 
+  type commentObject {
+    comments: [Comment]
+    commentsCount: Int
+  }
+
   type MyBlogObject {
     unapprovedBlogs: [Blog]
     unapprovedBlogsCount: Int
@@ -93,7 +98,8 @@ export const typeDefs = `#graphql
     myUnapprovedBlogs(offset: Int, limit: Int, searchTerm: String): myUnapproved
     myApprovedBlogs(offset: Int, limit: Int, searchTerm: String): myApproved
     blog(slug: String!): BlogObject
-    getBlogComments(blogID: String!, offset: Int, limit: Int): [Comment]
+    getBlogComments(blogID: String!, offset: Int, limit: Int): [commentObject]
+    blogComments(blogID: String!, offset: Int, limit: Int): commentObject
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that

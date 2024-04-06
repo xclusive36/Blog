@@ -211,14 +211,33 @@ export const QUERY_BLOG = gql`
 
 // getBlogComments
 export const QUERY_GET_BLOG_COMMENTS = gql`
-  query getBlogComments($blogID: String!) {
-    getBlogComments(blogID: $blogID) {
-      _id
-      userID
-      username
-      blogID
-      date
-      content
+  query getBlogComments($blogID: String!, $offset: Int, $limit: Int) {
+    getBlogComments(blogID: $blogID, offset: $offset, limit: $limit) {
+      comments {
+        _id
+        userID
+        username
+        blogID
+        date
+        content
+      }
+      commentsCount
+    }
+  }
+`;
+
+export const QUERY_BLOG_COMMENTS = gql`
+  query blogComments($blogID: String!, $offset: Int, $limit: Int) {
+    blogComments(blogID: $blogID, offset: $offset, limit: $limit) {
+      comments {
+        _id
+        userID
+        username
+        blogID
+        date
+        content
+      }
+      commentsCount
     }
   }
 `;

@@ -21,7 +21,7 @@ import DOMPurify from "isomorphic-dompurify";
 
 import "./BlogItem.styles.css";
 import { useMutation, useQuery } from "@apollo/client";
-import { QUERY_AM_I_ADMIN, QUERY_GET_BLOG_COMMENTS } from "../utils/queries.js";
+import { QUERY_AM_I_ADMIN, QUERY_BLOG_COMMENTS } from "../utils/queries.js";
 import { REMOVE_COMMENT, ADD_COMMENT } from "../utils/mutations.js";
 
 const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
@@ -38,22 +38,27 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
   } = blog;
 
   const [comments, setComments] = useState([]);
+  const [commentsCount, setCommentsCount] = useState(0);
 
   const { data: adminData } = useQuery(QUERY_AM_I_ADMIN);
-  const { loading, data: getBlogCommentsData } = useQuery(
-    QUERY_GET_BLOG_COMMENTS,
-    {
-      variables: {
-        blogID: _id,
-        offset: 0,
-        limit: 5,
-      },
-    }
-  );
+
+  const {
+    loading,
+    data: getBlogCommentsData,
+    fetchMore,
+  } = useQuery(QUERY_BLOG_COMMENTS, {
+    variables: {
+      blogID: _id,
+      offset: 0,
+      limit: 5,
+    },
+    fetchPolicy: "cache-and-network",
+  });
 
   useEffect(() => {
     if (getBlogCommentsData) {
-      setComments(getBlogCommentsData.getBlogComments);
+      setComments(getBlogCommentsData.blogComments.comments);
+      setCommentsCount(getBlogCommentsData.blogComments.commentsCount);
     }
   }, [getBlogCommentsData]);
 
@@ -141,6 +146,18 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
       console.error(err);
       console.error(removeCommentError);
     }
+  };
+
+  const handleLoadMore = async (e) => {
+    e.preventDefault();
+    await fetchMore({
+      variables: {
+        offset: comments.length,
+        limit: 5,
+      },
+    }).then((data) => {
+      setComments([...comments, ...data.data.blogComments.comments]);
+    });
   };
 
   return (
@@ -264,6 +281,16 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
                   </IonItem>
                 )}
               </IonList>
+              {comments.length < commentsCount && (
+                <div className="ion-text-center">
+                  <IonButton
+                    fill="clear"
+                    onClick={handleLoadMore}
+                    disabled={comments.length === commentsCount}>
+                    Load More Comments
+                  </IonButton>
+                </div>
+              )}
               {Auth.loggedIn() && (
                 <form onSubmit={handleAddComment}>
                   <IonTextarea

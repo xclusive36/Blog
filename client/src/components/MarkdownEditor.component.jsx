@@ -414,7 +414,10 @@ const MarkdownEditor = ({
                   labelPlacement="stacked"
                   fill="outline"
                   value={imageSearchText}
-                  onIonInput={(e) => setImageSearchText(e.target.value)}>
+                  onIonInput={(e) => {
+                    setImageSearchText(e.target.value);
+                    setPageNumber(1);
+                  }}>
                   <div slot="label">
                     <strong>Image Search</strong>
                   </div>
