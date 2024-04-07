@@ -44,23 +44,23 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
 
   const {
     loading,
-    data: getBlogCommentsData,
+    data: commentData,
     fetchMore,
   } = useQuery(QUERY_BLOG_COMMENTS, {
     variables: {
       blogID: _id,
       offset: 0,
-      limit: 5,
+      limit: 30,
     },
     fetchPolicy: "cache-and-network",
   });
 
   useEffect(() => {
-    if (getBlogCommentsData) {
-      setComments(getBlogCommentsData.blogComments.comments);
-      setCommentsCount(getBlogCommentsData.blogComments.commentsCount);
+    if (commentData) {
+      setComments(commentData.blogComments.comments);
+      setCommentsCount(commentData.blogComments.commentsCount);
     }
-  }, [getBlogCommentsData]);
+  }, [commentData]);
 
   const [addComment, { error: addCommentError }] = useMutation(ADD_COMMENT);
   const [removeComment, { error: removeCommentError }] =

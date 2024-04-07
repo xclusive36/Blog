@@ -129,19 +129,7 @@ export const resolvers = {
       const { username } = await User.findOne({ _id: blog.userID });
       return { blog, username }; // Return the blog and username
     },
-    getBlogComments: async (parent, { blogID, offset = 0, limit = 5 }) => {
-      // This resolver is used to get comments for a blog
-      const comments = await Comment.find({ blogID }) // find all comments where the blog id matches the blogID
-        .skip(offset) // skip the number of documents specified by the offset
-        .limit(limit) // limit the number of documents returned to the number specified by the limit
-        .sort({ date: -1 }); // sort the documents by date in descending order
-      const commentsCount = await Comment.countDocuments({ blogID }); // Count the number of comments for the blog
-      return {
-        comments, // All comments for the blog
-        commentsCount, // All comments for the blog count
-      }; // Return the object
-    },
-    blogComments: async (parent, { blogID, offset = 0, limit = 5 }) => {
+    blogComments: async (parent, { blogID, offset = 0, limit = 30 }) => {
       // This resolver is used to get comments for a blog
       const comments = await Comment.find
       ({ blogID }) // find all comments where the blog id matches the blogID

@@ -98,7 +98,6 @@ export const typeDefs = `#graphql
     myUnapprovedBlogs(offset: Int, limit: Int, searchTerm: String): myUnapproved
     myApprovedBlogs(offset: Int, limit: Int, searchTerm: String): myApproved
     blog(slug: String!): BlogObject
-    getBlogComments(blogID: String!, offset: Int, limit: Int): [commentObject]
     blogComments(blogID: String!, offset: Int, limit: Int): commentObject
   }
 
