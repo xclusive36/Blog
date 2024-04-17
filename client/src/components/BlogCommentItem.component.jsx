@@ -10,8 +10,7 @@ import {
   arrowDownOutline,
   returnUpBackOutline,
 } from "ionicons/icons";
-import { useMutation, useQuery } from "@apollo/client";
-import { QUERY_AM_I_ADMIN } from "../utils/queries";
+import { useMutation } from "@apollo/client";
 import { REMOVE_COMMENT, UPDATE_COMMENT_VOTE } from "../utils/mutations";
 import { useState } from "react";
 
@@ -25,8 +24,6 @@ export const BlogCommentItemComponent = ({
 }) => {
   const [showUpdateForm, setShowUpdateForm] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(null);
-
-  const { data: adminData } = useQuery(QUERY_AM_I_ADMIN);
   const [removeComment, { error: removeCommentError }] =
     useMutation(REMOVE_COMMENT);
   const [updateCommentVote, { error: updateCommentVoteError }] =
@@ -69,6 +66,7 @@ export const BlogCommentItemComponent = ({
   };
 
   const handleRemoveComment = async (e, commentID) => {
+    // This function removes the comment by updating the comment string to "REMOVED"
     e.preventDefault();
     try {
       await removeComment({
@@ -76,7 +74,18 @@ export const BlogCommentItemComponent = ({
           _id: commentID,
         },
       });
-      setComments(comments.filter((comment) => comment._id !== commentID));
+
+      setComments(
+        comments.map((comment) => {
+          if (comment._id === commentID) {
+            return {
+              ...comment,
+              content: "REMOVED",
+            };
+          }
+          return comment;
+        })
+      );
     } catch (err) {
       console.error(err);
       console.error(removeCommentError);
@@ -143,7 +152,9 @@ export const BlogCommentItemComponent = ({
         </span>
         <IonButton
           className="button-no-padding ion-padding-left ion-padding-right"
-          disabled={!Auth.loggedIn()}
+          disabled={
+            !Auth.loggedIn() && !comment.userID === Auth.getProfile().data._id
+          }
           onClick={() =>
             showUpdateForm === comment._id
               ? setShowUpdateForm(null)
@@ -166,9 +177,9 @@ export const BlogCommentItemComponent = ({
             slot="start"
           />
         </IonButton>
-        {adminData && adminData.amIAdmin && (
+        {Auth.loggedIn() && Auth.getProfile().data._id === comment.userID && (
           <IonButton
-          className="button-no-padding ion-padding-left ion-padding-right"
+            className="button-no-padding ion-padding-left ion-padding-right"
             fill="clear"
             onClick={(e) => handleRemoveComment(e, comment._id)}>
             <IonIcon className="comment-icon" icon={closeOutline} />

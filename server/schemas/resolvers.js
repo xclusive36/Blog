@@ -495,9 +495,10 @@ export const resolvers = {
           // Check if the required fields are provided
           throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
         }
+        // Find the comment by id and check if the user id matches the context user id. If it does, update the comment
         return await Comment.findOneAndUpdate(
           // Update the comment
-          { _id }, // find comment by id
+          { _id, userID: context.user._id }, // find comment by id and userID
           { content: sanitizedContent }, // Set content to the sanitized content
           { new: true } // Return the updated comment
         );
@@ -599,16 +600,14 @@ export const resolvers = {
         // If you are logged in
         let { user } = context; // pull user object out of context
         user = JSON.parse(user); // parse the user object from a string to an object
-        const comment = await Comment.findOneAndDelete({
-          // Delete the comment
-          _id, // find comment by id
-          userID: user._id, // Set userID to the context user id
-        });
-        if (!comment) {
-          // If no comment is found
-          throw new AuthenticationError("No comment found with this id!"); // Throw an error message
-        }
-        return comment; // Return the deleted comment
+
+        // Find the comment by id and check if the user id matches the context user id. If it does, update the comment
+        return await Comment.findOneAndUpdate(
+          // Update the comment to set the content to "DELETED"
+          { _id, userID: context.user._id }, // find comment by id and userID
+          { content: "DELETED" }, // Set content to "DELETED"
+          { new: true } // Return the updated comment
+        );
       } else {
         // If you are not logged in
         throw new AuthenticationError("You need to be logged in!"); // Throw an error message
