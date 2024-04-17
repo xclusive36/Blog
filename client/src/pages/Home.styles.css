@@ -6,3 +6,27 @@ ion-card-title {
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+.reply {
+  margin-left: 1rem;
+  border-left: 1px solid var(--ion-color-medium);
+  padding-left: .5rem;
+}
+
+.button-no-padding {
+  --padding-start: .3rem;
+  --padding-end: .3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.button-no-padding-top {
+  --padding-start: .3rem;
+  --padding-end: .3rem;
+  margin-top: 0;
+  margin-top: 0;
+}
+
+.comment-icon {
+  font-size: 1rem;
+}

@@ -39,18 +39,29 @@ export const typeDefs = `#graphql
     approved: Boolean
   }
 
+  type Vote {
+    _id: ID
+    userID: String
+    voteNumber: Int
+  }
+
   # This "Comment" type defines the queryable fields for every comment in our data source.
   type Comment {
     _id: ID
     userID: String
     username: String
     blogID: String
+    commentID: String
+    parentCommentID: String
     date: String
     content: String
+    voteTotal: Int
+    votes: [Vote]
   }
 
   type commentObject {
     comments: [Comment]
+    replies: [Comment]
     commentsCount: Int
   }
 
@@ -115,6 +126,9 @@ export const typeDefs = `#graphql
     updateBlog(_id: ID!, title: String!, subtitle: String!, imageURL: String, imageAlt: String, introduction: String!, content: String!, approved: Boolean): Blog
     removeBlog(_id: ID!): Blog
     addComment(blogID: ID!, content: String!): Comment
+    updateComment(_id: ID!, content: String!): Comment
+    replyComment(blogID: ID!, commentID: ID!, content: String!, parentCommentID: ID!): Comment
+    updateCommentVote(_id: ID!, vote: String!): Comment
     removeComment(_id: ID!): Comment
   }
 `;

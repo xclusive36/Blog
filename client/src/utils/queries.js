@@ -217,8 +217,22 @@ export const QUERY_BLOG_COMMENTS = gql`
         userID
         username
         blogID
+        commentID
+        parentCommentID
         date
         content
+        voteTotal
+      }
+      replies {
+        _id
+        userID
+        username
+        blogID
+        commentID
+        parentCommentID
+        date
+        content
+        voteTotal
       }
       commentsCount
     }

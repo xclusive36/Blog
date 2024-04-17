@@ -131,18 +131,36 @@ export const resolvers = {
     },
     blogComments: async (parent, { blogID, offset = 0, limit = 30 }) => {
       // This resolver is used to get comments for a blog
-      const comments = await Comment.find
-      ({ blogID }) // find all comments where the blog id matches the blogID
+
+      // Get all comments that match the blogID and where the commentID is null
+      const comments = await Comment.find({ blogID, commentID: null })
         .skip(offset) // skip the number of documents specified by the offset
         .limit(limit) // limit the number of documents returned to the number specified by the limit
         .sort({ date: 1 }); // sort the documents by date in ascending order
-      const commentsCount = await Comment
-      .countDocuments({ blogID }); // Count the number of comments for the blog
+
+      const commentsCount = await Comment.countDocuments({
+        blogID,
+        commentID: null,
+      }); // Count the number of comments for the blog
+
+      // Cycle through each comment and get the replies for each comment that contain the parentCommentID as the commentID of the parent comment
+      let replies = [];
+      for (let i = 0; i < comments.length; i++) {
+        const reply = await Comment.find({
+          blogID,
+          parentCommentID: comments[i]._id,
+        }).sort({ date: 1 }); // find all comments where the blogID matches the blogID and the parentCommentID matches the commentID of the parent comment
+        replies = [...replies, ...reply]; // Add the replies to the replies array
+      }
+
+      // Return the comments and the count of comments
       return {
+        // comments, // All comments for the blog
         comments, // All comments for the blog
+        replies, // All replies for the blog
         commentsCount, // All comments for the blog count
       }; // Return the object
-    }
+    },
   },
   Mutation: {
     // Mutation is used to modify data
@@ -450,10 +468,129 @@ export const resolvers = {
           blogID, // Set blogID to the blogID
           date, // Set date to the current date and time
           content: sanitizedContent, // Set content to the sanitized content
+          votes: [
+            // Set votes to an array with a single vote
+            {
+              userID: user._id, // Set userID to the context user id
+              voteNumber: 1, // Set voteNumber to 1 by default
+            },
+          ],
+          voteTotal: 1, // Set vote to 1 by default
         }); // Create a new comment with the provided fields and save it to the database
       } else {
         // If you are not logged in
         throw new AuthenticationError("You need to be logged in!"); // Throw an error message
+      }
+    },
+    updateComment: async (parent, { _id, content }, context) => {
+      // This resolver is used to update a comment
+      if (context.user) {
+        // If you are logged in
+        if (!content) {
+          // Check if the required fields are provided
+          throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
+        }
+        const sanitizedContent = DOMPurify.sanitize(content.trim()); // sanitize the input and trim whitespace
+        if (sanitizedContent === "") {
+          // Check if the required fields are provided
+          throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
+        }
+        return await Comment.findOneAndUpdate(
+          // Update the comment
+          { _id }, // find comment by id
+          { content: sanitizedContent }, // Set content to the sanitized content
+          { new: true } // Return the updated comment
+        );
+      } else {
+        // If you are not logged in
+        throw new AuthenticationError("You need to be logged in!"); // Throw an error message
+      }
+    },
+    replyComment: async (
+      parent,
+      { blogID, commentID, content, parentCommentID },
+      context
+    ) => {
+      // This resolver is used to reply to a comment
+      if (context.user) {
+        // If you are logged in
+        if (!content) {
+          // Check if the required fields are provided
+          throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
+        }
+        const sanitizedContent = DOMPurify.sanitize(content.trim()); // sanitize the input and trim whitespace
+        if (sanitizedContent === "") {
+          // Check if the required fields are provided
+          throw new AuthenticationError("You need to provide content!"); // Throw an error message if the required fields are not provided
+        }
+        const date = new Date().toISOString(); // Set date to the current date and time
+        let { user } = context; // pull user object out of context
+        user = JSON.parse(user); // parse the user object from a string to an object
+        return await Comment.create({
+          userID: user._id, // Set userID to the context user id
+          username: user.username, // Set username to the context user username
+          blogID, // Set blogID to the blogID
+          commentID, // Set commentID to the commentID
+          parentCommentID, // Set parentCommentID to the parentCommentID
+          date, // Set date to the current date and time
+          content: sanitizedContent, // Set content to the sanitized content
+          votes: [
+            // Set votes to an array with a single vote
+            {
+              userID: user._id, // Set userID to the context user id
+              voteNumber: 1, // Set voteNumber to 1 by default
+            },
+          ],
+          voteTotal: 1, // Set vote to 1 by default
+        }); // Create a new comment with the provided fields and save it to the database
+      }
+    },
+    updateCommentVote: async (parent, { _id, vote }, context) => {
+      // This resolver is used to update a comment vote
+      if (context.user) {
+        // If you are logged in
+        let { user } = context; // pull user object out of context
+        user = JSON.parse(user); // parse the user object from a string to an object
+        const comment = await Comment.findOne({ _id }); // find comment by id
+        if (!comment) {
+          // If no comment is found
+          throw new AuthenticationError("No comment found with this id!"); // Throw an error message
+        }
+        const voteIndex = comment.votes.findIndex(
+          // find the index of the vote
+          (vote) => vote.userID === user._id // where the userID matches the context user id
+        );
+        if (voteIndex === -1) {
+          // If no vote is found for the user, add a new vote
+          comment.votes.push({
+            userID: user._id, // Set userID to the context user id
+            voteNumber: 1, // Set vote to the vote
+          });
+
+          vote === "up" ? (comment.voteTotal += 1) : (comment.voteTotal -= 1); // Increment or decrement the vote total based on the vote
+        } else {
+          // If a vote is found for the user, update the vote
+
+          // If the new vote is up and the voteNumber is less than 2, increment the voteNummber and voteTotal
+          // if the new vote is down and the voteNumber is greater than 0, decrement the voteNumber and voteTotal
+
+          if (vote === "up" && comment.votes[voteIndex].voteNumber < 2) {
+            comment.votes[voteIndex].voteNumber += 1;
+            comment.voteTotal += 1;
+          }
+
+          if (vote === "down" && comment.votes[voteIndex].voteNumber > 0) {
+            comment.votes[voteIndex].voteNumber -= 1;
+            comment.voteTotal -= 1;
+          }
+        }
+
+        return await Comment.findOneAndUpdate(
+          // Update the comment
+          { _id }, // find comment by id
+          { votes: comment.votes, voteTotal: comment.voteTotal }, // Set votes and voteTotal to the updated values
+          { new: true } // Return the updated comment
+        );
       }
     },
     removeComment: async (parent, { _id }, context) => {

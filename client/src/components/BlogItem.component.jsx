@@ -1,28 +1,17 @@
 import Markdown from "react-markdown";
 import PropTypes from "prop-types";
 import {
-  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonTextarea,
 } from "@ionic/react";
 import lightOrDarkImage from "@check-light-or-dark/image";
-import Auth from "../utils/auth.js";
-import { personCircle, closeOutline } from "ionicons/icons";
-import { useEffect, useRef, useState } from "react";
-import DOMPurify from "isomorphic-dompurify";
+import { useEffect, useState } from "react";
 
 import "./BlogItem.styles.css";
-import { useMutation, useQuery } from "@apollo/client";
-import { QUERY_AM_I_ADMIN, QUERY_BLOG_COMMENTS } from "../utils/queries.js";
-import { REMOVE_COMMENT, ADD_COMMENT } from "../utils/mutations.js";
+import BlogCommentsComponent from "./BlogComments.component.jsx";
 
 const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
   const {
@@ -36,35 +25,6 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
     introduction,
     content,
   } = blog;
-
-  const [comments, setComments] = useState([]);
-  const [commentsCount, setCommentsCount] = useState(0);
-
-  const { data: adminData } = useQuery(QUERY_AM_I_ADMIN);
-
-  const {
-    loading,
-    data: commentData,
-    fetchMore,
-  } = useQuery(QUERY_BLOG_COMMENTS, {
-    variables: {
-      blogID: _id,
-      offset: 0,
-      limit: 30,
-    },
-    fetchPolicy: "cache-and-network",
-  });
-
-  useEffect(() => {
-    if (commentData) {
-      setComments(commentData.blogComments.comments);
-      setCommentsCount(commentData.blogComments.commentsCount);
-    }
-  }, [commentData]);
-
-  const [addComment, { error: addCommentError }] = useMutation(ADD_COMMENT);
-  const [removeComment, { error: removeCommentError }] =
-    useMutation(REMOVE_COMMENT);
 
   const convertDate = (date) => {
     // return the date in the format of Month Day, Year
@@ -110,55 +70,6 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
       if (res === "dark" && colorScheme === "dark") setTextColor("dark");
     });
   }, [colorScheme, imageURL]);
-
-  const addCommentRef = useRef();
-
-  const handleAddComment = async (e) => {
-    e.preventDefault();
-    const commentContent = DOMPurify.sanitize(addCommentRef.current.value);
-    try {
-      const newComment = await addComment({
-        variables: {
-          blogID: _id,
-          content: commentContent,
-        },
-      });
-
-      setComments([...comments, newComment.data.addComment]);
-      addCommentRef.current.value = "";
-    } catch (err) {
-      console.error(err);
-      console.error(addCommentError);
-    }
-  };
-
-  const handleRemoveComment = async (e, commentID) => {
-    e.preventDefault();
-    try {
-      await removeComment({
-        variables: {
-          _id: commentID,
-        },
-      });
-
-      setComments(comments.filter((comment) => comment._id !== commentID));
-    } catch (err) {
-      console.error(err);
-      console.error(removeCommentError);
-    }
-  };
-
-  const handleLoadMore = async (e) => {
-    e.preventDefault();
-    await fetchMore({
-      variables: {
-        offset: comments.length,
-        limit: 5,
-      },
-    }).then((data) => {
-      setComments([...comments, ...data.data.blogComments.comments]);
-    });
-  };
 
   return (
     <IonCard
@@ -235,84 +146,7 @@ const BlogItemComponent = ({ blog, showIntro = true, showContent = false }) => {
               )}
             </IonCardContent>
 
-            <IonCardContent>
-              <IonCardSubtitle>Comments</IonCardSubtitle>
-              <IonList>
-                {loading && (
-                  <IonItem>
-                    <IonLabel className="ion-text-wrap">
-                      Loading Comments...
-                    </IonLabel>
-                  </IonItem>
-                )}
-                {comments &&
-                  comments.length > 0 &&
-                  comments.map((comment) => (
-                    <IonItem key={comment._id}>
-                      <div slot="start">
-                        <IonIcon
-                          style={{
-                            position: "absolute",
-                            top: "1.8rem",
-                            left: ".5rem",
-                          }}
-                          icon={personCircle}
-                        />
-                      </div>
-                      <IonLabel className="ion-text-wrap">
-                        {comment.username}
-                        <br />
-                        <small>{convertDate(comment.date)}</small>
-                        <p>{comment.content}</p>
-                      </IonLabel>
-                      {adminData && adminData.amIAdmin && (
-                        <IonButton
-                          slot="end"
-                          color="danger"
-                          onClick={(e) => handleRemoveComment(e, comment._id)}>
-                          <IonIcon slot="icon-only" icon={closeOutline} />
-                        </IonButton>
-                      )}
-                    </IonItem>
-                  ))}
-                {comments && comments.length === 0 && (
-                  <IonItem>
-                    <IonLabel className="ion-text-wrap">No Comments</IonLabel>
-                  </IonItem>
-                )}
-              </IonList>
-              {comments.length < commentsCount && (
-                <div className="ion-text-center">
-                  <IonButton
-                    fill="clear"
-                    onClick={handleLoadMore}
-                    disabled={comments.length === commentsCount}>
-                    Load More Comments
-                  </IonButton>
-                </div>
-              )}
-              {Auth.loggedIn() && (
-                <form onSubmit={handleAddComment}>
-                  <IonTextarea
-                    className="ion-margin-top ion-margin-bottom"
-                    labelPlacement="stacked"
-                    fill="outline"
-                    mode="md"
-                    aria-label="Add Comment"
-                    counter={true}
-                    maxlength={500}
-                    placeholder="Add Comment"
-                    ref={addCommentRef}>
-                    <div slot="label">
-                      <strong>Add Comment</strong>
-                    </div>
-                  </IonTextarea>
-                  <IonButton type="submit" expand="block">
-                    Add Comment
-                  </IonButton>
-                </form>
-              )}
-            </IonCardContent>
+            <BlogCommentsComponent _id={_id} />
           </>
         )
       }

@@ -161,8 +161,69 @@ export const ADD_COMMENT = gql`
       userID
       username
       blogID
+      commentID
+      parentCommentID
       date
       content
+      voteTotal
+    }
+  }
+`;
+
+export const UPDATE_COMMENT = gql`
+  mutation updateComment($_id: ID!, $content: String!) {
+    updateComment(_id: $_id, content: $content) {
+      _id
+      userID
+      username
+      blogID
+      commentID
+      parentCommentID
+      date
+      content
+      voteTotal
+    }
+  }
+`;
+
+export const REPLY_COMMENT = gql`
+  mutation replyComment(
+    $blogID: ID!
+    $commentID: ID!
+    $content: String!
+    $parentCommentID: ID!
+  ) {
+    replyComment(
+      blogID: $blogID
+      commentID: $commentID
+      content: $content
+      parentCommentID: $parentCommentID
+    ) {
+      _id
+      userID
+      username
+      blogID
+      commentID
+      parentCommentID
+      date
+      content
+      voteTotal
+    }
+  }
+`;
+
+export const UPDATE_COMMENT_VOTE = gql`
+  mutation updateCommentVote($_id: ID!, $vote: String!) {
+    updateCommentVote(_id: $_id, vote: $vote) {
+      _id
+      userID
+      username
+      blogID
+      commentID
+      parentCommentID
+      date
+      content
+      voteTotal
     }
   }
 `;
@@ -174,8 +235,11 @@ export const REMOVE_COMMENT = gql`
       userID
       username
       blogID
+      commentID
+      parentCommentID
       date
       content
+      voteTotal
     }
   }
 `;

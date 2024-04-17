@@ -1,31 +1,27 @@
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonLoading,
-  IonRow,
-  IonText,
-} from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 import BlogItemComponent from "./BlogItem.component";
 import { QUERY_BLOGS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const BlogSectionComponent = () => {
   const [blogs, setBlogs] = useState([]);
   const [blogsCount, setBlogsCount] = useState(0);
 
-  const { loading, fetchMore } = useQuery(QUERY_BLOGS, {
+  const { data, fetchMore } = useQuery(QUERY_BLOGS, {
     fetchPolicy: "cache-and-network",
     variables: {
       offset: 0,
       limit: 9,
     },
-    onCompleted: (data) => {
+  });
+
+  useEffect(() => {
+    if (data) {
       setBlogs(data.blogs.blogs);
       setBlogsCount(data.blogs.blogsCount);
-    },
-  });
+    }
+  }, [data]);
 
   const handleLoadMore = async (e) => {
     e.preventDefault();
@@ -43,14 +39,7 @@ const BlogSectionComponent = () => {
     <>
       <IonGrid>
         <IonRow>
-          {loading ? (
-            <IonLoading
-              isOpen={loading}
-              message="Loading..."
-              duration={3000}
-              spinner="circles"
-            />
-          ) : blogs ? (
+          {blogs ? (
             blogs.map((blog) => (
               <IonCol
                 sizeLg="4"
