@@ -153,7 +153,7 @@ export const BlogCommentItemComponent = ({
         <IonButton
           className="button-no-padding ion-padding-left ion-padding-right"
           disabled={
-            !Auth.loggedIn() && !comment.userID === Auth.getProfile().data._id
+            !Auth.loggedIn() || !comment.userID === Auth.getProfile().data._id
           }
           onClick={() =>
             showUpdateForm === comment._id
