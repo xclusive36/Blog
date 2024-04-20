@@ -225,6 +225,10 @@ const MarkdownEditor = ({
       const JSONData = await data.json(); // Convert the data to JSON
       // const result = JSONData.results;
       // setImagesArray(result);
+      if (JSONData.errors) {
+        console.log(JSONData.errors);
+        return;
+      }
       setTotalPages(JSONData.total_pages);
       setImagesArray(JSONData.results);
     } catch (error) {
